@@ -5,6 +5,7 @@ lazy val root = project
         name := "sortingAlgorithmVisualizer",
         scalaVersion := "3.2.2",
         Compile / scalaSource := baseDirectory.value / "src/main",
-        Test / scalaSource := baseDirectory.value / "src/test",
+        Compile / unmanagedSourceDirectories += baseDirectory.value / "src/test",
+        Test / scalaSource := baseDirectory.value / "testImpl",
         libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.15" % "test"
     )
