@@ -1,8 +1,7 @@
-import TestUtil.*
-import coreTest.useCaseTest.SortByBubbleSortUseCase_Test
-import coreTest.useCaseTest.SortByBubbleSortUseCase_Test.apply_should_return
 import org.scalatest.freespec.AnyFreeSpec
+import useCaseTest.SortByBubbleSortUseCase_Test.apply_should_return
+import useCaseTest.SortByBubbleSortUseCase_Test
 
-class UseCase_TestImpl extends AnyFreeSpec:
+class UseCase_TestImpl extends TestUtil:
 
     implementTest(SortByBubbleSortUseCase_Test, apply_should_return)
