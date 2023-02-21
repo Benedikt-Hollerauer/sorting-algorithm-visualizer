@@ -25,7 +25,7 @@ object SortableValue_Test:
         def `ToFewElements`: Unit =
             for
                 res <- core.value.SortableValue.from(
-                    List.empty
+                    List(1)
                 ).left
             yield assert(res == SortableValueError.ToFewElements(
                 List(1)

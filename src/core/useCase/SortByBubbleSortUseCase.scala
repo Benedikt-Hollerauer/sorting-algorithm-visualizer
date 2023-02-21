@@ -1,8 +1,8 @@
 package useCase
 
+import core.value.SortableValue
 import error.useCaseError.SortByBubbleSortUseCaseError
 import input.SortByBubbleSortInput
-import core.value.SortableValue
 
 object SortByBubbleSortUseCase:
 

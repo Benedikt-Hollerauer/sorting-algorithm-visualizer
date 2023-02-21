@@ -1,9 +1,9 @@
 package useCaseTest
 
-import useCase.SortByBubbleSortUseCase
-import mock.inputMock.SortByBubbleSortInputMock
 import error.useCaseError.SortByBubbleSortUseCaseError
 import error.valueError.SortableValueError
+import mock.inputMock.SortByBubbleSortInputMock
+import useCase.SortByBubbleSortUseCase
 
 object SortByBubbleSortUseCase_Test:
 
