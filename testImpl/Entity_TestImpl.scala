@@ -1,0 +1,6 @@
+import test.entityTest.BubbleSortEntity_Test
+import test.entityTest.BubbleSortEntity_Test.sortAscendingWithIntermediateResults_should_return
+
+class Entity_TestImpl extends TestUtil:
+
+	implementTest(BubbleSortEntity_Test, sortAscendingWithIntermediateResults_should_return)
