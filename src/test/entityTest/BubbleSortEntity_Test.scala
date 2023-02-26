@@ -1,5 +1,6 @@
 package test.entityTest
 
+import core.entity.BubbleSortEntity
 import core.value.SortableValue
 
 object BubbleSortEntity_Test:
@@ -12,4 +13,4 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield assert(res.head.list == List(1, 2, 3, 4, 5))
+			yield assert(res.last.list == List(1, 2, 3, 4, 5))
