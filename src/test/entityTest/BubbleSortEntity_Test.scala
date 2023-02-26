@@ -13,4 +13,4 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield assert(res.last.list == List(1, 2, 3, 4, 5))
+			yield assert(res.last.list == List(1, 2, 3, 4, 5) && res.length > 1)
