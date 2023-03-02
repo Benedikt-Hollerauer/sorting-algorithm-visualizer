@@ -14,3 +14,13 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock
 				)
 			yield assert(res.last.list == List(1, 2, 3, 4, 5) && res.length > 1)
+
+	object sortDescendingWithIntermediateResults_should_return:
+
+		def `LazyList[Sortable](descending)`: Unit =
+			for
+				sortableValueMock <- SortableValue.from(List(1, 3, 2, 5, 4))
+				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
+					toBeSorted = sortableValueMock
+				)
+			yield assert(res.last.list == List(5, 4, 3, 2, 1) && res.length > 1)
