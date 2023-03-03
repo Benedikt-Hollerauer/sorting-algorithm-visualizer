@@ -14,3 +14,5 @@ object BubbleSortEntity:
 					toBeSorted
 
 		LazyList(SortableValue.from(sort(toBeSorted.list, List.empty[List[Int]])).toOption.get)
+		
+	def sortDescendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] = ???
