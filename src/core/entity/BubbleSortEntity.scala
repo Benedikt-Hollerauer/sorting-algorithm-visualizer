@@ -9,15 +9,17 @@ object BubbleSortEntity:
 			toBeSorted match
 				case f :: s :: t if f > s => s +: sort(f :: t, intermediateResults.appended(s :: f :: t))
 				case f :: s :: t => f +: sort(s :: t, intermediateResults.appended(f :: s :: t))
-				case _ =>
-					intermediateResults.foreach(println)
-					toBeSorted
+				case _ => toBeSorted
 
 		LazyList(SortableValue.from(sort(toBeSorted.list, List.empty[List[Int]])).toOption.get)
 		
 	def sortDescendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
-		def sortOnce(toBeSorted: List[Int]): List[Int] =
-			toBeSorted match
-				case f :: s :: t if f < s => f :: s :: t
-				case f :: s :: t => f :: s :: t
-				case _ => toBeSorted
+		LazyList.from(
+			toBeSorted.list
+				.scanLeft(toBeSorted.list)((x, _) =>
+					x match
+						case f :: s :: t if f < s => f :: s :: t
+						case f :: s :: t => f :: s :: t
+						case _ => toBeSorted.list
+				).map(x => SortableValue.from(x).toOption.get)
+		)

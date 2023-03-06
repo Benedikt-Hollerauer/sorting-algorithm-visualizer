@@ -23,4 +23,5 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
+				_ = res.foreach(println)
 			yield assert(res.last.list == List(5, 4, 3, 2, 1) && res.length > 1)
