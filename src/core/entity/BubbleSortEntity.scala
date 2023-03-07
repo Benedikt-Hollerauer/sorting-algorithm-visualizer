@@ -20,6 +20,6 @@ object BubbleSortEntity:
 					x match
 						case f :: s :: t if f < s => f :: s :: t
 						case f :: s :: t => f :: s :: t
-						case _ => toBeSorted.list
+						case it => it
 				).map(x => SortableValue.from(x).toOption.get)
 		)
