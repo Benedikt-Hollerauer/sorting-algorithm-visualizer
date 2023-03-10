@@ -1,23 +1,24 @@
 package core.entity
 
 import core.value.SortableValue
+import scala.util.Try
 
 object BubbleSortEntity:
 
 	def sortAscendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
-		def sort(toBeSorted: List[Int], intermediateResults: List[List[Int]]): List[Int] =
-			toBeSorted match
-				case f :: s :: t if f > s => s +: sort(f :: t, intermediateResults.appended(s :: f :: t))
-				case f :: s :: t => f +: sort(s :: t, intermediateResults.appended(f :: s :: t))
-				case _ => toBeSorted
+		LazyList.from(toBeSorted.list)
+			.zipWithIndex
+			.scanLeft(toBeSorted.list)((acc, s) =>
+				if(Try(acc(s._2 + 1)).isFailure) acc
+				else if(acc(s._2 + 1) > s._1) acc
+				else acc.updated(s._2, acc(s._2 + 1)).updated(s._2 + 1, s._1)
+			).map(x => SortableValue.from(x).toOption.get)
 
-		LazyList(SortableValue.from(sort(toBeSorted.list, List.empty[List[Int]])).toOption.get)
-		
 	def sortDescendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
-		toBeSorted.list
-			.scanLeft(toBeSorted.list)((x, y) =>
-				x
-			).foreach {x =>
-				println(java.time.Instant.now().toString + " - " + x)
-			}
-		LazyList.empty
+		LazyList.from(toBeSorted.list)
+			.zipWithIndex
+			.scanLeft(toBeSorted.list)((acc, s) =>
+				if(Try(acc(s._2 + 1)).isFailure) acc
+				else if(acc(s._2 + 1) > s._1) acc
+				else acc.updated(s._2, acc(s._2 + 1)).updated(s._2 + 1, s._1)
+			).map(x => SortableValue.from(x).toOption.get)
