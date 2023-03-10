@@ -9,18 +9,18 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[Sortable](ascending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 3, 2, 5, 4))
+				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield assert(res.last.list == List(1, 2, 3, 4, 5) && res.length > 1)
+			yield assert(res.last.list == List(0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 5) && res.length > 1)
 
 	object sortDescendingWithIntermediateResults_should_return:
 
 		def `LazyList[Sortable](descending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 3, 2, 5, 4))
+				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield assert(res.last.list == List(5, 4, 3, 2, 1) && res.length > 1)
+			yield assert(res.last.list == List(0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 5) && res.length > 1)
