@@ -15,7 +15,7 @@ object BubbleSortEntity:
 
 	def sortDescendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
 		LazyList.from(toBeSorted.list)
-			.scanLeft(List(0))((acc, s) =>
+			.scanLeft(List.empty[Int])((acc, s) =>
 				acc.lastOption match
 					case Some(f) =>
 						if(f > s) (acc.dropRight(1) :+ s) :+ f
