@@ -6,20 +6,28 @@ object BubbleSortEntity:
 
 	def sortAscendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
 		LazyList.from(toBeSorted.list)
-			.scanLeft(List.empty[Int])((acc, s) =>
+			.scanLeft(List.empty[Int])((acc, next) =>
 				acc.lastOption match
-					case Some(f) =>
-						if (f > s) (acc.dropRight(1) :+ s) :+ f
-						else acc :+ s
-					case None => acc :+ s
-			).map(list => list :: toBeSorted.list.map(x => List(x)).drop(list.length)).map(_.flatten).map(x => SortableValue.from(x).toOption.get)
+					case Some(last) if last > next => (acc.dropRight(1) :+ next) :+ last
+					case Some(last) => acc :+ next
+					case None => acc :+ next
+			).map(list =>
+				list :: toBeSorted.list
+					.map(List(_))
+					.drop(list.length)
+			).map(_.flatten)
+				.map(SortableValue.from(_).toOption.get)
 
 	def sortDescendingWithIntermediateResults(toBeSorted: SortableValue): LazyList[SortableValue] =
 		LazyList.from(toBeSorted.list)
-			.scanLeft(List.empty[Int])((acc, s) =>
+			.scanLeft(List.empty[Int])((acc, next) =>
 				acc.lastOption match
-					case Some(f) =>
-						if(f > s) (acc.dropRight(1) :+ s) :+ f
-						else acc :+ s
-					case None => acc :+ s
-			).map(list => list :: toBeSorted.list.map(x => List(x)).drop(list.length)).map(_.flatten).map(x => SortableValue.from(x).toOption.get)
+					case Some(last) if last < next => (acc.dropRight(1) :+ next) :+ last
+					case Some(last) => acc :+ next
+					case None => acc :+ next
+			).map(list =>
+				list :: toBeSorted.list
+					.map(List(_))
+					.drop(list.length)
+			).map(_.flatten)
+				.map(SortableValue.from(_).toOption.get)
