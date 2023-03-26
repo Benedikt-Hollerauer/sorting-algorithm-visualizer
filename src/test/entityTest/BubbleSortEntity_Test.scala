@@ -1,8 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.value.SortableValue
-import core.value.OrderValue
+import core.value.{OrderValue, SortableValue}
 
 object BubbleSortEntity_Test:
 
