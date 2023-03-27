@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderValue, SortableValue}
+import core.model.{OrderValue, SortableModel}
 
 object BubbleSortEntity_Test:
 
@@ -9,7 +9,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[Sortable](ascending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
+				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
@@ -21,7 +21,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[Sortable](descending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
+				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
@@ -33,7 +33,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[Sortable](ascending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
+				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortOnceWithIntermediateResults(
 					toBeSorted = sortableValueMock,
 					ordering = OrderValue.Ascending
@@ -44,7 +44,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[Sortable](descending)`: Unit =
 			for
-				sortableValueMock <- SortableValue.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
+				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortOnceWithIntermediateResults(
 					toBeSorted = sortableValueMock,
 					ordering = OrderValue.Descending

@@ -2,11 +2,11 @@ package core.model
 
 import error.modelError.SortableModelError
 
-case class SortableValue private(list: List[Int])
+case class SortableModel private(list: List[Int])
 
-object SortableValue:
+object SortableModel:
 
-    def from(mayBeList: List[Int]): Either[SortableModelError, SortableValue] =
+    def from(mayBeList: List[Int]): Either[SortableModelError, SortableModel] =
         if(mayBeList.isEmpty) Left(SortableModelError.EmptyList(mayBeList))
         else if(mayBeList.length == 1) Left(SortableModelError.ToFewElements(mayBeList))
-        else Right(SortableValue(mayBeList))
+        else Right(SortableModel(mayBeList))

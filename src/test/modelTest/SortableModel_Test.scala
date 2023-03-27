@@ -8,14 +8,14 @@ object SortableModel_Test:
 
         def `SortableValue`: Unit =
             for
-                res <- core.model.SortableValue.from(
+                res <- core.model.SortableModel.from(
                     List(1, 4, 7)
                 )
             yield assert(res.list == List(1, 4, 7))
 
         def `EmptyList`: Unit =
             for
-                res <- core.model.SortableValue.from(
+                res <- core.model.SortableModel.from(
                     List.empty
                 ).left
             yield assert(res == SortableModelError.EmptyList(
@@ -24,7 +24,7 @@ object SortableModel_Test:
 
         def `ToFewElements`: Unit =
             for
-                res <- core.model.SortableValue.from(
+                res <- core.model.SortableModel.from(
                     List(1)
                 ).left
             yield assert(res == SortableModelError.ToFewElements(
