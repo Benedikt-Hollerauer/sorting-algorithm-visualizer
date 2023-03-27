@@ -14,14 +14,19 @@ object SortByBubbleSortUseCase_Test:
                 res <- SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.ascendingOrder
                 )
-            yield assert(res.reverse.head.list == List(1, 2, 3, 4, 8, 16, 435, 5934))
+                _ = res.foreach(println)
+            yield
+                assert(res.last.list == List(1, 2, 3, 4, 8, 16, 435, 5934))
+                assert(res.length > 1)
 
         def `LazyList[Sortable](descending)`: Unit =
             for
                 res <- SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.descendingOrder
                 )
-            yield assert(res.reverse.head.list == List(5934, 435, 16, 8, 4, 3, 2, 1))
+            yield
+                assert(res.last.list == List(5934, 435, 16, 8, 4, 3, 2, 1))
+                assert(res.length > 1)
 
         def `InputFailure[EmptyList]`: Unit =
             for
