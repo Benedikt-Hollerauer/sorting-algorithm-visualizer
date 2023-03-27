@@ -1,7 +1,7 @@
 package useCaseTest
 
-import error.useCaseError.SortByBubbleSortUseCaseError
 import error.modelError.SortableModelError
+import error.useCaseError.SortByBubbleSortUseCaseError
 import mock.inputMock.SortByBubbleSortInputMock
 import useCase.SortByBubbleSortUseCase
 

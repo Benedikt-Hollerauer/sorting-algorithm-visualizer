@@ -1,8 +1,9 @@
 package input
 
-import core.model.OrderValue
+import core.model.{OrderValue, SortableModel}
+import error.modelError.SortableModelError
 
 case class SortByBubbleSortInput(
-    list: List[Int],
+    toBeSorted: Either[SortableModelError, SortableModel],
     ordering: OrderValue
 )
