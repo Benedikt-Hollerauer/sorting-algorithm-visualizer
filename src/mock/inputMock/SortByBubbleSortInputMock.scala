@@ -1,6 +1,6 @@
 package mock.inputMock
 
-import core.value.OrderValue
+import core.model.OrderValue
 import input.SortByBubbleSortInput
 
 object SortByBubbleSortInputMock:

@@ -1,7 +1,7 @@
 package core.entity
 
-import core.value.OrderValue.{Ascending, Descending}
-import core.value.{OrderValue, SortableValue}
+import core.model.OrderValue.{Ascending, Descending}
+import core.model.{OrderValue, SortableValue}
 
 object BubbleSortEntity:
 

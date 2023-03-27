@@ -1,6 +1,6 @@
 package input
 
-import core.value.OrderValue
+import core.model.OrderValue
 
 case class SortByBubbleSortInput(
     list: List[Int],

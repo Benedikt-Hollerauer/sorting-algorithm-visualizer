@@ -1,6 +1,6 @@
-package error.valueError
+package error.modelError
 
-enum SortableValueError:
+enum SortableModelError:
 
     case EmptyList(list: List[Int])
     case ToFewElements(list: List[Int])

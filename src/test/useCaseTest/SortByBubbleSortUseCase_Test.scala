@@ -1,7 +1,7 @@
 package useCaseTest
 
 import error.useCaseError.SortByBubbleSortUseCaseError
-import error.valueError.SortableValueError
+import error.modelError.SortableModelError
 import mock.inputMock.SortByBubbleSortInputMock
 import useCase.SortByBubbleSortUseCase
 
@@ -29,7 +29,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.emptyListFailure
                 ).left
             yield assert(res == SortByBubbleSortUseCaseError.InputFailure(
-                SortableValueError.EmptyList(
+                SortableModelError.EmptyList(
                     List.empty
                 )
             ))
@@ -40,7 +40,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.toFewElementsFailure
                 ).left
             yield assert(res == SortByBubbleSortUseCaseError.InputFailure(
-                SortableValueError.ToFewElements(
+                SortableModelError.ToFewElements(
                     List(1)
                 )
             ))
