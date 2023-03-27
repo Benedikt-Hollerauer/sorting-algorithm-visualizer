@@ -1,5 +1,4 @@
 import test.entityTest.BubbleSortEntity_Test
-import test.entityTest.BubbleSortEntity_Test.{sortAscendingWithIntermediateResults_should_return, sortDescendingWithIntermediateResults_should_return, sortOnceWithIntermediateResults_should_return}
 
 class Entity_TestImpl extends TestUtil:
 
