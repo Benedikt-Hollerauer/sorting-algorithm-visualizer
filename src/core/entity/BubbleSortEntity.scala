@@ -21,6 +21,14 @@ object BubbleSortEntity:
 					case None => sortOnceWithIntermediateResults(toBeSorted, OrderModel.Descending)
 			)
 
+	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortableModel] =
+		LazyList.from(toBeSorted.list)
+			.foldLeft(LazyList.empty[SortableModel])((acc, _) =>
+				acc.lastOption match
+					case Some(last) => acc ++ sortOnceWithIntermediateResults(last, ordering)
+					case None => sortOnceWithIntermediateResults(toBeSorted, ordering)
+			)
+
 	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortableModel] =
 		LazyList.from(toBeSorted.list)
 			.scanLeft(List.empty[Int])((acc, next) =>
