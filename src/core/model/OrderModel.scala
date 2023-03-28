@@ -1,6 +1,6 @@
 package core.model
 
-enum OrderValue:
+enum OrderModel:
     
     case Ascending,
         Descending

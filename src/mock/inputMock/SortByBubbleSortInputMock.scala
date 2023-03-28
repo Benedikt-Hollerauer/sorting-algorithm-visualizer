@@ -1,19 +1,19 @@
 package mock.inputMock
 
-import core.model.{OrderValue, SortableModel}
+import core.model.{OrderModel, SortableModel}
 import input.SortByBubbleSortInput
 
 object SortByBubbleSortInputMock:
 
     private val sortByBubbleSortInputMock = SortByBubbleSortInput(
         toBeSorted = SortableModel.from(List(3, 2, 8, 16, 4, 5934, 435, 1)),
-        ordering = OrderValue.Ascending
+        ordering = OrderModel.Ascending
     )
 
     val ascendingOrder = sortByBubbleSortInputMock
 
     val descendingOrder = sortByBubbleSortInputMock.copy(
-        ordering = OrderValue.Descending
+        ordering = OrderModel.Descending
     )
 
     val emptyListFailure = sortByBubbleSortInputMock.copy(

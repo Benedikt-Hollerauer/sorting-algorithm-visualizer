@@ -1,7 +1,7 @@
 package useCase
 
 import core.entity.BubbleSortEntity
-import core.model.OrderValue.{Ascending, Descending}
+import core.model.OrderModel.{Ascending, Descending}
 import core.model.SortableModel
 import error.useCaseError.SortByBubbleSortUseCaseError
 import input.SortByBubbleSortInput

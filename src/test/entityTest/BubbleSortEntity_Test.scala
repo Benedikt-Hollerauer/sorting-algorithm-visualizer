@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderValue, SortableModel}
+import core.model.{OrderModel, SortableModel}
 
 object BubbleSortEntity_Test:
 
@@ -36,7 +36,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortOnceWithIntermediateResults(
 					toBeSorted = sortableValueMock,
-					ordering = OrderValue.Ascending
+					ordering = OrderModel.Ascending
 				)
 			yield
 				assert(res.last.list == List(0, 0, 1, 2, 3, 4, 3, 1, 2, 2, 0, 5))
@@ -47,7 +47,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(List(1, 0, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0))
 				res = BubbleSortEntity.sortOnceWithIntermediateResults(
 					toBeSorted = sortableValueMock,
-					ordering = OrderValue.Descending
+					ordering = OrderModel.Descending
 				)
 			yield
 				assert(res.last.list == List(1, 0, 2, 3, 4, 5, 3, 1, 2, 2, 0, 0))
