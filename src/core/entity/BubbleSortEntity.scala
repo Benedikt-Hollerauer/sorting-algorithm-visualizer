@@ -6,20 +6,10 @@ import core.model.{OrderModel, SortableModel}
 object BubbleSortEntity:
 
 	def sortAscendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortableModel] =
-		LazyList.from(toBeSorted.list)
-			.foldLeft(LazyList.empty[SortableModel])((acc, _) =>
-				acc.lastOption match
-					case Some(last) => acc ++ sortOnceWithIntermediateResults(last, OrderModel.Ascending)
-					case None => sortOnceWithIntermediateResults(toBeSorted, OrderModel.Ascending)
-			)
+		sortWithIntermediateResults(toBeSorted, OrderModel.Ascending)
 
 	def sortDescendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortableModel] =
-		LazyList.from(toBeSorted.list)
-			.foldLeft(LazyList.empty[SortableModel])((acc, _) =>
-				acc.lastOption match
-					case Some(last) => acc ++ sortOnceWithIntermediateResults(last, OrderModel.Descending)
-					case None => sortOnceWithIntermediateResults(toBeSorted, OrderModel.Descending)
-			)
+		sortWithIntermediateResults(toBeSorted, OrderModel.Descending)
 
 	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortableModel] =
 		LazyList.from(toBeSorted.list)
