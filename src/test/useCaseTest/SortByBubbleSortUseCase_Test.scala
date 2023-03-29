@@ -2,6 +2,7 @@ package useCaseTest
 
 import error.modelError.SortableModelError
 import error.useCaseError.SortByBubbleSortUseCaseError
+import mock.ToBeSortedMock
 import mock.inputMock.SortByBubbleSortInputMock
 import useCase.SortByBubbleSortUseCase
 
@@ -14,9 +15,8 @@ object SortByBubbleSortUseCase_Test:
                 res <- SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.ascendingOrder
                 )
-                _ = res.foreach(println)
             yield
-                assert(res.last.list == List(1, 2, 3, 4, 8, 16, 435, 5934))
+                assert(res.last.list == ToBeSortedMock.ascendingOrder.sorted)
                 assert(res.length > 1)
 
         def `LazyList[Sortable](descending)`: Unit =
@@ -25,7 +25,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.descendingOrder
                 )
             yield
-                assert(res.last.list == List(5934, 435, 16, 8, 4, 3, 2, 1))
+                assert(res.last.list == ToBeSortedMock.descendingOrder.sorted)
                 assert(res.length > 1)
 
         def `InputFailure[EmptyList]`: Unit =
