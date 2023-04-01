@@ -4,7 +4,7 @@ import core.entity.BubbleSortEntity
 import core.model.OrderModel.{Ascending, Descending}
 import core.model.SortableModel
 import error.useCaseError.SortByBubbleSortUseCaseError
-import input.SortByBubbleSortInput
+import core.input.SortByBubbleSortInput
 
 object SortByBubbleSortUseCase:
 

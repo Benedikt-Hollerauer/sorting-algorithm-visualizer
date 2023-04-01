@@ -18,9 +18,7 @@ object SortableModel_Test:
                 res <- core.model.SortableModel.from(
                     List.empty
                 ).left
-            yield assert(res == SortableModelError.EmptyList(
-                List.empty
-            ))
+            yield assert(res == SortableModelError.EmptyList)
 
         def `ToFewElements`: Unit =
             for

@@ -1,4 +1,4 @@
-package input
+package core.input
 
 import core.model.{OrderModel, SortableModel}
 import error.modelError.SortableModelError

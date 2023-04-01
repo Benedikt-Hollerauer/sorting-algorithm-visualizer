@@ -2,5 +2,5 @@ package error.modelError
 
 enum SortableModelError:
 
-    case EmptyList(list: List[Int])
+    case EmptyList
     case ToFewElements(list: List[Int])

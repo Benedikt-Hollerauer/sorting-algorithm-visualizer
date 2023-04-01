@@ -34,9 +34,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.emptyListFailure
                 ).left
             yield assert(res == SortByBubbleSortUseCaseError.InputFailure(
-                SortableModelError.EmptyList(
-                    List.empty
-                )
+                SortableModelError.EmptyList
             ))
 
         def `InputFailure[ToFewElements]`: Unit =
