@@ -4,9 +4,11 @@ ThisBuild / scalaVersion := "3.2.2"
 lazy val root = project
     .in(file("."))
     .enablePlugins(ScalaJSPlugin)
-    .aggregate(core, presentation)
-    .settings(
-        Compile / scalaSource := file("Main.scala"),
+    .aggregate(
+        core,
+        testImpl,
+        presentation
+    ).settings(
         scalaJSUseMainModuleInitializer := true
     )
 
@@ -21,7 +23,9 @@ lazy val testImpl = project
     .dependsOn(core)
     .settings(
         Test / scalaSource := baseDirectory.value,
-        libraryDependencies += "org.scalatest" %% "scalatest-freespec" % "3.2.15" % "test"
+        libraryDependencies ++= Seq(
+            "org.scalatest" %% "scalatest-freespec" % "3.2.15" % "test"
+        )
     )
 
 lazy val presentation = project
