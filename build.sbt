@@ -1,7 +1,7 @@
 ThisBuild / name := "sortingAlgorithmVisualizer"
 ThisBuild / scalaVersion := "3.2.2"
 
-lazy val root = project
+lazy val root: Project = project
     .in(file("."))
     .enablePlugins(ScalaJSPlugin)
     .aggregate(
@@ -12,13 +12,13 @@ lazy val root = project
         scalaJSUseMainModuleInitializer := true
     )
 
-lazy val core = project
+lazy val core: Project = project
     .in(file("core"))
     .settings(
         Compile / scalaSource := baseDirectory.value
     )
 
-lazy val testImpl = project
+lazy val testImpl: Project = project
     .in(file("testImpl"))
     .dependsOn(core)
     .settings(
@@ -28,7 +28,7 @@ lazy val testImpl = project
         )
     )
 
-lazy val presentation = project
+lazy val presentation: Project = project
     .in(file("presentation"))
     .dependsOn(core)
     .settings(
