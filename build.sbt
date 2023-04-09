@@ -1,25 +1,23 @@
-ThisBuild / name := "sortingAlgorithmVisualizer"
 ThisBuild / scalaVersion := "3.2.2"
 
-lazy val root: Project = project
+lazy val sortingAlgorithmVisualizer: Project = project
     .in(file("."))
-    .enablePlugins(ScalaJSPlugin)
     .aggregate(
         core,
         testImpl,
         presentation
-    ).settings(
-        scalaJSUseMainModuleInitializer := true
     )
 
 lazy val core: Project = project
     .in(file("core"))
+    .enablePlugins(ScalaJSPlugin)
     .settings(
         Compile / scalaSource := baseDirectory.value
     )
 
 lazy val testImpl: Project = project
     .in(file("testImpl"))
+    .enablePlugins(ScalaJSPlugin)
     .dependsOn(core)
     .settings(
         Test / scalaSource := baseDirectory.value,
@@ -30,9 +28,11 @@ lazy val testImpl: Project = project
 
 lazy val presentation: Project = project
     .in(file("presentation"))
+    .enablePlugins(ScalaJSPlugin)
     .dependsOn(core)
     .settings(
         Compile / scalaSource := baseDirectory.value,
+        scalaJSUseMainModuleInitializer := true,
         libraryDependencies ++= Seq(
             "org.scala-js" %%% "scalajs-dom" % "2.2.0",
             "com.raquo" %%% "laminar" % "15.0.0"
