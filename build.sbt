@@ -1,6 +1,7 @@
+ThisBuild / name := "sortingAlgorithmVisualizer"
 ThisBuild / scalaVersion := "3.2.2"
 
-lazy val sortingAlgorithmVisualizer: Project = project
+lazy val root: Project = project
     .in(file("."))
     .aggregate(
         core,
