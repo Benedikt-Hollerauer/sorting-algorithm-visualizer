@@ -1,22 +1,27 @@
 package test.useCaseTest
 
+import core.useCase.GenerateSortableUseCase
+import error.modelError.SortableModelError
+import error.useCaseError.GenerateSortableUseCaseError
+import mock.inputMock.GenerateSortableInputMock
+
 object GenerateSortableUseCase_Test:
 
 	object apply_should_return:
 
 		def `Sortable`: Unit =
 			val res = GenerateSortableUseCase(
-				input = GenerateSortableInputMock.successMock
+				input = GenerateSortableInputMock.success
 			)
 			assert(res.isRight)
 
 		def `InputFailure[EmptyList]`: Unit =
 			for
 				res <- GenerateSortableUseCase(
-					input = GenerateSortableInputMock.emptyListFailureMock
+					input = GenerateSortableInputMock.emptyListFailure
 				).left
 			yield assert(
-				res == SortByBubbleSortUseCaseError.InputFailure(
+				res == GenerateSortableUseCaseError.InputFailure(
 					SortableModelError.EmptyList
 				)
 			)
@@ -24,10 +29,10 @@ object GenerateSortableUseCase_Test:
 		def `InputFailure[ToFewElements]`: Unit =
 			for
 				res <- GenerateSortableUseCase(
-					input = GenerateSortableInputMock.toFewElementsFailureMock
+					input = GenerateSortableInputMock.toFewElementsFailure
 				).left
 			yield assert(
-				res == SortByBubbleSortUseCaseError.InputFailure(
+				res == GenerateSortableUseCaseError.InputFailure(
 					SortableModelError.ToFewElements(
 						List(1)
 					)
@@ -37,10 +42,10 @@ object GenerateSortableUseCase_Test:
 		def `InputFailure[ToManyElements]`: Unit =
 			for
 				res <- GenerateSortableUseCase(
-					input = GenerateSortableInputMock.toManyElementsFailureMock
+					input = GenerateSortableInputMock.toManyElementsFailure
 				).left
 			yield assert(
-				res == SortByBubbleSortUseCaseError.InputFailure(
+				res == GenerateSortableUseCaseError.InputFailure(
 					SortableModelError.ToManyElements(500)
 				)
 			)
