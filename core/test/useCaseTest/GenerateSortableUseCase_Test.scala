@@ -6,14 +6,14 @@ object GenerateSortableUseCase_Test:
 
 		def `Sortable`: Unit =
 			val res = GenerateSortableUseCase(
-				input = GenerateSortableInputMock
+				input = GenerateSortableInputMock.successMock
 			)
 			assert(res.isRight)
 
 		def `InputFailure[EmptyList]`: Unit =
 			for
 				res <- GenerateSortableUseCase(
-					input = GenerateSortableInputMock
+					input = GenerateSortableInputMock.emptyListFailureMock
 				).left
 			yield assert(
 				res == SortByBubbleSortUseCaseError.InputFailure(
@@ -24,12 +24,23 @@ object GenerateSortableUseCase_Test:
 		def `InputFailure[ToFewElements]`: Unit =
 			for
 				res <- GenerateSortableUseCase(
-					input = GenerateSortableInputMock
+					input = GenerateSortableInputMock.toFewElementsFailureMock
 				).left
 			yield assert(
 				res == SortByBubbleSortUseCaseError.InputFailure(
 					SortableModelError.ToFewElements(
 						List(1)
 					)
+				)
+			)
+
+		def `InputFailure[ToManyElements]`: Unit =
+			for
+				res <- GenerateSortableUseCase(
+					input = GenerateSortableInputMock.toManyElementsFailureMock
+				).left
+			yield assert(
+				res == SortByBubbleSortUseCaseError.InputFailure(
+					SortableModelError.ToManyElements(500)
 				)
 			)

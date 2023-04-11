@@ -47,3 +47,14 @@ object SortByBubbleSortUseCase_Test:
                     List(1)
                 )
             ))
+
+        def `InputFailure[ToManyElements]`: Unit =
+            for
+                res <- SortByBubbleSortUseCase(
+                    input = SortByBubbleSortInputMock.toManyElementsFailure
+                ).left
+            yield assert(
+                res == SortByBubbleSortUseCaseError.InputFailure(
+                    SortableModelError.ToManyElements(500)
+                )
+            )

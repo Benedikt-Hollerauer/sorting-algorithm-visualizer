@@ -9,4 +9,5 @@ object SortableModel:
     def from(mayBeList: List[Int]): Either[SortableModelError, SortableModel] =
         if(mayBeList.isEmpty) Left(SortableModelError.EmptyList)
         else if(mayBeList.length == 1) Left(SortableModelError.ToFewElements(mayBeList))
+        else if(mayBeList.length >= 200) Left(SortableModelError.ToManyElements(mayBeList.length))
         else Right(SortableModel(mayBeList))
