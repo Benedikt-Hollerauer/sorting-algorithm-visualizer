@@ -28,9 +28,7 @@ object SortableModel_Test:
                 res <- SortableModel.from(
                     List(1)
                 ).left
-            yield assert(res == SortableModelError.ToFewElements(
-                List(1)
-            ))
+            yield assert(res == SortableModelError.ToFewElements(1))
 
         def `ToManyElements`: Unit =
             for
