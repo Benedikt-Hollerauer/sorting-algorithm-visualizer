@@ -9,9 +9,12 @@ import useCase.SortByBubbleSortUseCase
 import mock.ToBeSortedMock
 import mock.inputMock.GenerateSortableInputMock
 
+import java.time.Instant
+
 object Main:
 
-    def main(args: Array[String]): Unit =
+    @main
+    def main: Unit =
         val sortable = GenerateSortableUseCase(
             GenerateSortableInputMock.success
         ).left.map(_ match
@@ -31,9 +34,12 @@ object Main:
                     )
                 )
             case Right(res) =>
-                renderOnDomContentLoaded(
-                    dom.document.body,
-                    div(
-                        res.map(x => div(x.list.map(_.toString).reduce((x, y) => x + " - " + y), whiteSpace := "nowrap"))
+                res.map(item =>
+                    () =>render(
+                        dom.document.body,
+                        div(item.list.map(_.toString).reduce((x, y) => x + " " + y), whiteSpace := "nowrap")
                     )
+                ).foldLeft(0)((delay, f) =>
+                    dom.window.setTimeout(() => f(), delay)
+                    delay + 100
                 )
