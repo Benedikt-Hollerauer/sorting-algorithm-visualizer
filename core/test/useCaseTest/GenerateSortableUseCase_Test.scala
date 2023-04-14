@@ -44,6 +44,6 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortableModelError.ToManyElements(1100)
+					SortableModelError.ToManyElements(1000)
 				)
 			)

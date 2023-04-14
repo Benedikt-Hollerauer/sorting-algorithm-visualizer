@@ -5,10 +5,10 @@ import core.input.GenerateSortableInput
 object GenerateSortableInputMock:
 
 	val success = GenerateSortableInput(
-		from = -100,
-		to = 100,
+		from = 0,
+		to = 50,
 		minSize = 5,
-		maxSize = 1000
+		maxSize = 750
 	)
 
 	val emptyListFailure = success.copy(
