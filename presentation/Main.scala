@@ -38,7 +38,7 @@ object Main:
                 render(
                     dom.document.body,
                     div(
-                        child <-- EventStream.periodic(1).map(x =>
+                        child <-- EventStream.periodic(50).map(x =>
                             if(res.lift(x).isDefined)
                                 getBarArray(res(x))
                             else div(
@@ -53,6 +53,7 @@ object Main:
         div(
             display := "flex",
             flexWrap := "wrap",
+            alignItems := "flex-end",
             sortable.list.map(i =>
                 div(
                     width := "20px",
