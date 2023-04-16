@@ -1,7 +1,7 @@
 package test.useCaseTest
 
 import core.useCase.GenerateSortableUseCase
-import error.modelError.SortableModelError
+import error.modelError.SortedModelError
 import error.useCaseError.GenerateSortableUseCaseError
 import mock.inputMock.GenerateSortableInputMock
 
@@ -22,7 +22,7 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortableModelError.EmptyList
+					SortedModelError.EmptyList
 				)
 			)
 
@@ -33,7 +33,7 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortableModelError.ToFewElements(1)
+					SortedModelError.ToFewElements(1)
 				)
 			)
 
@@ -44,6 +44,6 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortableModelError.ToManyElements(1000)
+					SortedModelError.ToManyElements(1000)
 				)
 			)

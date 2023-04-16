@@ -1,6 +1,6 @@
 package useCaseTest
 
-import error.modelError.SortableModelError
+import error.modelError.SortedModelError
 import error.useCaseError.SortByBubbleSortUseCaseError
 import mock.ToBeSortedMock
 import mock.inputMock.SortByBubbleSortInputMock
@@ -10,7 +10,7 @@ object SortByBubbleSortUseCase_Test:
 
     object apply_should_return:
 
-        def `LazyList[Sortable](ascending)`: Unit =
+        def `LazyList[SortedModel](ascending)`: Unit =
             for
                 res <- SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.ascendingOrder
@@ -19,7 +19,7 @@ object SortByBubbleSortUseCase_Test:
                 assert(res.last.list == ToBeSortedMock.ascendingOrder.sorted)
                 assert(res.length > 1)
 
-        def `LazyList[Sortable](descending)`: Unit =
+        def `LazyList[SortedModel](descending)`: Unit =
             for
                 res <- SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.descendingOrder
@@ -34,7 +34,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.emptyListFailure
                 ).left
             yield assert(res == SortByBubbleSortUseCaseError.InputFailure(
-                SortableModelError.EmptyList
+                SortedModelError.EmptyList
             ))
 
         def `InputFailure[ToFewElements]`: Unit =
@@ -43,7 +43,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.toFewElementsFailure
                 ).left
             yield assert(res == SortByBubbleSortUseCaseError.InputFailure(
-                SortableModelError.ToFewElements(1)
+                SortedModelError.ToFewElements(1)
             ))
 
         def `InputFailure[ToManyElements]`: Unit =
@@ -53,6 +53,6 @@ object SortByBubbleSortUseCase_Test:
                 ).left
             yield assert(
                 res == SortByBubbleSortUseCaseError.InputFailure(
-                    SortableModelError.ToManyElements(500)
+                    SortedModelError.ToManyElements(500)
                 )
             )
