@@ -1,5 +1,5 @@
-import test.modelTest.SortedModel_Test
+import test.modelTest.SortableModel_Test
 
 class Model_TestImpl extends TestUtil:
 
-    implementTest(SortedModel_Test)
+    implementTest(SortableModel_Test)

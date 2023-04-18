@@ -1,25 +1,25 @@
 package core.entity
 
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortedModel}
 
 object BubbleSortEntity:
 
-	def sortAscendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortableModel] =
+	def sortAscendingWithIntermediateResults(toBeSorted: SortedModel): LazyList[SortedModel] =
 		sortWithIntermediateResults(toBeSorted, OrderModel.Ascending)
 
-	def sortDescendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortableModel] =
+	def sortDescendingWithIntermediateResults(toBeSorted: SortedModel): LazyList[SortedModel] =
 		sortWithIntermediateResults(toBeSorted, OrderModel.Descending)
 
-	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortableModel] =
+	def sortWithIntermediateResults(toBeSorted: SortedModel, ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted.list)
-			.foldLeft(LazyList.empty[SortableModel])((acc, _) =>
+			.foldLeft(LazyList.empty[SortedModel])((acc, _) =>
 				acc.lastOption match
 					case Some(last) => acc ++ sortOnceWithIntermediateResults(last, ordering)
 					case None => sortOnceWithIntermediateResults(toBeSorted, ordering)
 			)
 
-	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortableModel] =
+	def sortOnceWithIntermediateResults(toBeSorted: SortedModel, ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted.list)
 			.zipWithIndex
 			.scanLeft(
@@ -39,7 +39,7 @@ object BubbleSortEntity:
 					.drop(lists._1.length),
 				lists._2)
 			).map(lists =>
-				SortableModel.from(
+				SortedModel.from(
 					mayBeList = lists._1,
 					mayBeChangedIndices = lists._2
 				).toOption.get

@@ -1,7 +1,7 @@
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import core.input.SortByBubbleSortInput
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortedModel}
 import core.useCase.GenerateSortableUseCase
 import error.useCaseError.GenerateSortableUseCaseError
 import org.scalajs.dom
@@ -49,7 +49,7 @@ object Main:
                     )
                 )
 
-    def getBarArray(sortable: SortableModel): ReactiveHtmlElement[HTMLDivElement] =
+    def getBarArray(sortable: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
         div(
             display := "flex",
             flexWrap := "wrap",

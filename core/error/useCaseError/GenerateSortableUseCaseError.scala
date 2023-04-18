@@ -1,7 +1,7 @@
 package error.useCaseError
 
-import error.modelError.SortedModelError
+import error.modelError.SortableModelError
 
 enum GenerateSortableUseCaseError:
 
-	case InputFailure(sortableValueError: SortedModelError)
+	case InputFailure(sortableValueError: SortableModelError)

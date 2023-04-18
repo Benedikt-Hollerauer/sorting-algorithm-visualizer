@@ -1,7 +1,7 @@
 package test.useCaseTest
 
 import core.useCase.GenerateSortableUseCase
-import error.modelError.SortedModelError
+import error.modelError.SortableModelError
 import error.useCaseError.GenerateSortableUseCaseError
 import mock.inputMock.GenerateSortableInputMock
 
@@ -9,7 +9,7 @@ object GenerateSortableUseCase_Test:
 
 	object apply_should_return:
 
-		def `Sortable`: Unit =
+		def `Sorted`: Unit =
 			val res = GenerateSortableUseCase(
 				input = GenerateSortableInputMock.success
 			)
@@ -22,7 +22,7 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortedModelError.EmptyList
+					SortableModelError.EmptyList
 				)
 			)
 
@@ -33,7 +33,7 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortedModelError.ToFewElements(1)
+					SortableModelError.ToFewElements(1)
 				)
 			)
 
@@ -44,6 +44,6 @@ object GenerateSortableUseCase_Test:
 				).left
 			yield assert(
 				res == GenerateSortableUseCaseError.InputFailure(
-					SortedModelError.ToManyElements(1000)
+					SortableModelError.ToManyElements(1000)
 				)
 			)

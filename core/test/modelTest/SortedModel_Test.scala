@@ -1,54 +1,28 @@
 package test.modelTest
 
-import core.model.SortableModel
-import error.modelError.SortedModelError
-
+import mock.ToBeSortedMock
 import scala.util.Random
 
 object SortedModel_Test:
 
-    private val correctChangedIndicesMock: List[Int] = List(0, 1)
+	private val correctChangedIndicesMock: List[Int] = List(0, 1)
 
-    object from_should_return:
+	object from_should_return:
 
-        def `SortableModel`: Unit =
-            for
-                res <- core.model.SortableModel.from(
-                    mayBeList = List(1, 4, 7),
-                    mayBeChangedIndices = correctChangedIndicesMock
-                )
-            yield
-                assert(res.list == List(1, 4, 7))
-                assert(res.changedIndices == correctChangedIndicesMock)
+		def `SortedModel`: Unit =
+			for
+				res <- core.model.SortedModel.from(
+					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
+					mayBeChangedIndices = correctChangedIndicesMock
+				)
+			yield
+				assert(res.list == ToBeSortedMock.ascendingOrder.sorted)
+				assert(res.changedIndices == correctChangedIndicesMock)
 
-        def `EmptyList`: Unit =
-            for
-                res <- core.model.SortableModel.from(
-                    mayBeList = List.empty,
-                    mayBeChangedIndices = correctChangedIndicesMock
-                ).left
-            yield assert(res == SortedModelError.EmptyList)
-
-        def `ToFewElements`: Unit =
-            for
-                res <- core.model.SortableModel.from(
-                    mayBeList = List(1),
-                    mayBeChangedIndices = correctChangedIndicesMock
-                ).left
-            yield assert(res == SortedModelError.ToFewElements(1))
-
-        def `ToManyElements`: Unit =
-            for
-                res <- core.model.SortableModel.from(
-                    mayBeList = List.fill(500)(Random.nextInt(200)),
-                    mayBeChangedIndices = correctChangedIndicesMock
-                ).left
-            yield assert(res == SortedModelError.ToManyElements(500))
-
-        def `ToFewChangedIndices`: Unit =
-            for
-                res <- core.model.SortableModel.from(
-                    mayBeList = List.fill(500)(Random.nextInt(200)),
-                    mayBeChangedIndices = List.empty
-                ).left
-            yield assert(res == SortedModelError.ToManyChangedIndices(List.empty))
+		def `ToFewChangedIndices`: Unit =
+			for
+				res <- core.model.SortedModel.from(
+					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
+					mayBeChangedIndices = List.empty
+				).left
+			yield assert(res == SortedModelError.ToFewChangedIndices(List.empty))

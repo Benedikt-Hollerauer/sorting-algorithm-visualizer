@@ -1,7 +1,7 @@
 package error.useCaseError
 
-import error.modelError.SortedModelError
+import error.modelError.SortableModelError
 
 enum SortByBubbleSortUseCaseError:
     
-    case InputFailure(sortableValueError: SortedModelError)
+    case InputFailure(sortableValueError: SortableModelError)

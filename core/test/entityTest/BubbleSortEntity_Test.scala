@@ -1,14 +1,14 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortedModel}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
 
 	object sortAscendingWithIntermediateResults_should_return:
 
-		def `LazyList[Sortable](ascending)`: Unit =
+		def `LazyList[SortedModel](ascending)`: Unit =
 			for
 				sortableValueMock <- SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted)
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
@@ -20,7 +20,7 @@ object BubbleSortEntity_Test:
 
 	object sortDescendingWithIntermediateResults_should_return:
 
-		def `LazyList[Sortable](descending)`: Unit =
+		def `LazyList[SortedModel](descending)`: Unit =
 			for
 				sortableValueMock <- SortableModel.from(ToBeSortedMock.descendingOrder.unsorted)
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
