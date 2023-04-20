@@ -1,7 +1,7 @@
 package core.entity
 
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortableModel, SortedModel}
 
 object BubbleSortEntity:
 
@@ -15,7 +15,7 @@ object BubbleSortEntity:
 		LazyList.from(toBeSorted.list)
 			.foldLeft(LazyList.empty[SortedModel])((acc, _) =>
 				acc.lastOption match
-					case Some(last) => acc ++ sortOnceWithIntermediateResults(last, ordering)
+					case Some(last) => acc ++ sortOnceWithIntermediateResults(last.sortable, ordering)
 					case None => sortOnceWithIntermediateResults(toBeSorted, ordering)
 			)
 
@@ -40,7 +40,7 @@ object BubbleSortEntity:
 				lists._2)
 			).map(lists =>
 				SortedModel.from(
-					mayBeList = lists._1,
+					sortable = SortableModel.from(lists._1).toOption.get,
 					mayBeChangedIndices = lists._2
 				).toOption.get
 			)

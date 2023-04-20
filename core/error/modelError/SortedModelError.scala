@@ -2,4 +2,5 @@ package error.modelError
 
 enum SortedModelError:
 
-	case ToFewChangedIndices(changedIndices: List[Int])
+	case ToFewChangedIndices(toFewChangedIndices: List[Int])
+	case NegativeChangedIndices(negativeChangedIndices: List[Int])

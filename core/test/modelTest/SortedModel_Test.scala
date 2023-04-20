@@ -1,8 +1,8 @@
 package test.modelTest
 
 import core.model.SortableModel
-import core.model.SortedModelError
-import core.mock.ToBeSortedMock
+import error.modelError.SortedModelError
+import mock.ToBeSortedMock
 
 object SortedModel_Test:
 
@@ -13,17 +13,17 @@ object SortedModel_Test:
 			for
 				res <- core.model.SortedModel.from(
 					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
-					changedIndices = correctChangedIndicesMock
+					mayBeChangedIndices = correctChangedIndicesMock
 				)
 			yield
-				assert(res.list == ToBeSortedMock.ascendingOrder.sorted)
+				assert(res.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
 				assert(res.changedIndices == correctChangedIndicesMock)
 
 		def `ToFewChangedIndices`: Unit =
 			for
 				res <- core.model.SortedModel.from(
 					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
-					changedIndices = List.empty
+					mayBeChangedIndices = List.empty
 				).left
 			yield assert(res == SortedModelError.ToFewChangedIndices(List.empty))
 
@@ -32,6 +32,6 @@ object SortedModel_Test:
 			for
 				res <- core.model.SortedModel.from(
 					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
-					changedIndices = List(-1, 0)
+					mayBeChangedIndices = List(-1, 0)
 				).left
 			yield assert(res == SortedModelError.NegativeChangedIndices(List(-1, 0)))

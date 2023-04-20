@@ -54,7 +54,7 @@ object Main:
             display := "flex",
             flexWrap := "wrap",
             alignItems := "flex-end",
-            sortable.list.map(i =>
+            sortable.sortable.list.map(i =>
                 div(
                     width := "20px",
                     height := s"${i}px",
