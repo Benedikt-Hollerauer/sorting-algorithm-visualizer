@@ -41,6 +41,7 @@ object BubbleSortEntity_Test:
 				)
 			yield
 				assert(res.last.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
+				//TODO add assertion for changed indices
 				assert(res.length > 1)
 
 		def `LazyList[SortedModel](descending)`: Unit =
