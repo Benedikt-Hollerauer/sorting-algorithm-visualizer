@@ -9,7 +9,7 @@ object GenerateSortableUseCase_Test:
 
 	object apply_should_return:
 
-		def `Sorted`: Unit =
+		def `SortableModel`: Unit =
 			val res = GenerateSortableUseCase(
 				input = GenerateSortableInputMock.success
 			)

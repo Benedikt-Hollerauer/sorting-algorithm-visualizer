@@ -16,7 +16,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.ascendingOrder
                 )
             yield
-                assert(res.last.list == ToBeSortedMock.ascendingOrder.sorted)
+                assert(res.last.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
                 assert(res.length > 1)
 
         def `LazyList[SortedModel](descending)`: Unit =
@@ -25,7 +25,7 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.descendingOrder
                 )
             yield
-                assert(res.last.list == ToBeSortedMock.descendingOrder.sorted)
+                assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sorted)
                 assert(res.length > 1)
 
         def `InputFailure[EmptyList]`: Unit =

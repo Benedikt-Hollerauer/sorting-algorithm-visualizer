@@ -1,17 +1,17 @@
 package core.entity
 
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{OrderModel, SortedModel}
+import core.model.{OrderModel, SortableModel}
 
 object BubbleSortEntity:
 
-	def sortAscendingWithIntermediateResults(toBeSorted: SortedModel): LazyList[SortedModel] =
+	def sortAscendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortedModel] =
 		sortWithIntermediateResults(toBeSorted, OrderModel.Ascending)
 
-	def sortDescendingWithIntermediateResults(toBeSorted: SortedModel): LazyList[SortedModel] =
+	def sortDescendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortedModel] =
 		sortWithIntermediateResults(toBeSorted, OrderModel.Descending)
 
-	def sortWithIntermediateResults(toBeSorted: SortedModel, ordering: OrderModel): LazyList[SortedModel] =
+	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted.list)
 			.foldLeft(LazyList.empty[SortedModel])((acc, _) =>
 				acc.lastOption match
@@ -19,7 +19,7 @@ object BubbleSortEntity:
 					case None => sortOnceWithIntermediateResults(toBeSorted, ordering)
 			)
 
-	def sortOnceWithIntermediateResults(toBeSorted: SortedModel, ordering: OrderModel): LazyList[SortedModel] =
+	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted.list)
 			.zipWithIndex
 			.scanLeft(

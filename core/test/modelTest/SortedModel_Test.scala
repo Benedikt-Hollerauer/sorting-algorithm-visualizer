@@ -1,19 +1,19 @@
 package test.modelTest
 
-import mock.ToBeSortedMock
-import scala.util.Random
+import core.model.SortableModel
+import core.model.SortedModelError
+import core.mock.ToBeSortedMock
 
 object SortedModel_Test:
-
-	private val correctChangedIndicesMock: List[Int] = List(0, 1)
 
 	object from_should_return:
 
 		def `SortedModel`: Unit =
+			val correctChangedIndicesMock = List(0, 1)
 			for
 				res <- core.model.SortedModel.from(
 					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
-					mayBeChangedIndices = correctChangedIndicesMock
+					changedIndices = correctChangedIndicesMock
 				)
 			yield
 				assert(res.list == ToBeSortedMock.ascendingOrder.sorted)
@@ -23,6 +23,15 @@ object SortedModel_Test:
 			for
 				res <- core.model.SortedModel.from(
 					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
-					mayBeChangedIndices = List.empty
+					changedIndices = List.empty
 				).left
 			yield assert(res == SortedModelError.ToFewChangedIndices(List.empty))
+
+
+		def `NegativeChangedIndices`: Unit =
+			for
+				res <- core.model.SortedModel.from(
+					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
+					changedIndices = List(-1, 0)
+				).left
+			yield assert(res == SortedModelError.NegativeChangedIndices(List(-1, 0)))
