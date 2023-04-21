@@ -28,17 +28,30 @@ object BubbleSortEntity:
 				ordering match
 					case Ascending =>
 						acc._1.lastOption match
-							case Some(last) if last > next._1 => ((acc._1.dropRight(1) :+ next._1) :+ last, acc._2 :+ next._2)
-							case _ => (acc._1 :+ next._1, acc._2)
+							case Some(last) if last > next._1 => (
+								(acc._1.dropRight(1) :+ next._1) :+ last,
+								acc._2 :+ next._2
+							)
+							case _ => (
+								acc._1 :+ next._1,
+								acc._2
+							)
 					case Descending =>
 						acc._1.lastOption match
-							case Some(last) if last < next._1 => ((acc._1.dropRight(1) :+ next._1) :+ last,  acc._2 :+ next._2)
-							case _ => (acc._1 :+ next._1,  acc._2)
-			).map(lists =>
-				(lists._1 ++ toBeSorted.list
+							case Some(last) if last < next._1 => (
+								(acc._1.dropRight(1) :+ next._1) :+ last,
+								acc._2 :+ next._2
+							)
+							case _ => (
+								acc._1 :+ next._1,
+								acc._2
+							)
+			).map(lists => (
+				lists._1 ++ toBeSorted.list
 					.drop(lists._1.length),
-				lists._2)
-			).map(lists =>
+				lists._2
+			)).map(lists =>
+				println(lists)
 				SortedModel.from(
 					sortable = SortableModel.from(lists._1).toOption.get,
 					mayBeChangedIndices = lists._2
