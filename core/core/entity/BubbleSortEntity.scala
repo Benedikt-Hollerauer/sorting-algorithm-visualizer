@@ -20,7 +20,7 @@ object BubbleSortEntity:
 			)
 
 	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
-		LazyList.from(toBeSorted.list)
+		LazyList.from(toBeSorted.list) // TODO this will not continue from here on
 			.zipWithIndex
 			.scanLeft(
 				(List.empty[Int], List.empty[Int])
