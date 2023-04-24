@@ -30,11 +30,11 @@ object BubbleSortEntity:
 						acc._1.lastOption match
 							case Some(last) if last > next._1 => (
 								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2
+								acc._2 :+ next._2 // TODO this does not work as intended
 							)
 							case _ => (
 								acc._1 :+ next._1,
-								acc._2
+								acc._2 // TODO this does not work as intended
 							)
 					case Descending =>
 						acc._1.lastOption match
