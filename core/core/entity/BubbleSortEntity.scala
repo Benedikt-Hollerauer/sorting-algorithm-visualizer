@@ -20,7 +20,7 @@ object BubbleSortEntity:
 			)
 
 	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
-		LazyList.from(toBeSorted.list) // TODO this will not continue from here on
+		val itermediate = toBeSorted.list // TODO this will not continue from here on
 			.zipWithIndex
 			.scanLeft(
 				(List.empty[Int], List.empty[Int])
@@ -46,14 +46,18 @@ object BubbleSortEntity:
 								acc._1 :+ next._1,
 								acc._2
 							)
-			).map(lists => (
-				lists._1 ++ toBeSorted.list
-					.drop(lists._1.length),
-				lists._2
-			)).map(lists =>
-				println(lists)
-				SortedModel.from(
-					sortable = SortableModel.from(lists._1).toOption.get,
-					mayBeChangedIndices = lists._2
-				).toOption.get
 			)
+		//println(itermediate)
+		val moin = itermediate.map(lists => (
+			lists._1 ++ toBeSorted.list
+				.drop(lists._1.length),
+			lists._2
+		))
+		println(moin.last)
+		moin.map(lists =>
+			//println(lists)
+			SortedModel.from(
+				sortable = SortableModel.from(lists._1).toOption.get,
+				mayBeChangedIndices = lists._2
+			).toOption.get //TODO the error is throwen here because list._2 has no content
+		).to(LazyList)
