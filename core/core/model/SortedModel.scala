@@ -14,7 +14,7 @@ object SortedModel:
 		mayBeChangedIndices: List[Int]
 	): Either[SortedModelError, SortedModel] =
 		if(mayBeChangedIndices.length <= 0) Left(SortedModelError.ToFewChangedIndices(mayBeChangedIndices))
-		else if(mayBeChangedIndices.filter(_ < 0).isEmpty) Left(SortedModelError.NegativeChangedIndices(mayBeChangedIndices))
+		else if(mayBeChangedIndices.exists(_ < 0)) Left(SortedModelError.NegativeChangedIndices(mayBeChangedIndices))
 		else Right(
 			SortedModel(
 				sortable = sortable,

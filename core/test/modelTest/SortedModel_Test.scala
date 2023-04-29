@@ -12,9 +12,10 @@ object SortedModel_Test:
 			val correctChangedIndicesMock = List(0, 1)
 			for
 				res <- core.model.SortedModel.from(
-					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted).toOption.get,
+					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.sorted).toOption.get,
 					mayBeChangedIndices = correctChangedIndicesMock
 				)
+				_ = println(res)
 			yield
 				assert(res.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
 				assert(res.changedIndices == correctChangedIndicesMock)
