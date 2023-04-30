@@ -20,7 +20,7 @@ object BubbleSortEntity:
 			)
 
 	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
-		toBeSorted.list // TODO this will not continue from here on
+		toBeSorted.list
 			.zipWithIndex
 			.scanLeft(
 				(List.empty[Int], List.empty[Int])
@@ -30,11 +30,11 @@ object BubbleSortEntity:
 						acc._1.lastOption match
 							case Some(last) if last > next._1 => (
 								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2 // TODO this does not work as intended
+								acc._2 :+ next._2
 							)
 							case _ => (
 								acc._1 :+ next._1,
-								acc._2 // TODO this does not work as intended
+								acc._2
 							)
 					case Descending =>
 						acc._1.lastOption match

@@ -49,16 +49,18 @@ object Main:
                     )
                 )
 
-    def getBarArray(sortable: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
+    def getBarArray(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
         div(
             display := "flex",
             flexWrap := "wrap",
             alignItems := "flex-end",
-            sortable.sortable.list.map(i =>
+            sorted.sortable.list.map(i =>
                 div(
                     width := "20px",
                     height := s"${i}px",
-                    backgroundColor := "blue",
+                    (if(sorted.changedIndices.contains(i))
+                        backgroundColor := "blue"
+                    else backgroundColor := "red"),
                     margin := "5px"
                 )
             )
