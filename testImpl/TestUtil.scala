@@ -10,16 +10,18 @@ class TestUtil extends AnyFreeSpec:
         test.getClass.getSimpleName -
             test.getClass
                 .getDeclaredFields
-                .map(_.getType)
-                .filterNot(_ == test.getClass)
-                .foreach(shouldReturn => shouldReturn.getSimpleName -
-                    shouldReturn.getMethods
-                        .filter(_.getDeclaringClass == shouldReturn)
-                        .foreach(testMethod =>
-                            testMethod.getName in(
-                                Try(testMethod.invoke(shouldReturn.getDeclaredConstructor().newInstance())) match
-                                    case Failure(exception) => throw exception.getCause
-                                    case Success(value) => value
-                                )
-                        )
-                )
+                .map:
+                    _.getType
+                .filterNot:
+                    _ == test.getClass
+                .foreach: shouldReturn =>
+                    shouldReturn.getSimpleName -
+                        shouldReturn.getMethods
+                            .filter(_.getDeclaringClass == shouldReturn)
+                            .foreach(testMethod =>
+                                testMethod.getName in(
+                                    Try(testMethod.invoke(shouldReturn.getDeclaredConstructor().newInstance())) match
+                                        case Failure(exception) => throw exception.getCause
+                                        case Success(value) => value
+                                    )
+                            )

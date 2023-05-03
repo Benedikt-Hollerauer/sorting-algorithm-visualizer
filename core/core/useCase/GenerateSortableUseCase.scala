@@ -13,5 +13,6 @@ object GenerateSortableUseCase:
 		for
 			sortable <- SortableModel.from(toBeSorted)
 				.left
-				.map(sortableModelError => GenerateSortableUseCaseError.InputFailure(sortableModelError))
+				.map: sortableModelError =>
+					GenerateSortableUseCaseError.InputFailure(sortableModelError)
 		yield sortable

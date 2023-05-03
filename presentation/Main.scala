@@ -18,9 +18,9 @@ object Main:
     def main: Unit =
         val sortable = GenerateSortableUseCase(
             GenerateSortableInputMock.success
-        ).left.map(_ match
+        ).left.map {
             case GenerateSortableUseCaseError.InputFailure(value) => value
-        )
+        }
         SortByBubbleSortUseCase(
             SortByBubbleSortInput(
                 sortable,
@@ -38,14 +38,13 @@ object Main:
                 render(
                     dom.document.body,
                     div(
-                        child <-- EventStream.periodic(50).map(x =>
+                        child <-- EventStream.periodic(50).map: x =>
                             if(res.lift(x).isDefined)
                                 getBarArray(res(x))
                             else div(
                                 "finished: ",
                                 getBarArray(res.last)
                             )
-                        )
                     )
                 )
 
@@ -54,7 +53,7 @@ object Main:
             display := "flex",
             flexWrap := "wrap",
             alignItems := "flex-end",
-            sorted.sortable.list.map(i =>
+            sorted.sortable.list.map: i =>
                 div(
                     width := "20px",
                     height := s"${i}px",
@@ -63,5 +62,4 @@ object Main:
                     else backgroundColor := "red"),
                     margin := "5px"
                 )
-            )
         )

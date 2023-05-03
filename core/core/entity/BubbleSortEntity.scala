@@ -24,7 +24,7 @@ object BubbleSortEntity:
 			.zipWithIndex
 			.scanLeft(
 				(List.empty[Int], List.empty[Int])
-			)((acc, next) =>
+			): (acc, next) =>
 				ordering match
 					case Ascending =>
 						acc._1.lastOption match
@@ -46,15 +46,14 @@ object BubbleSortEntity:
 								acc._1 :+ next._1,
 								acc._2
 							)
-			).map(lists => (
-				lists._1 ++ toBeSorted.list
+			.map: lists =>
+				(lists._1 ++ toBeSorted.list
 					.drop(lists._1.length),
-				lists._2
-			)).filter(
+				lists._2)
+			.filter:
 				_._2.nonEmpty // TODO this removes everything where the second value is empty, here I need to do something different
-			).map(lists =>
+			.map: lists =>
 				SortedModel.from(
 					sortable = SortableModel.from(lists._1).toOption.get,
 					mayBeChangedIndices = lists._2
 				).toOption.get
-			)
