@@ -17,11 +17,11 @@ class TestUtil extends AnyFreeSpec:
                 .foreach: shouldReturn =>
                     shouldReturn.getSimpleName -
                         shouldReturn.getMethods
-                            .filter(_.getDeclaringClass == shouldReturn)
-                            .foreach(testMethod =>
+                            .filter:
+                                _.getDeclaringClass == shouldReturn
+                            .foreach: testMethod =>
                                 testMethod.getName in(
                                     Try(testMethod.invoke(shouldReturn.getDeclaredConstructor().newInstance())) match
                                         case Failure(exception) => throw exception.getCause
                                         case Success(value) => value
-                                    )
-                            )
+                                )
