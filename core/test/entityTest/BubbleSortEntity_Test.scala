@@ -78,3 +78,28 @@ object BubbleSortEntity_Test:
 			yield
 				assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sortedOnce)
 				assert(res.length > 1)
+
+	object sortOnceByOrdering_should_return:
+
+		def `(List[Int], List[Int])(ascending)`: Unit =
+			for
+				res <- BubbleSortEntity.sortOnceByOrdering(
+					toBeSorted = (
+						List((1, 0)),
+						(2, 1)
+					),
+					ordering = OrderModel.Ascending
+				)
+			yield
+				assert(res == ())
+
+		def `(List[Int], List[Int])(descending)`: Unit =
+			for
+				res <- BubbleSortEntity.sortOnceByOrdering(
+					toBeSorted = (
+						List((1, 0)),
+						(2, 1)
+					),
+					ordering = OrderModel.Descending
+				)
+			yield ???
