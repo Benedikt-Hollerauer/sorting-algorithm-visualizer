@@ -85,21 +85,22 @@ object BubbleSortEntity_Test:
 			for
 				res <- BubbleSortEntity.sortOnceByOrdering(
 					toBeSorted = (
-						List((1, 0)),
+						(List(1), List(0)),
 						(2, 1)
 					),
 					ordering = OrderModel.Ascending
 				)
 			yield
-				assert(res == ())
+				assert(res == (List(1, 2), List(0, 1)))
 
 		def `(List[Int], List[Int])(descending)`: Unit =
 			for
 				res <- BubbleSortEntity.sortOnceByOrdering(
 					toBeSorted = (
-						List((1, 0)),
-						(2, 1)
+						(List(1), List(0)),
+						(2, 0)
 					),
 					ordering = OrderModel.Descending
 				)
-			yield ???
+			yield
+				assert(res == (List(2, 1), List(0, 1)))
