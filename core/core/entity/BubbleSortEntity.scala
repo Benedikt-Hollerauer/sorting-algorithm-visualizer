@@ -30,7 +30,7 @@ object BubbleSortEntity:
 						acc._1.lastOption match
 							case Some(last) if last > next._1 => (
 								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into anoter function
+								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into another function
 							)
 							case _ => (
 								acc._1 :+ next._1,
@@ -40,7 +40,7 @@ object BubbleSortEntity:
 						acc._1.lastOption match
 							case Some(last) if last < next._1 => (
 								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into anoter function
+								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into another function
 							)
 							case _ => (
 								acc._1 :+ next._1,

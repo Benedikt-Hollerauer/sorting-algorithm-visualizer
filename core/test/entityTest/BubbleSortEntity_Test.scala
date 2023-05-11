@@ -81,7 +81,7 @@ object BubbleSortEntity_Test:
 
 	object sortOnceByOrdering_should_return:
 
-		def `(List[Int], List[Int])(ascending)`: Unit =
+		def `List[(Int, Int)(Int, Int)](ascending)`: Unit =
 			for
 				res <- BubbleSortEntity.sortOnceByOrdering(
 					toBeSorted = (
@@ -91,9 +91,9 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Ascending
 				)
 			yield
-				assert(res == (List(1, 2), List(0, 1)))
+				assert(res == List((1, 0), (2, 1)))
 
-		def `(List[Int], List[Int])(descending)`: Unit =
+		def `List[(Int, Int)(Int, Int)](descending)`: Unit =
 			for
 				res <- BubbleSortEntity.sortOnceByOrdering(
 					toBeSorted = (
@@ -103,4 +103,4 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Descending
 				)
 			yield
-				assert(res == (List(2, 1), List(0, 1)))
+				assert(res == List((2, 1), (1, 0)))
