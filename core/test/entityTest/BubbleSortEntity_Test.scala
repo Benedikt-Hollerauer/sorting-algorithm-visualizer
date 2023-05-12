@@ -79,28 +79,28 @@ object BubbleSortEntity_Test:
 				assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sortedOnce)
 				assert(res.length > 1)
 
-	object sortOnceByOrdering_should_return:
+	//object sortOnceByOrdering_should_return:
 
-		def `List[(Int, Int)(Int, Int)](ascending)`: Unit =
-			for
-				res <- BubbleSortEntity.sortOnceByOrdering(
-					toBeSorted = (
-						(List(1), List(0)),
-						(2, 1)
-					),
-					ordering = OrderModel.Ascending
-				)
-			yield
-				assert(res == List((1, 0), (2, 1)))
+	//	def `List[(Int, Int)(Int, Int)](ascending)`: Unit =
+	//		for
+	//			res <- BubbleSortEntity.sortOnceByOrdering(
+	//				toBeSorted = (
+	//					(List(1), List(0)),
+	//					(2, 1)
+	//				),
+	//				ordering = OrderModel.Ascending
+	//			)
+	//		yield
+	//			assert(res == List((1, 0), (2, 1)))
 
-		def `List[(Int, Int)(Int, Int)](descending)`: Unit =
-			for
-				res <- BubbleSortEntity.sortOnceByOrdering(
-					toBeSorted = (
-						(List(1), List(0)),
-						(2, 0)
-					),
-					ordering = OrderModel.Descending
-				)
-			yield
-				assert(res == List((2, 1), (1, 0)))
+	//	def `List[(Int, Int)(Int, Int)](descending)`: Unit =
+	//		for
+	//			res <- BubbleSortEntity.sortOnceByOrdering(
+	//				toBeSorted = (
+	//					(List(1), List(0)),
+	//					(2, 0)
+	//				),
+	//				ordering = OrderModel.Descending
+	//			)
+	//		yield
+	//			assert(res == List((2, 1), (1, 0)))

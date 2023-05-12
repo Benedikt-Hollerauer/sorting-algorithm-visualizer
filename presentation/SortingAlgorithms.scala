@@ -1,3 +1,0 @@
-enum SortingAlgorithms:
-	
-	case BubbleSort

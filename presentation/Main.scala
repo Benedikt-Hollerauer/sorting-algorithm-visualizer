@@ -38,6 +38,7 @@ object Main:
                 render(
                     dom.document.body,
                     div(
+                        NavigationBar.getHtml("test", List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)),
                         child <-- EventStream.periodic(50).map: x =>
                             if(res.lift(x).isDefined)
                                 getBarArray(res(x))
