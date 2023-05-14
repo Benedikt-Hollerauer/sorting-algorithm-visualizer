@@ -4,13 +4,17 @@ import org.scalajs.dom.HTMLDivElement
 
 object NavigationBar:
 
+	import NavigationBarStyle.*
+
 	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
+			cls := menuBar,
 			img(
-				cls := "menuLogo",
+				cls := menuLogoImg,
 				src := logoSrc
 			),
-			div(
+			ul(
+				cls := menuItemsUl,
 				getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms)
 			)
 		)
@@ -18,13 +22,32 @@ object NavigationBar:
 	private def getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms: List[SortingAlgorithm]) =
 		sortingAlgorithms.map: sortingAlgorithm =>
 			li(
-				cls := "",
+				cls := menuItemLi,
 				idAttr := sortingAlgorithm.toString.toLowerCase,
 				span(
-					cls := "",
+					cls := menuItemNameSpan,
 					sortingAlgorithm.toString,
-					span(
-						cls := ""
-					)
 				)
 			)
+
+object NavigationBarStyle:
+
+	val menuBar = style(
+		width := "100%"
+	)
+
+	val menuLogoImg = style(
+
+	)
+
+	val menuItemsUl = style(
+
+	)
+
+	val menuItemLi = style(
+
+	)
+
+	val menuItemNameSpan = style(
+
+	)
