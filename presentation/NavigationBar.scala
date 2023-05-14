@@ -1,6 +1,6 @@
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import org.scalajs.dom.HTMLDivElement
+import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLUListElement}
 
 object NavigationBar:
 
@@ -9,14 +9,20 @@ object NavigationBar:
 	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			cls := menuBar,
-			img(
-				cls := menuLogoImg,
-				src := logoSrc
-			),
-			ul(
-				cls := menuItemsUl,
-				getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms)
-			)
+			getLogo(logoSrc),
+			getNavigationItems(sortingAlgorithms)
+		)
+
+	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
+		img(
+			cls := menuLogoImg,
+			src := logoSrc
+		)
+
+	private def getNavigationItems(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLUListElement] =
+		ul(
+			cls := menuItemsUl,
+			getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms)
 		)
 
 	private def getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms: List[SortingAlgorithm]) =
