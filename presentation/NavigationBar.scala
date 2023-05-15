@@ -7,8 +7,9 @@ object NavigationBar:
 	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
+			getSocialIcons(),
 			getLogo(logoSrc),
-			getNavigationItems(sortingAlgorithms)
+			getHamburgerMenu(sortingAlgorithms)
 		)
 
 	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
@@ -17,20 +18,45 @@ object NavigationBar:
 			src := logoSrc
 		)
 
-	private def getNavigationItems(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLUListElement] =
+	private def getSocialIcons(): ReactiveHtmlElement[HTMLUListElement] =
 		ul(
-			NavigationBarStyle.navigationItemsStyle,
-			getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms)
+			NavigationBarStyle.socialIconsStyle,
+			li("Social Icon 1"),
+			li("Social Icon 2"),
+			li("Social Icon 3")
 		)
 
-	private def getSelectSortingAlgorithmMenuItemHtml(sortingAlgorithms: List[SortingAlgorithm]): List[ReactiveHtmlElement[HTMLLIElement]] =
-		sortingAlgorithms.map: sortingAlgorithm =>
-			li(
-				NavigationBarStyle.sortingAlgorithmMenuItemStyle,
-				sortingAlgorithm.toString
+	private def getHamburgerMenu(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+		div(
+			NavigationBarStyle.hamburgerMenuStyle,
+			span("Hamburger Icon"),
+			div(
+				NavigationBarStyle.pageContentStyle,
+				div(
+					NavigationBarStyle.slidingMenuStyle,
+					width := "500px",
+					height := "100%",
+					backgroundColor := "#ffffff",
+					zIndex := "1",
+					transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(0)" else "translateX(100%)"),
+					transition := "transform 0.3s ease-in-out",
+					ul(
+						NavigationBarStyle.menuItemsStyle,
+						sortingAlgorithms.map { sortingAlgorithm =>
+							li(
+								NavigationBarStyle.sortingAlgorithmMenuItemStyle,
+								sortingAlgorithm.toString
+							)
+						}
+					)
+				)
 			)
+		)
 
 object NavigationBarStyle:
+
+	val menuVisibleVar = Var(false)
+	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
 
 	val navigationBarStyle = Seq(
 		height := "60px",
@@ -38,6 +64,7 @@ object NavigationBarStyle:
 		backgroundColor := "#f5f5f5",
 		display.flex,
 		alignItems.center,
+		justifyContent.spaceBetween,
 		padding := "0 20px",
 		boxShadow := "0 2px 5px rgba(0, 0, 0, 0.1)"
 	)
@@ -47,11 +74,43 @@ object NavigationBarStyle:
 		marginRight := "20px"
 	)
 
-	val navigationItemsStyle = Seq(
+	val socialIconsStyle = Seq(
 		listStyle := "none",
 		display.flex,
 		alignItems.center,
 		margin := "0"
+	)
+
+	val hamburgerMenuStyle = Seq(
+		display.flex,
+		alignItems.center,
+		cursor.pointer,
+		onClick --> (_ => menuVisibleVar.update(!_))
+	)
+
+	val pageContentStyle = Seq(
+		display.flex,
+		width := "100%",
+		height := "100%"
+	)
+
+	val slidingMenuStyle = Seq(
+		position.fixed,
+		top := "0",
+		right := "0",
+		height := "100%",
+		width := "500px",
+		backgroundColor := "#ffffff",
+		zIndex := "1",
+		transform := "translateX(100%)",
+		transition := "transform 0.3s ease-in-out"
+	)
+
+	val menuItemsStyle = Seq(
+		listStyle := "none",
+		padding := "0",
+		margin := "0",
+		marginTop := "10px"
 	)
 
 	val sortingAlgorithmMenuItemStyle = Seq(
@@ -62,4 +121,11 @@ object NavigationBarStyle:
 		fontWeight.bold,
 		marginRight := "10px",
 		cursor.pointer
+	)
+
+	val contentWrapperStyle = Seq(
+		flex := "1",
+		padding := "20px",
+		transition := "transform 0.3s ease-in-out",
+		transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(-500px)" else "translateX(0)")
 	)
