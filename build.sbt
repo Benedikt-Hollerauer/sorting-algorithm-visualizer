@@ -1,5 +1,5 @@
 ThisBuild / name := "sortingAlgorithmVisualizer"
-ThisBuild / scalaVersion := "3.3.0-RC5"
+ThisBuild / scalaVersion := "3.3.0-RC6"
 
 lazy val root: Project = project
     .in(file("."))
@@ -23,7 +23,7 @@ lazy val testImpl: Project = project
     .settings(
         Test / scalaSource := baseDirectory.value,
         libraryDependencies ++= Seq(
-            "org.scalatest" %% "scalatest-freespec" % "3.2.15" % "test"
+            "org.scalatest" %% "scalatest-freespec" % "3.2.16" % "test"
         )
     )
 
