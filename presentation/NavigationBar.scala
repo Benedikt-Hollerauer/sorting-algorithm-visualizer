@@ -4,6 +4,9 @@ import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLLIElement, HTMLULi
 
 object NavigationBar:
 
+	val menuVisibleVar = Var(false)
+	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
+
 	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
@@ -29,25 +32,22 @@ object NavigationBar:
 	private def getHamburgerMenu(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.hamburgerMenuStyle,
+			onClick --> (_ => menuVisibleVar.update(!_)),
 			span("Hamburger Icon"),
 			div(
 				NavigationBarStyle.pageContentStyle,
 				div(
 					NavigationBarStyle.slidingMenuStyle,
-					width := "500px",
-					height := "100%",
-					backgroundColor := "#ffffff",
-					zIndex := "1",
-					transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(0)" else "translateX(100%)"),
-					transition := "transform 0.3s ease-in-out",
+					transform <-- menuVisibleSignal
+						.map: visible =>
+							if (visible) "translateX(0)" else "translateX(100%)",
 					ul(
 						NavigationBarStyle.menuItemsStyle,
-						sortingAlgorithms.map { sortingAlgorithm =>
+						sortingAlgorithms.map: sortingAlgorithm =>
 							li(
 								NavigationBarStyle.sortingAlgorithmMenuItemStyle,
 								sortingAlgorithm.toString
 							)
-						}
 					)
 				)
 			)
@@ -55,18 +55,16 @@ object NavigationBar:
 
 object NavigationBarStyle:
 
-	val menuVisibleVar = Var(false)
-	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
 
 	val navigationBarStyle = Seq(
-		height := "60px",
+		height := "20%",
 		width := "100%",
 		backgroundColor := "#f5f5f5",
 		display.flex,
 		alignItems.center,
 		justifyContent.spaceBetween,
-		padding := "0 20px",
-		boxShadow := "0 2px 5px rgba(0, 0, 0, 0.1)"
+		boxShadow := "0 2px 5px rgba(0, 0, 0, 0.1)",
+		outline := "thin solid black"
 	)
 
 	val logoStyle = Seq(
@@ -77,15 +75,15 @@ object NavigationBarStyle:
 	val socialIconsStyle = Seq(
 		listStyle := "none",
 		display.flex,
-		alignItems.center,
+		alignItems.flexStart,
+		paddingLeft := "0",
 		margin := "0"
 	)
 
 	val hamburgerMenuStyle = Seq(
 		display.flex,
 		alignItems.center,
-		cursor.pointer,
-		onClick --> (_ => menuVisibleVar.update(!_))
+		cursor.pointer
 	)
 
 	val pageContentStyle = Seq(
@@ -103,7 +101,13 @@ object NavigationBarStyle:
 		backgroundColor := "#ffffff",
 		zIndex := "1",
 		transform := "translateX(100%)",
-		transition := "transform 0.3s ease-in-out"
+		transition := "transform 0.3s ease-in-out",
+		width := "500px",
+		height := "100%",
+		backgroundColor := "#ffffff",
+		zIndex := "1",
+		transition := "transform 0.3s ease-in-out",
+		outline := "thin solid black"
 	)
 
 	val menuItemsStyle = Seq(
@@ -126,6 +130,6 @@ object NavigationBarStyle:
 	val contentWrapperStyle = Seq(
 		flex := "1",
 		padding := "20px",
-		transition := "transform 0.3s ease-in-out",
-		transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(-500px)" else "translateX(0)")
+		transition := "transform 0.3s ease-in-out"
+		//transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(-500px)" else "translateX(0)")
 	)
