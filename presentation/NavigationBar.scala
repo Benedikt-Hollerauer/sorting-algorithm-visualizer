@@ -22,18 +22,47 @@ object NavigationBar:
 		)
 
 	private def getSocialIcons(): ReactiveHtmlElement[HTMLUListElement] =
+		def getSocialIcon(pathToIcon: String, iconAlt: String, linkTo: String): ReactiveHtmlElement[HTMLLIElement] =
+			li(
+				NavigationBarStyle.socialIconStyle,
+				a(
+					href := linkTo,
+					target := "_blank",
+					img(
+						NavigationBarStyle.iconImageStyle,
+						src := pathToIcon,
+						alt := iconAlt
+					)
+				)
+			)
 		ul(
 			NavigationBarStyle.socialIconsStyle,
-			li("Social Icon 1"),
-			li("Social Icon 2"),
-			li("Social Icon 3")
+			getSocialIcon(
+				pathToIcon = "assets/github-icon.svg",
+				iconAlt = "GitHub",
+				linkTo = "https://github.com/Benedikt-Hollerauer"
+			),
+			getSocialIcon(
+				pathToIcon = "assets/linkedin-icon.svg",
+				iconAlt = "LinkedIn",
+				linkTo = "https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/"
+			),
+			getSocialIcon(
+				pathToIcon = "assets/website-icon.svg",
+				iconAlt = "Website",
+				linkTo = "https://benedikt-hollerauer.com"
+			)
 		)
 
 	private def getHamburgerMenu(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.hamburgerMenuStyle,
 			onClick --> (_ => menuVisibleVar.update(!_)),
-			span("Hamburger Icon"),
+			img(
+				NavigationBarStyle.iconImageStyle,
+				src := "assets/hamburger-menu-icon.svg",
+				alt := "Hamburger Menu"
+			),
 			div(
 				NavigationBarStyle.pageContentStyle,
 				div(
@@ -127,9 +156,13 @@ object NavigationBarStyle:
 		cursor.pointer
 	)
 
-	val contentWrapperStyle = Seq(
-		flex := "1",
-		padding := "20px",
-		transition := "transform 0.3s ease-in-out"
-		//transform <-- NavigationBarStyle.menuVisibleSignal.map(visible => if (visible) "translateX(-500px)" else "translateX(0)")
+	val socialIconStyle = Seq(
+		display.flex,
+		alignItems.center,
+		marginRight := "10px"
+	)
+
+	val iconImageStyle = Seq(
+		height := "30px",
+		width := "30px"
 	)

@@ -18,9 +18,8 @@ object Main:
     def main: Unit =
         val sortable = GenerateSortableUseCase(
             GenerateSortableInputMock.success
-        ).left.map {
+        ).left.map:
             case GenerateSortableUseCaseError.InputFailure(value) => value
-        }
         SortByBubbleSortUseCase(
             SortByBubbleSortInput(
                 sortable,
