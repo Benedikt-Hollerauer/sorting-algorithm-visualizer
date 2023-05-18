@@ -64,26 +64,22 @@ object NavigationBar:
 				alt := "Hamburger Menu"
 			),
 			div(
-				NavigationBarStyle.pageContentStyle,
-				div(
-					NavigationBarStyle.slidingMenuStyle,
-					transform <-- menuVisibleSignal
-						.map: visible =>
-							if (visible) "translateX(0)" else "translateX(100%)",
-					ul(
-						NavigationBarStyle.menuItemsStyle,
-						sortingAlgorithms.map: sortingAlgorithm =>
-							li(
-								NavigationBarStyle.sortingAlgorithmMenuItemStyle,
-								sortingAlgorithm.toString
-							)
-					)
+				NavigationBarStyle.slidingMenuStyle,
+				transform <-- menuVisibleSignal
+					.map: visible =>
+						if (visible) "translateX(0)" else "translateX(100%)",
+				ul(
+					NavigationBarStyle.menuItemsStyle,
+					sortingAlgorithms.map: sortingAlgorithm =>
+						li(
+							NavigationBarStyle.sortingAlgorithmMenuItemStyle,
+							sortingAlgorithm.toString
+						)
 				)
 			)
 		)
 
 object NavigationBarStyle:
-
 
 	val navigationBarStyle = Seq(
 		height := "20%",
