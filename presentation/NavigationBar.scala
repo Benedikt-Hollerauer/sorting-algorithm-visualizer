@@ -10,7 +10,7 @@ object NavigationBar:
 	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
-			getSocialIcons(),
+			getSocialIcons,
 			getLogo(logoSrc),
 			getHamburgerMenu(sortingAlgorithms)
 		)
@@ -21,7 +21,7 @@ object NavigationBar:
 			src := logoSrc
 		)
 
-	private def getSocialIcons(): ReactiveHtmlElement[HTMLUListElement] =
+	private def getSocialIcons: ReactiveHtmlElement[HTMLUListElement] =
 		def getSocialIcon(pathToIcon: String, iconAlt: String, linkTo: String): ReactiveHtmlElement[HTMLLIElement] =
 			li(
 				NavigationBarStyle.socialIconStyle,
@@ -81,8 +81,12 @@ object NavigationBar:
 
 object NavigationBarStyle:
 
+	val navigationBarHeight: String = "7%"
+
+	val subMenuWidth: String = "25%"
+
 	val navigationBarStyle = Seq(
-		height := "20%",
+		height := navigationBarHeight,
 		width := "100%",
 		backgroundColor := "#f5f5f5",
 		display.flex,
@@ -111,26 +115,14 @@ object NavigationBarStyle:
 		cursor.pointer
 	)
 
-	val pageContentStyle = Seq(
-		display.flex,
-		width := "100%",
-		height := "100%"
-	)
-
 	val slidingMenuStyle = Seq(
 		position.fixed,
-		top := "0",
+		top := navigationBarHeight,
 		right := "0",
 		height := "100%",
-		width := "500px",
+		width := subMenuWidth,
 		backgroundColor := "#ffffff",
-		zIndex := "1",
 		transform := "translateX(100%)",
-		transition := "transform 0.3s ease-in-out",
-		width := "500px",
-		height := "100%",
-		backgroundColor := "#ffffff",
-		zIndex := "1",
 		transition := "transform 0.3s ease-in-out",
 		outline := "thin solid black"
 	)
