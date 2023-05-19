@@ -8,12 +8,41 @@ object SortedModel_Test:
 
 	object from_should_return:
 
+		private val sortableMock = (
+			SortableModel.from(ToBeSortedMock.ascendingOrder.sorted).toOption.get,
+			ToBeSortedMock.ascendingOrder.sorted
+		)
+
 		def `SortedModel`: Unit =
-			val correctChangedIndicesMock = List(0, 1)
+			val correctFocusedIndicesMock = List(0, 1)
 			for
 				res <- core.model.SortedModel.from(
-					sortable = SortableModel.from(ToBeSortedMock.ascendingOrder.sorted).toOption.get
+					sortable = sortableMock._1,
+					mayBeFocusedIndices = correctFocusedIndicesMock,
+					focusedIndicesChanged = true
 				)
-				_ = println(res)
 			yield
-				assert(res.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
+				assert(res.sortable.list == sortableMock._2)
+				assert(res.focusedIndices == correctFocusedIndicesMock)
+
+		def `ToFewChangedIndices`: Unit =
+			val toFewFocusedIndicesMock = List(0)
+			for
+				res <- core.model.SortedModel.from(
+					sortable = sortableMock._1,
+					mayBeFocusedIndices = toFewFocusedIndicesMock,
+					focusedIndicesChanged = true
+				)
+			yield
+				assert(res == SortedModelError.ToFewChangedIndices(toFewFocusedIndicesMock))
+
+		def `NegativeChangedIndices`: Unit =
+			val negativeFocusedIndicesMock = List(0, -1)
+			for
+				res <- core.model.SortedModel.from(
+					sortable = sortableMock._1,
+					mayBeFocusedIndices = toFewFocusedIndicesMock,
+					focusedIndicesChanged = true
+				)
+			yield
+				assert(res == SortedModelError.NegativeChangedIndices(negativeFocusedIndicesMock))
