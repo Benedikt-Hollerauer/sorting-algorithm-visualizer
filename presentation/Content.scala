@@ -62,16 +62,15 @@ object ContentStyle:
 		width := "20px",
 		height := s"${barHeight}px",
 		backgroundColor := barColor,
-		margin := "5px"
+		margin := "0px"
 	)
 
 	val pageContentStyle = Seq(
 		position.relative,
-		right <-- NavigationBar.menuVisibleVar.signal.map:
-			if(_) NavigationBarStyle.subMenuWidth
-			else "0",
 		transition := "right 0.3s ease-in-out",
-		width := "100%",
+		width <-- NavigationBar.menuVisibleVar.signal.map:
+			if(_) "75%"
+			else "100%",
 		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight})",
 		display.flex,
 		justifyContent.center,
