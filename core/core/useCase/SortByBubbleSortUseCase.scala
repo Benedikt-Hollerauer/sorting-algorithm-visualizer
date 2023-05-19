@@ -1,10 +1,10 @@
 package useCase
 
 import core.entity.BubbleSortEntity
+import core.input.SortByBubbleSortInput
 import core.model.OrderModel.{Ascending, Descending}
 import core.model.SortedModel
 import error.useCaseError.SortByBubbleSortUseCaseError
-import core.input.SortByBubbleSortInput
 
 object SortByBubbleSortUseCase:
 

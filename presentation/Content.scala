@@ -4,11 +4,11 @@ import core.input.SortByBubbleSortInput
 import core.model.{OrderModel, SortedModel}
 import core.useCase.GenerateSortableUseCase
 import error.useCaseError.GenerateSortableUseCaseError
-import org.scalajs.dom
-import useCase.SortByBubbleSortUseCase
 import mock.ToBeSortedMock
 import mock.inputMock.GenerateSortableInputMock
+import org.scalajs.dom
 import org.scalajs.dom.HTMLDivElement
+import useCase.SortByBubbleSortUseCase
 
 import java.time.Instant
 
