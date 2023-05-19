@@ -41,7 +41,7 @@ object SortedModel_Test:
 			for
 				res <- core.model.SortedModel.from(
 					sortable = sortableMock._1,
-					mayBeFocusedIndices = toFewFocusedIndicesMock,
+					mayBeFocusedIndices = negativeFocusedIndicesMock,
 					focusedIndicesChanged = true
 				)
 			yield
