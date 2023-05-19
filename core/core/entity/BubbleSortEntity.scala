@@ -24,19 +24,7 @@ object BubbleSortEntity:
 			.scanLeft(
 				List.empty[Int]
 			): (acc, next) =>
-				ordering match
-					case Ascending =>
-						acc.lastOption match
-							case Some(last) if last > next =>
-								(acc.dropRight(1) :+ next) :+ last
-							case _ =>
-								acc :+ next
-					case Descending =>
-						acc.lastOption match
-							case Some(last) if last < next =>
-								(acc.dropRight(1) :+ next) :+ last
-							case _ =>
-								acc :+ next
+				sortOnceByOrdering(acc, next, ordering)
 			.map: lists =>
 				lists ++ toBeSorted.list
 					.drop(lists.length)
@@ -44,3 +32,18 @@ object BubbleSortEntity:
 				SortedModel.from(
 					sortable = SortableModel.from(lists).toOption.get,
 				).toOption.get
+
+	def sortOnceByOrdering(acc: List[Int], next: Int, ordering: OrderModel): List[Int] =
+		ordering match
+			case Ascending =>
+				acc.lastOption match
+					case Some(last) if last > next =>
+						(acc.dropRight(1) :+ next) :+ last
+					case _ =>
+						acc :+ next
+			case Descending =>
+				acc.lastOption match
+					case Some(last) if last < next =>
+						(acc.dropRight(1) :+ next) :+ last
+					case _ =>
+						acc :+ next
