@@ -49,9 +49,7 @@ object Content:
 				div(
 					ContentStyle.singleBar(
 						barHeight = i,
-						barColor =
-							if (sorted.changedIndices.contains(i)) "blue"
-							else "red"
+						barColor = "blue"
 					)
 				)
 		)

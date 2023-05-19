@@ -21,39 +21,26 @@ object BubbleSortEntity:
 
 	def sortOnceWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted.list)
-			.zipWithIndex
 			.scanLeft(
-				(List.empty[Int], List.empty[Int])
+				List.empty[Int]
 			): (acc, next) =>
 				ordering match
 					case Ascending =>
-						acc._1.lastOption match
-							case Some(last) if last > next._1 => (
-								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into another function
-							)
-							case _ => (
-								acc._1 :+ next._1,
-								acc._2
-							)
+						acc.lastOption match
+							case Some(last) if last > next =>
+								(acc.dropRight(1) :+ next) :+ last
+							case _ =>
+								acc :+ next
 					case Descending =>
-						acc._1.lastOption match
-							case Some(last) if last < next._1 => (
-								(acc._1.dropRight(1) :+ next._1) :+ last,
-								acc._2 :+ next._2 //TODO here I need the focused indices and abstract this selection between descending and ascending into another function
-							)
-							case _ => (
-								acc._1 :+ next._1,
-								acc._2
-							)
+						acc.lastOption match
+							case Some(last) if last < next =>
+								(acc.dropRight(1) :+ next) :+ last
+							case _ =>
+								acc :+ next
 			.map: lists =>
-				(lists._1 ++ toBeSorted.list
-					.drop(lists._1.length),
-				lists._2)
-			.filter:
-				_._2.nonEmpty // TODO this removes everything where the second value is empty, here I need to do something different
+				lists ++ toBeSorted.list
+					.drop(lists.length)
 			.map: lists =>
 				SortedModel.from(
-					sortable = SortableModel.from(lists._1).toOption.get,
-					mayBeChangedIndices = lists._2
+					sortable = SortableModel.from(lists).toOption.get,
 				).toOption.get
