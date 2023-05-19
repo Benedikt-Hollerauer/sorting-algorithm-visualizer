@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortableModel, ValueWithIndex}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
@@ -14,8 +14,9 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
+				_ = res.foreach(println)
 			yield
-				assert(res.last.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
+				assert(res.last.sortableWithIndex == ToBeSortedMock.ascendingOrder.sorted)
 				assert(res.length > 1)
 
 	object sortDescendingWithIntermediateResults_should_return:
@@ -27,7 +28,7 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock
 				)
 			yield
-				assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sorted)
+				assert(res.last.sortableWithIndex == ToBeSortedMock.descendingOrder.sorted)
 				assert(res.length > 1)
 
 	object sortWithIntermediateResults_should_return:
@@ -40,7 +41,7 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Ascending
 				)
 			yield
-				assert(res.last.sortable.list == ToBeSortedMock.ascendingOrder.sorted)
+				assert(res.last.sortableWithIndex == ToBeSortedMock.ascendingOrder.sorted)
 				//TODO add assertion for changed indices
 				assert(res.length > 1)
 
@@ -52,47 +53,51 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Descending
 				)
 			yield
-				assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sorted)
+				assert(res.last.sortableWithIndex == ToBeSortedMock.descendingOrder.sorted)
 				assert(res.length > 1)
 
 	object sortOnceWithIntermediateResults_should_return:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
-			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted)
-				res = BubbleSortEntity.sortOnceWithIntermediateResults(
-					toBeSorted = sortableValueMock,
-					ordering = OrderModel.Ascending
-				)
-			yield
-				assert(res.last.sortable.list == ToBeSortedMock.ascendingOrder.sortedOnce)
-				assert(res.length > 1)
+			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
+				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex(value, index)),
+				ordering = OrderModel.Ascending
+			)
+			assert(res.last.sortableWithIndex == ToBeSortedMock.ascendingOrder.sortedOnce)
+			assert(res.length > 1)
 
 		def `LazyList[SortedModel](descending)`: Unit =
-			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.descendingOrder.unsorted)
-				res = BubbleSortEntity.sortOnceWithIntermediateResults(
-					toBeSorted = sortableValueMock,
-					ordering = OrderModel.Descending
-				)
-			yield
-				assert(res.last.sortable.list == ToBeSortedMock.descendingOrder.sortedOnce)
-				assert(res.length > 1)
+			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
+				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex(value, index)),
+				ordering = OrderModel.Descending
+			)
+			assert(res.last.sortableWithIndex == ToBeSortedMock.descendingOrder.sortedOnce)
+			assert(res.length > 1)
 
 	object sortOnceByOrdering_should_return:
 
+		private val accMock = ValueWithIndex(3, 0)
+
+		private val nextMock = ValueWithIndex(1, 1)
+
 		def `List[Int](ascending)`: Unit =
 			val res = BubbleSortEntity.sortOnceByOrdering(
-				acc = List(3),
-				next = 1,
+				acc = List(accMock),
+				next = nextMock,
 				ordering = OrderModel.Ascending
 			)
-			assert(res == List(1, 3))
+			assert(res == List(
+				ValueWithIndex(1, 1),
+				ValueWithIndex(3, 0)
+			))
 
 		def `List[Int](descending)`: Unit =
 			val res = BubbleSortEntity.sortOnceByOrdering(
-				acc = List(3),
-				next = 1,
+				acc = List(accMock),
+				next = nextMock,
 				ordering = OrderModel.Descending
 			)
-			assert(res == List(3, 1))
+			assert(res == List(
+				accMock,
+				nextMock
+			))

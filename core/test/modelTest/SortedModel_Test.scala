@@ -10,7 +10,11 @@ object SortedModel_Test:
 
 		private val sortableMock = (
 			SortableModel.from(ToBeSortedMock.ascendingOrder.sorted).toOption.get,
-			ToBeSortedMock.ascendingOrder.sorted
+			ToBeSortedMock.ascendingOrder
+				.unsorted
+				.zipWithIndex
+				.sortBy: (i, _) =>
+					i
 		)
 
 		def `SortedModel`: Unit =
@@ -22,7 +26,7 @@ object SortedModel_Test:
 					focusedIndicesChanged = true
 				)
 			yield
-				assert(res.sortable.list == sortableMock._2)
+				assert(res.sortableWithIndex == sortableMock._2)
 				assert(res.focusedIndices == correctFocusedIndicesMock)
 
 		def `ToFewChangedIndices`: Unit =

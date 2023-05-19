@@ -45,11 +45,13 @@ object Content:
 	private def getBarArray(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
-			sorted.sortable.list.map: i =>
+			sorted.sortableWithIndex.map: i =>
 				div(
 					ContentStyle.singleBar(
-						barHeight = i,
-						barColor = "blue"
+						barHeight = i.value,
+						barColor =
+							if(sorted.focusedIndices.contains(i.index)) "red"
+							else "blue"
 					)
 				)
 		)
