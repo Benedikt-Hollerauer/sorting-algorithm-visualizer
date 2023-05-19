@@ -67,7 +67,6 @@ object ContentStyle:
 
 	val pageContentStyle = Seq(
 		position.relative,
-		transition := "right 0.3s ease-in-out",
 		width <-- NavigationBar.menuVisibleVar.signal.map:
 			if(_) "75%"
 			else "100%",
