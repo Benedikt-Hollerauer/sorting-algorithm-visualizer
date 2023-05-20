@@ -33,7 +33,7 @@ object SortedModel:
 
 	def from(
 		sortable: List[ValueWithIndex],
-		mayBeFocusedIndices: List[Int],
+		mayBeFocusedIndices: List[Int], // ToDo maybe abstract away this and add tests
 		focusedIndicesChanged: Boolean
 	): Either[SortedModelError, SortedModel] =
 		if (mayBeFocusedIndices.length <= 0) Left(SortedModelError.ToFewChangedIndices(mayBeFocusedIndices))
