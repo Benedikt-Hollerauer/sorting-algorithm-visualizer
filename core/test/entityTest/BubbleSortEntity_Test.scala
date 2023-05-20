@@ -14,6 +14,7 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
+				_ = res.foreach(println)
 			yield
 				assert(res.last.sortableWithIndex.head.value == -500)
 				assert(res.last.sortableWithIndex.last.value == 999999)
@@ -80,14 +81,14 @@ object BubbleSortEntity_Test:
 			assert(res.last.sortableWithIndex.last.value == -500)
 			assert(res.length > 1)
 
-	object sortOnceByOrdering_should_return:
+	object swapByOrdering_should_return:
 
 		private val accMock = ValueWithIndex.from(3, 0).toOption.get
 
 		private val nextMock = ValueWithIndex.from(1, 1).toOption.get
 
 		def `List[Int](ascending)`: Unit =
-			val res = BubbleSortEntity.sortOnceByOrdering(
+			val res = BubbleSortEntity.swapByOrdering(
 				acc = List(accMock),
 				next = nextMock,
 				ordering = OrderModel.Ascending
@@ -98,7 +99,7 @@ object BubbleSortEntity_Test:
 			))
 
 		def `List[Int](descending)`: Unit =
-			val res = BubbleSortEntity.sortOnceByOrdering(
+			val res = BubbleSortEntity.swapByOrdering(
 				acc = List(accMock),
 				next = nextMock,
 				ordering = OrderModel.Descending

@@ -24,7 +24,7 @@ object BubbleSortEntity:
 			.scanLeft(
 				List.empty[ValueWithIndex]
 			): (acc, next) =>
-				sortOnceByOrdering(acc, next, ordering)
+				swapByOrdering(acc, next, ordering)
 			.map: lists =>
 				lists ++ toBeSorted
 					.drop(lists.length)
@@ -33,9 +33,9 @@ object BubbleSortEntity:
 					sortable = valuesWithIndices,
 					mayBeFocusedIndices = List(0, 1), // ToDo: add dynamic values
 					focusedIndicesChanged = true // ToDo: add dynamic values
-				).toOption.get // ToDo return a error if this fails
+				).toOption.get // ToDo maybe return an error if this fails
 
-	def sortOnceByOrdering(acc: List[ValueWithIndex], next: ValueWithIndex, ordering: OrderModel): List[ValueWithIndex] =
+	def swapByOrdering(acc: List[ValueWithIndex], next: ValueWithIndex, ordering: OrderModel): List[ValueWithIndex] =
 		ordering match
 			case Ascending =>
 				acc.lastOption match
