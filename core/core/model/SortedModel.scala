@@ -22,10 +22,10 @@ object SortedModel:
 				sortableWithIndex = sortable.list
 					.zipWithIndex
 					.map: valueWithIndex =>
-						ValueWithIndex(
+						ValueWithIndex.from(
 							value = valueWithIndex._1,
-							index = valueWithIndex._2
-						),
+							mayBeIndex = valueWithIndex._2
+						).toOption.get,
 				focusedIndices = mayBeFocusedIndices,
 				focusedIndicesChanged = focusedIndicesChanged
 			)

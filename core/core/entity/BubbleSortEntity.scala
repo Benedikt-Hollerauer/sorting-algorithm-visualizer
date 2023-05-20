@@ -16,7 +16,7 @@ object BubbleSortEntity:
 			.foldLeft(LazyList.empty[SortedModel])((acc, _) =>
 				acc.lastOption match
 					case Some(last) => acc ++ sortOnceWithIntermediateResults(last.sortableWithIndex, ordering)
-					case None => sortOnceWithIntermediateResults(toBeSorted.list.zipWithIndex.map((value, index) => ValueWithIndex(value, index)), ordering)
+					case None => sortOnceWithIntermediateResults(toBeSorted.list.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get), ordering) // ToDo return a error if this fails
 			)
 
 	def sortOnceWithIntermediateResults(toBeSorted: List[ValueWithIndex], ordering: OrderModel): LazyList[SortedModel] =
@@ -28,12 +28,12 @@ object BubbleSortEntity:
 			.map: lists =>
 				lists ++ toBeSorted
 					.drop(lists.length)
-			.map: lists =>
+			.map: valuesWithIndices =>
 				SortedModel.from(
-					sortable = lists,
+					sortable = valuesWithIndices,
 					mayBeFocusedIndices = List(0, 1), // ToDo: add dynamic values
 					focusedIndicesChanged = true // ToDo: add dynamic values
-				).toOption.get
+				).toOption.get // ToDo return a error if this fails
 
 	def sortOnceByOrdering(acc: List[ValueWithIndex], next: ValueWithIndex, ordering: OrderModel): List[ValueWithIndex] =
 		ordering match

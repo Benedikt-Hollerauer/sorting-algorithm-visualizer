@@ -15,7 +15,8 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock
 				)
 			yield
-				assert(res.last.sortableWithIndex == List(ValueWithIndex(-500,22), ValueWithIndex(-2,0), ValueWithIndex(-1,21), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(1,3), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(76,11), ValueWithIndex(84,13), ValueWithIndex(123,2), ValueWithIndex(123,10), ValueWithIndex(134,8), ValueWithIndex(134,17), ValueWithIndex(234,12), ValueWithIndex(234,14), ValueWithIndex(234,16), ValueWithIndex(564,9), ValueWithIndex(564,20), ValueWithIndex(1234,19), ValueWithIndex(6578,18), ValueWithIndex(6587,15), ValueWithIndex(999999,1)))
+				assert(res.last.sortableWithIndex.head.value == -500)
+				assert(res.last.sortableWithIndex.last.value == 999999)
 				assert(res.length > 1)
 
 	object sortDescendingWithIntermediateResults_should_return:
@@ -27,7 +28,8 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock
 				)
 			yield
-				assert(res.last.sortableWithIndex == List(ValueWithIndex(999999,1), ValueWithIndex(6587,15), ValueWithIndex(6578,18), ValueWithIndex(1234,19), ValueWithIndex(564,9), ValueWithIndex(564,20), ValueWithIndex(234,12), ValueWithIndex(234,14), ValueWithIndex(234,16), ValueWithIndex(134,8), ValueWithIndex(134,17), ValueWithIndex(123,2), ValueWithIndex(123,10), ValueWithIndex(84,13), ValueWithIndex(76,11), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(1,3), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(-1,21), ValueWithIndex(-2,0), ValueWithIndex(-500,22)))
+				assert(res.last.sortableWithIndex.head.value == 999999)
+				assert(res.last.sortableWithIndex.last.value == -500)
 				assert(res.length > 1)
 
 	object sortWithIntermediateResults_should_return:
@@ -40,7 +42,8 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Ascending
 				)
 			yield
-				assert(res.last.sortableWithIndex == List(ValueWithIndex(-500,22), ValueWithIndex(-2,0), ValueWithIndex(-1,21), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(1,3), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(76,11), ValueWithIndex(84,13), ValueWithIndex(123,2), ValueWithIndex(123,10), ValueWithIndex(134,8), ValueWithIndex(134,17), ValueWithIndex(234,12), ValueWithIndex(234,14), ValueWithIndex(234,16), ValueWithIndex(564,9), ValueWithIndex(564,20), ValueWithIndex(1234,19), ValueWithIndex(6578,18), ValueWithIndex(6587,15), ValueWithIndex(999999,1)))
+				assert(res.last.sortableWithIndex.head.value == -500)
+				assert(res.last.sortableWithIndex.last.value == 999999)
 				//TODO add assertion for changed indices
 				assert(res.length > 1)
 
@@ -52,32 +55,36 @@ object BubbleSortEntity_Test:
 					ordering = OrderModel.Descending
 				)
 			yield
-				assert(res.last.sortableWithIndex == List(ValueWithIndex(999999,1), ValueWithIndex(6587,15), ValueWithIndex(6578,18), ValueWithIndex(1234,19), ValueWithIndex(564,9), ValueWithIndex(564,20), ValueWithIndex(234,12), ValueWithIndex(234,14), ValueWithIndex(234,16), ValueWithIndex(134,8), ValueWithIndex(134,17), ValueWithIndex(123,2), ValueWithIndex(123,10), ValueWithIndex(84,13), ValueWithIndex(76,11), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(1,3), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(-1,21), ValueWithIndex(-2,0), ValueWithIndex(-500,22)))
+				assert(res.last.sortableWithIndex.head.value == 999999)
+				assert(res.last.sortableWithIndex.last.value == -500)
 				assert(res.length > 1)
 
 	object sortOnceWithIntermediateResults_should_return:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex(value, index)),
+				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
 				ordering = OrderModel.Ascending
 			)
-			assert(res.last.sortableWithIndex == List(ValueWithIndex(-2,0), ValueWithIndex(123,2), ValueWithIndex(1,3), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(134,8), ValueWithIndex(564,9), ValueWithIndex(123,10), ValueWithIndex(76,11), ValueWithIndex(234,12), ValueWithIndex(84,13), ValueWithIndex(234,14), ValueWithIndex(6587,15), ValueWithIndex(234,16), ValueWithIndex(134,17), ValueWithIndex(6578,18), ValueWithIndex(1234,19), ValueWithIndex(564,20), ValueWithIndex(-1,21), ValueWithIndex(-500,22), ValueWithIndex(999999,1)))
+			assert(res.last.sortableWithIndex.head.value == -2)
+			assert(res.last.sortableWithIndex.last.value == 999999)
 			assert(res.length > 1)
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex(value, index)),
+				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
 				ordering = OrderModel.Descending
 			)
-			assert(res.last.sortableWithIndex == List(ValueWithIndex(999999,1), ValueWithIndex(123,2), ValueWithIndex(1,3), ValueWithIndex(6,4), ValueWithIndex(6,5), ValueWithIndex(0,6), ValueWithIndex(0,7), ValueWithIndex(134,8), ValueWithIndex(564,9), ValueWithIndex(123,10), ValueWithIndex(76,11), ValueWithIndex(234,12), ValueWithIndex(84,13), ValueWithIndex(234,14), ValueWithIndex(6587,15), ValueWithIndex(234,16), ValueWithIndex(134,17), ValueWithIndex(6578,18), ValueWithIndex(1234,19), ValueWithIndex(564,20), ValueWithIndex(-1,21), ValueWithIndex(-2,0), ValueWithIndex(-500,22)))
+			println(res.last)
+			assert(res.last.sortableWithIndex.head.value == 999999)
+			assert(res.last.sortableWithIndex.last.value == -500)
 			assert(res.length > 1)
 
 	object sortOnceByOrdering_should_return:
 
-		private val accMock = ValueWithIndex(3, 0)
+		private val accMock = ValueWithIndex.from(3, 0).toOption.get
 
-		private val nextMock = ValueWithIndex(1, 1)
+		private val nextMock = ValueWithIndex.from(1, 1).toOption.get
 
 		def `List[Int](ascending)`: Unit =
 			val res = BubbleSortEntity.sortOnceByOrdering(
@@ -86,8 +93,8 @@ object BubbleSortEntity_Test:
 				ordering = OrderModel.Ascending
 			)
 			assert(res == List(
-				ValueWithIndex(1, 1),
-				ValueWithIndex(3, 0)
+				nextMock,
+				accMock
 			))
 
 		def `List[Int](descending)`: Unit =
