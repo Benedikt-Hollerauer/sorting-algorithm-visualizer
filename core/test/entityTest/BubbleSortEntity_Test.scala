@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel, ValueWithIndex}
+import core.model.{OrderModel, SortableModel, ValueWithIndex, SortedModel}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
@@ -86,24 +86,50 @@ object BubbleSortEntity_Test:
 
 		private val nextMock = ValueWithIndex.from(1, 1).toOption.get
 
-		//def `List[Int](ascending)`: Unit =
-		//	val res = BubbleSortEntity.swapByOrdering(
-		//		acc = List(accMock),
-		//		next = nextMock,
-		//		ordering = OrderModel.Ascending
-		//	)
-		//	assert(res == List(
-		//		nextMock,
-		//		accMock
-		//	))
+		def `SortedModel(ascending)`: Unit =
+			val res = BubbleSortEntity.swapByOrdering(
+				acc = SortedModel.from(
+					List(accMock),
+					List(0),
+					false
+				).toOption.get,
+				next = nextMock,
+				ordering = OrderModel.Ascending
+			)
+			assert(res ==
+				SortedModel.from(
+					List(
+						nextMock,
+						accMock
+					),
+					List(
+						accMock.index,
+						nextMock.index
+					),
+					true
+				).toOption.get
+			)
 
-		//def `List[Int](descending)`: Unit =
-		//	val res = BubbleSortEntity.swapByOrdering(
-		//		acc = List(accMock),
-		//		next = nextMock,
-		//		ordering = OrderModel.Descending
-		//	)
-		//	assert(res == List(
-		//		accMock,
-		//		nextMock
-		//	))
+		def `SortedModel(descending)`: Unit =
+			val res = BubbleSortEntity.swapByOrdering(
+				acc = SortedModel.from(
+					List(accMock),
+					List(0),
+					false
+				).toOption.get,
+				next = nextMock,
+				ordering = OrderModel.Descending
+			)
+			assert(res ==
+				SortedModel.from(
+					List(
+						accMock,
+						nextMock
+					),
+					List(
+						accMock.index,
+						nextMock.index
+					),
+					false
+				).toOption.get
+			)

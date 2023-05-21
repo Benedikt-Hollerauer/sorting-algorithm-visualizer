@@ -34,7 +34,7 @@ object Content:
 			case Right(res) =>
 				div(
 					ContentStyle.pageContentStyle,
-					child <-- EventStream.periodic(50).map: x =>
+					child <-- EventStream.periodic(250).map: x =>
 						if (res.lift(x).isDefined)
 							getBarArray(res(x))
 						else div(
@@ -62,7 +62,7 @@ object ContentStyle:
 		width := "20px",
 		height := s"${barHeight}px",
 		backgroundColor := barColor,
-		margin := "0px"
+		margin := "3px"
 	)
 
 	val pageContentStyle = Seq(

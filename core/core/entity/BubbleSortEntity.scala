@@ -22,52 +22,42 @@ object BubbleSortEntity:
 	def sortOnceWithIntermediateResults(toBeSorted: List[ValueWithIndex], ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted)
 			.scanLeft(
-				Test(
+				SortedModel.from(
 					List.empty[ValueWithIndex],
 					List(0),
 					false
-				)
+				).toOption.get
 			): (acc, next) =>
 				swapByOrdering(acc, next, ordering)
-			.map: lists =>
-				lists.copy(
-					valuesWithIndices = lists.valuesWithIndices
-						.++(toBeSorted.drop(lists.valuesWithIndices.length))
-				)
-			.map: valuesWithIndices =>
+			.map: sortedModel =>
 				SortedModel.from(
-					sortable = valuesWithIndices.valuesWithIndices,
-					mayBeFocusedIndices = valuesWithIndices.focusedIndices,
-					focusedIndicesChanged = valuesWithIndices.focusedIndicesChanged
+					sortedModel.sortableWithIndex
+						.++(toBeSorted.drop(sortedModel.sortableWithIndex.length)),
+					sortedModel.focusedIndices,
+					sortedModel.focusedIndicesChanged
 				).toOption.get
 
-	def swapByOrdering(acc: Test, next: ValueWithIndex, ordering: OrderModel): Test =
+	def swapByOrdering(acc: SortedModel, next: ValueWithIndex, ordering: OrderModel): SortedModel =
 		def swapNeeded(last: ValueWithIndex): Boolean = ordering match
 			case Ascending => last.value > next.value
 			case Descending => last.value < next.value
 
-		acc.valuesWithIndices.lastOption match
+		acc.sortableWithIndex.lastOption match
 			case Some(last) if swapNeeded(last) =>
-				Test(
-					(acc.valuesWithIndices.dropRight(1) :+ next) :+ last,
+				SortedModel.from(
+					(acc.sortableWithIndex.dropRight(1) :+ next) :+ last,
 					List(last.index, next.index),
 					true
-				)
+				).toOption.get
 			case Some(last) =>
-				Test(
-					acc.valuesWithIndices :+ next,
+				SortedModel.from(
+					acc.sortableWithIndex :+ next,
 					List(last.index, next.index),
 					false
-				)
+				).toOption.get
 			case _ =>
-				Test(
-					acc.valuesWithIndices :+ next,
+				SortedModel.from(
+					acc.sortableWithIndex :+ next,
 					List(next.index),
 					false
-				)
-
-case class Test(
-	valuesWithIndices: List[ValueWithIndex],
-	focusedIndices: List[Int],
-	focusedIndicesChanged: Boolean
-)
+				).toOption.get
