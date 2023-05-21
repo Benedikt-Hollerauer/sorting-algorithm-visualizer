@@ -14,7 +14,7 @@ import java.time.Instant
 
 object Content:
 
-	def getHtml(sortingAlgorithm: SortingAlgorithm): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm): ReactiveHtmlElement[HTMLDivElement] =
 		val sortable = GenerateSortableUseCase(
 			GenerateSortableInputMock.success
 		).left.map:
@@ -26,23 +26,21 @@ object Content:
 			)
 		) match
 			case Left(error) =>
-				div(
-					h1(
-						"there was an error: " + error.toString
-					)
+				Error.getHtmlDiv(
+					error.toString
 				)
 			case Right(res) =>
 				div(
 					ContentStyle.pageContentStyle,
 					child <-- EventStream.periodic(250).map: x =>
 						if (res.lift(x).isDefined)
-							getBarArray(res(x))
+							getBarArrayDiv(res(x))
 						else div(
-							getBarArray(res.last)
+							getBarArrayDiv(res.last)
 						)
 				)
 
-	private def getBarArray(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
+	private def getBarArrayDiv(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
 			sorted.sortableWithIndex.map: i =>
@@ -50,7 +48,8 @@ object Content:
 					ContentStyle.singleBar(
 						barHeight = i.value,
 						barColor =
-							if(sorted.focusedIndices.contains(i.index)) "red"
+							if(sorted.focusedIndicesChanged && sorted.focusedIndices.contains(i.index)) "green"
+							else if(sorted.focusedIndices.contains(i.index)) "red"
 							else "blue"
 					)
 				)

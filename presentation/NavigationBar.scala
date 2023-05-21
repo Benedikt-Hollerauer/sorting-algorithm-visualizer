@@ -5,24 +5,24 @@ import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLLIElement, HTMLULi
 object NavigationBar:
 
 	val menuVisibleVar = Var(false)
-	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
+	private val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
 
-	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtmlDiv(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
-			getSocialIcons,
-			getLogo(logoSrc),
-			getHamburgerMenu(sortingAlgorithms)
+			getSocialIconsUl,
+			getLogoImg(logoSrc),
+			getHamburgerMenuDiv(sortingAlgorithms)
 		)
 
-	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
+	private def getLogoImg(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
 		img(
 			NavigationBarStyle.logoStyle,
 			src := logoSrc
 		)
 
-	private def getSocialIcons: ReactiveHtmlElement[HTMLUListElement] =
-		def getSocialIcon(pathToIcon: String, iconAlt: String, linkTo: String): ReactiveHtmlElement[HTMLLIElement] =
+	private def getSocialIconsUl: ReactiveHtmlElement[HTMLUListElement] =
+		def getSocialIconLi(pathToIcon: String, iconAlt: String, linkTo: String): ReactiveHtmlElement[HTMLLIElement] =
 			li(
 				NavigationBarStyle.socialIconStyle,
 				a(
@@ -37,24 +37,24 @@ object NavigationBar:
 			)
 		ul(
 			NavigationBarStyle.socialIconsStyle,
-			getSocialIcon(
+			getSocialIconLi(
 				pathToIcon = "assets/github-icon.svg",
 				iconAlt = "GitHub",
 				linkTo = "https://github.com/Benedikt-Hollerauer"
 			),
-			getSocialIcon(
+			getSocialIconLi(
 				pathToIcon = "assets/linkedin-icon.svg",
 				iconAlt = "LinkedIn",
 				linkTo = "https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/"
 			),
-			getSocialIcon(
+			getSocialIconLi(
 				pathToIcon = "assets/website-icon.svg",
 				iconAlt = "Website",
 				linkTo = "https://benedikt-hollerauer.com"
 			)
 		)
 
-	private def getHamburgerMenu(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+	private def getHamburgerMenuDiv(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.hamburgerMenuStyle,
 			onClick --> (_ => menuVisibleVar.update(!_)),

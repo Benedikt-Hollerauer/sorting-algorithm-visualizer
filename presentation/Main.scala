@@ -10,10 +10,10 @@ object Main:
 			div(
 				height := "100vh",
 				width := "100vw",
-				NavigationBar.getHtml(
+				NavigationBar.getHtmlDiv(
 					"test",
 					List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 				),
-				Content.getHtml(SortingAlgorithm.BubbleSort)
+				Content.getHtmlDiv(SortingAlgorithm.BubbleSort)
 			)
 		)

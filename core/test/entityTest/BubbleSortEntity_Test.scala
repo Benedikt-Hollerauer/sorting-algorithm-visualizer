@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel, ValueWithIndex, SortedModel}
+import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndex}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
@@ -14,7 +14,6 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-				_ = res.foreach(println)
 			yield
 				assert(res.last.sortableWithIndex.head.value == -500)
 				assert(res.last.sortableWithIndex.last.value == 999999)
