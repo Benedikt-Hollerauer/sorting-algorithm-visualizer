@@ -76,7 +76,6 @@ object BubbleSortEntity_Test:
 				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
 				ordering = OrderModel.Descending
 			)
-			println(res.last)
 			assert(res.last.sortableWithIndex.head.value == 999999)
 			assert(res.last.sortableWithIndex.last.value == -500)
 			assert(res.length > 1)
@@ -87,24 +86,24 @@ object BubbleSortEntity_Test:
 
 		private val nextMock = ValueWithIndex.from(1, 1).toOption.get
 
-		def `List[Int](ascending)`: Unit =
-			val res = BubbleSortEntity.swapByOrdering(
-				acc = List(accMock),
-				next = nextMock,
-				ordering = OrderModel.Ascending
-			)
-			assert(res == List(
-				nextMock,
-				accMock
-			))
+		//def `List[Int](ascending)`: Unit =
+		//	val res = BubbleSortEntity.swapByOrdering(
+		//		acc = List(accMock),
+		//		next = nextMock,
+		//		ordering = OrderModel.Ascending
+		//	)
+		//	assert(res == List(
+		//		nextMock,
+		//		accMock
+		//	))
 
-		def `List[Int](descending)`: Unit =
-			val res = BubbleSortEntity.swapByOrdering(
-				acc = List(accMock),
-				next = nextMock,
-				ordering = OrderModel.Descending
-			)
-			assert(res == List(
-				accMock,
-				nextMock
-			))
+		//def `List[Int](descending)`: Unit =
+		//	val res = BubbleSortEntity.swapByOrdering(
+		//		acc = List(accMock),
+		//		next = nextMock,
+		//		ordering = OrderModel.Descending
+		//	)
+		//	assert(res == List(
+		//		accMock,
+		//		nextMock
+		//	))

@@ -22,30 +22,52 @@ object BubbleSortEntity:
 	def sortOnceWithIntermediateResults(toBeSorted: List[ValueWithIndex], ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted)
 			.scanLeft(
-				List.empty[ValueWithIndex]
+				Test(
+					List.empty[ValueWithIndex],
+					List(0),
+					false
+				)
 			): (acc, next) =>
 				swapByOrdering(acc, next, ordering)
 			.map: lists =>
-				lists ++ toBeSorted
-					.drop(lists.length)
+				lists.copy(
+					valuesWithIndices = lists.valuesWithIndices
+						.++(toBeSorted.drop(lists.valuesWithIndices.length))
+				)
 			.map: valuesWithIndices =>
 				SortedModel.from(
-					sortable = valuesWithIndices,
-					mayBeFocusedIndices = List(0, 1), // ToDo: add dynamic values
-					focusedIndicesChanged = true // ToDo: add dynamic values
-				).toOption.get // ToDo maybe return an error if this fails
+					sortable = valuesWithIndices.valuesWithIndices,
+					mayBeFocusedIndices = valuesWithIndices.focusedIndices,
+					focusedIndicesChanged = valuesWithIndices.focusedIndicesChanged
+				).toOption.get
 
-	def swapByOrdering(acc: List[ValueWithIndex], next: ValueWithIndex, ordering: OrderModel): List[ValueWithIndex] =
-		ordering match
-			case Ascending =>
-				acc.lastOption match
-					case Some(last) if last.value > next.value =>
-						(acc.dropRight(1) :+ next) :+ last
-					case _ =>
-						acc :+ next
-			case Descending =>
-				acc.lastOption match
-					case Some(last) if last.value < next.value =>
-						(acc.dropRight(1) :+ next) :+ last
-					case _ =>
-						acc :+ next
+	def swapByOrdering(acc: Test, next: ValueWithIndex, ordering: OrderModel): Test =
+		def swapNeeded(last: ValueWithIndex): Boolean = ordering match
+			case Ascending => last.value > next.value
+			case Descending => last.value < next.value
+
+		acc.valuesWithIndices.lastOption match
+			case Some(last) if swapNeeded(last) =>
+				Test(
+					(acc.valuesWithIndices.dropRight(1) :+ next) :+ last,
+					List(last.index, next.index),
+					true
+				)
+			case Some(last) =>
+				Test(
+					acc.valuesWithIndices :+ next,
+					List(last.index, next.index),
+					false
+				)
+			case _ =>
+				Test(
+					acc.valuesWithIndices :+ next,
+					List(next.index),
+					false
+				)
+
+case class Test(
+	valuesWithIndices: List[ValueWithIndex],
+	focusedIndices: List[Int],
+	focusedIndicesChanged: Boolean
+)
