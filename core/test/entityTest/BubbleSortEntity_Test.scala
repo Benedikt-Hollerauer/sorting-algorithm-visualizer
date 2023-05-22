@@ -6,6 +6,19 @@ import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
 
+	private def assertCommonProperties(
+		res: LazyList[SortedModel],
+		first: Int,
+		last: Int,
+		focusedIndices: List[Int],
+		changed: Boolean
+	): Unit =
+		assert(res.last.sortableWithIndex.head.value == first)
+		assert(res.last.sortableWithIndex.last.value == last)
+		assert(res.last.focusedIndices == focusedIndices)
+		assert(res.last.focusedIndicesChanged == changed)
+		assert(res.length > 1)
+
 	object sortAscendingWithIntermediateResults_should_return:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
@@ -14,12 +27,13 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield
-				assert(res.last.sortableWithIndex.head.value == -500)
-				assert(res.last.sortableWithIndex.last.value == 999999)
-				assert(res.last.focusedIndices == List(15, 1))
-				assert(res.last.focusedIndicesChanged == false)
-				assert(res.length > 1)
+			yield assertCommonProperties(
+				res = res,
+				first = -500,
+				last = 999999,
+				focusedIndices = List(15, 1),
+				changed = false
+			)
 
 	object sortDescendingWithIntermediateResults_should_return:
 
@@ -29,12 +43,13 @@ object BubbleSortEntity_Test:
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
-			yield
-				assert(res.last.sortableWithIndex.head.value == 999999)
-				assert(res.last.sortableWithIndex.last.value == -500)
-				assert(res.last.focusedIndices == List(0, 22))
-				assert(res.last.focusedIndicesChanged == false)
-				assert(res.length > 1)
+			yield assertCommonProperties(
+				res = res,
+				first = 999999,
+				last = -500,
+				focusedIndices = List(0, 22),
+				changed = false
+			)
 
 	object sortWithIntermediateResults_should_return:
 
@@ -45,13 +60,13 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock,
 					ordering = OrderModel.Ascending
 				)
-			yield
-				assert(res.last.sortableWithIndex.head.value == -500)
-				assert(res.last.sortableWithIndex.last.value == 999999)
-				assert(res.last.focusedIndices == List(15, 1))
-				assert(res.last.focusedIndicesChanged == false)
-				//TODO add assertion for changed indices
-				assert(res.length > 1)
+			yield assertCommonProperties(
+				res = res,
+				first = -500,
+				last = 999999,
+				focusedIndices = List(15, 1),
+				changed = false
+			)
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			for
@@ -60,12 +75,13 @@ object BubbleSortEntity_Test:
 					toBeSorted = sortableValueMock,
 					ordering = OrderModel.Descending
 				)
-			yield
-				assert(res.last.sortableWithIndex.head.value == 999999)
-				assert(res.last.sortableWithIndex.last.value == -500)
-				assert(res.last.focusedIndices == List(0, 22))
-				assert(res.last.focusedIndicesChanged == false)
-				assert(res.length > 1)
+			yield assertCommonProperties(
+				res = res,
+				first = 999999,
+				last = -500,
+				focusedIndices = List(0, 22),
+				changed = false
+			)
 
 	object sortOnceWithIntermediateResults_should_return:
 
@@ -74,22 +90,26 @@ object BubbleSortEntity_Test:
 				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
 				ordering = OrderModel.Ascending
 			)
-			assert(res.last.sortableWithIndex.head.value == -2)
-			assert(res.last.sortableWithIndex.last.value == 999999)
-			assert(res.last.focusedIndices == List(1, 22))
-			assert(res.last.focusedIndicesChanged == true)
-			assert(res.length > 1)
+			assertCommonProperties(
+				res = res,
+				first = -2,
+				last = 999999,
+				focusedIndices = List(1, 22),
+				changed = true
+			)
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
 				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
 				ordering = OrderModel.Descending
 			)
-			assert(res.last.sortableWithIndex.head.value == 999999)
-			assert(res.last.sortableWithIndex.last.value == -500)
-			assert(res.last.focusedIndices == List(0, 22))
-			assert(res.last.focusedIndicesChanged == false)
-			assert(res.length > 1)
+			assertCommonProperties(
+				res = res,
+				first = 999999,
+				last = -500,
+				focusedIndices = List(0, 22),
+				changed = false
+			)
 
 	object swapByOrdering_should_return:
 
