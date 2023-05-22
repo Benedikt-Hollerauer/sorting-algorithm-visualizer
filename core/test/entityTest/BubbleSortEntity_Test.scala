@@ -17,6 +17,8 @@ object BubbleSortEntity_Test:
 			yield
 				assert(res.last.sortableWithIndex.head.value == -500)
 				assert(res.last.sortableWithIndex.last.value == 999999)
+				assert(res.last.focusedIndices == List(15, 1))
+				assert(res.last.focusedIndicesChanged == false)
 				assert(res.length > 1)
 
 	object sortDescendingWithIntermediateResults_should_return:
@@ -30,6 +32,8 @@ object BubbleSortEntity_Test:
 			yield
 				assert(res.last.sortableWithIndex.head.value == 999999)
 				assert(res.last.sortableWithIndex.last.value == -500)
+				assert(res.last.focusedIndices == List(0, 22))
+				assert(res.last.focusedIndicesChanged == false)
 				assert(res.length > 1)
 
 	object sortWithIntermediateResults_should_return:
@@ -44,6 +48,8 @@ object BubbleSortEntity_Test:
 			yield
 				assert(res.last.sortableWithIndex.head.value == -500)
 				assert(res.last.sortableWithIndex.last.value == 999999)
+				assert(res.last.focusedIndices == List(15, 1))
+				assert(res.last.focusedIndicesChanged == false)
 				//TODO add assertion for changed indices
 				assert(res.length > 1)
 
@@ -57,6 +63,8 @@ object BubbleSortEntity_Test:
 			yield
 				assert(res.last.sortableWithIndex.head.value == 999999)
 				assert(res.last.sortableWithIndex.last.value == -500)
+				assert(res.last.focusedIndices == List(0, 22))
+				assert(res.last.focusedIndicesChanged == false)
 				assert(res.length > 1)
 
 	object sortOnceWithIntermediateResults_should_return:
@@ -68,6 +76,8 @@ object BubbleSortEntity_Test:
 			)
 			assert(res.last.sortableWithIndex.head.value == -2)
 			assert(res.last.sortableWithIndex.last.value == 999999)
+			assert(res.last.focusedIndices == List(1, 22))
+			assert(res.last.focusedIndicesChanged == true)
 			assert(res.length > 1)
 
 		def `LazyList[SortedModel](descending)`: Unit =
@@ -77,6 +87,8 @@ object BubbleSortEntity_Test:
 			)
 			assert(res.last.sortableWithIndex.head.value == 999999)
 			assert(res.last.sortableWithIndex.last.value == -500)
+			assert(res.last.focusedIndices == List(0, 22))
+			assert(res.last.focusedIndicesChanged == false)
 			assert(res.length > 1)
 
 	object swapByOrdering_should_return:
@@ -95,6 +107,8 @@ object BubbleSortEntity_Test:
 				next = nextMock,
 				ordering = OrderModel.Ascending
 			)
+			assert(res.focusedIndices == List(0, 1))
+			assert(res.focusedIndicesChanged == true)
 			assert(res ==
 				SortedModel.from(
 					List(
@@ -119,6 +133,8 @@ object BubbleSortEntity_Test:
 				next = nextMock,
 				ordering = OrderModel.Descending
 			)
+			assert(res.focusedIndices == List(0, 1))
+			assert(res.focusedIndicesChanged == false)
 			assert(res ==
 				SortedModel.from(
 					List(
