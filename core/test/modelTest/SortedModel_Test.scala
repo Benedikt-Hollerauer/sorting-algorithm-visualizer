@@ -3,6 +3,7 @@ package test.modelTest
 import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortedModelError
 import mock.ToBeSortedMock
+import core.Util.toValuesWithIndices
 
 object SortedModel_Test:
 
@@ -12,14 +13,7 @@ object SortedModel_Test:
 			SortableModel.from(
 				ToBeSortedMock.ascendingOrder
 					.sorted
-					.zipWithIndex
-					.map: (value, index) =>
-						ValueWithIndexModel(
-							value = value,
-							indexModel = IndexModel.from(
-								mayBeIndex = index
-							).toOption.get
-						)
+					.toValuesWithIndices
 			).toOption.get,
 			-500,
 			999999

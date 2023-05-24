@@ -3,6 +3,7 @@ package core.useCase
 import core.input.GenerateSortableInput
 import core.model.{SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
 import error.useCaseError.GenerateSortableUseCaseError
+import core.Util.toValuesWithIndices
 
 import scala.util.Random
 
@@ -12,14 +13,7 @@ object GenerateSortableUseCase:
 		val toBeSorted = List.fill((input.from to input.to).length - 1)(Random.between(input.minSize, input.maxSize))
 		for
 			sortable <- SortableModel.from(
-				toBeSorted.zipWithIndex
-					.map: (value, index) =>
-						ValueWithIndexModel(
-							value = value,
-							indexModel = IndexModel.from(
-								mayBeIndex = index
-							).toOption.get
-						)
+				toBeSorted.toValuesWithIndices
 			)
 				.left
 				.map: sortableModelError =>

@@ -2,6 +2,7 @@ package test.modelTest
 
 import core.model.{SortableModel, ValueWithIndexModel}
 import error.modelError.SortableModelError
+import core.Util.*
 
 import core.model.IndexModel
 import scala.util.Random
@@ -11,18 +12,9 @@ object SortableModel_Test:
     object from_should_return:
 
         def `SortableModel(List(1, 4, 7))`: Unit =
-            val correctMayBeListMock =
-                List(1, 4, 7).zipWithIndex
-                    .map: (value, index) =>
-                        ValueWithIndexModel(
-                            value = value,
-                            indexModel = IndexModel.from(
-                                mayBeIndex = index
-                            ).toOption.get
-                        )
             for
                 res <- core.model.SortableModel.from(
-                    mayBeList = correctMayBeListMock
+                    mayBeList = List(1, 4, 7).toValuesWithIndices
                 )
             yield
                 assert(res.valuesWithIndices.head.value == 1)
@@ -33,38 +25,20 @@ object SortableModel_Test:
         def `EmptyList`: Unit =
             for
                 res <- core.model.SortableModel.from(
-                    mayBeList = List.empty
+                    mayBeList = List.empty[Int].toValuesWithIndices
                 ).left
             yield assert(res == SortableModelError.EmptyList)
 
         def `ToFewElements`: Unit =
-            val toFewElementsMayBeListMock = List(1).zipWithIndex
-                .map: (value, index) =>
-                    ValueWithIndexModel(
-                        value = value,
-                        indexModel = IndexModel.from(
-                            mayBeIndex = index
-                        ).toOption.get
-                    )
             for
                 res <- core.model.SortableModel.from(
-                    mayBeList = toFewElementsMayBeListMock
+                    mayBeList = List(1).toValuesWithIndices
                 ).left
             yield assert(res == SortableModelError.ToFewElements(1))
 
         def `ToManyElements`: Unit =
-
-            val toManyElementsMayBeListMock = List.fill(500)(Random.nextInt(200))
-                .zipWithIndex
-                .map: (value, index) =>
-                    ValueWithIndexModel(
-                        value = value,
-                        indexModel = IndexModel.from(
-                            mayBeIndex = index
-                        ).toOption.get
-                    )
             for
                 res <- core.model.SortableModel.from(
-                    mayBeList = toManyElementsMayBeListMock
+                    mayBeList = List.fill(500)(Random.nextInt(200)).toValuesWithIndices
                 ).left
             yield assert(res == SortableModelError.ToManyElements(500))

@@ -3,6 +3,7 @@ package test.entityTest
 import core.entity.BubbleSortEntity
 import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
 import mock.ToBeSortedMock
+import core.Util.toValuesWithIndices
 
 object BubbleSortEntity_Test:
 
@@ -26,14 +27,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(
 					ToBeSortedMock.ascendingOrder
 						.unsorted
-						.zipWithIndex
-						.map: (value, index) =>
-							ValueWithIndexModel(
-								value = value,
-								indexModel = IndexModel.from(
-									mayBeIndex = index
-								).toOption.get
-							)
+						.toValuesWithIndices
 				)
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
@@ -53,14 +47,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(
 					ToBeSortedMock.descendingOrder
 						.unsorted
-						.zipWithIndex
-						.map: (value, index) =>
-							ValueWithIndexModel(
-								value = value,
-								indexModel = IndexModel.from(
-									mayBeIndex = index
-								).toOption.get
-							)
+						.toValuesWithIndices
 				)
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
@@ -80,14 +67,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(
 					ToBeSortedMock.ascendingOrder
 						.unsorted
-						.zipWithIndex
-						.map: (value, index) =>
-							ValueWithIndexModel(
-								value = value,
-								indexModel = IndexModel.from(
-									mayBeIndex = index
-								).toOption.get
-							)
+						.toValuesWithIndices
 				)
 				res = BubbleSortEntity.sortWithIntermediateResults(
 					toBeSorted = sortableValueMock,
@@ -106,14 +86,7 @@ object BubbleSortEntity_Test:
 				sortableValueMock <- SortableModel.from(
 					ToBeSortedMock.descendingOrder
 						.unsorted
-						.zipWithIndex
-						.map: (value, index) =>
-							ValueWithIndexModel(
-								value = value,
-								indexModel = IndexModel.from(
-									mayBeIndex = index
-								).toOption.get
-							)
+						.toValuesWithIndices
 				)
 				res = BubbleSortEntity.sortWithIntermediateResults(
 					toBeSorted = sortableValueMock,
@@ -133,12 +106,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
 				toBeSorted = ToBeSortedMock.ascendingOrder
 					.unsorted
-					.zipWithIndex
-					.map: (value, index) =>
-						ValueWithIndexModel(
-							value,
-							IndexModel.from(index).toOption.get
-						),
+					.toValuesWithIndices,
 				ordering = OrderModel.Ascending
 			)
 			assertCommonProperties(
@@ -153,12 +121,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
 				toBeSorted = ToBeSortedMock.descendingOrder
 					.unsorted
-					.zipWithIndex
-					.map: (value, index) =>
-						ValueWithIndexModel(
-							value,
-							IndexModel.from(index).toOption.get
-						),
+					.toValuesWithIndices,
 				ordering = OrderModel.Descending
 			)
 			assertCommonProperties(
@@ -171,9 +134,19 @@ object BubbleSortEntity_Test:
 
 	object swapByOrdering_should_return:
 
-		private val accMock = ValueWithIndexModel(3, IndexModel.from(0).toOption.get)
+		private val accMock = ValueWithIndexModel(
+			3,
+			IndexModel.from(0)
+				.toOption
+				.get
+		)
 
-		private val nextMock = ValueWithIndexModel(1, IndexModel.from(1).toOption.get)
+		private val nextMock = ValueWithIndexModel(
+			1,
+			IndexModel.from(1)
+				.toOption
+				.get
+		)
 
 		def `SortedModel(ascending)`: Unit =
 			val res = BubbleSortEntity.swapByOrdering(
