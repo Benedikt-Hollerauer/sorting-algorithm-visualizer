@@ -12,12 +12,13 @@ object BubbleSortEntity:
 		sortWithIntermediateResults(toBeSorted, OrderModel.Descending)
 
 	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
-		LazyList.from(toBeSorted.list)
-			.foldLeft(LazyList.empty[SortedModel])((acc, _) =>
+		LazyList.from(toBeSorted.valuesWithIndices)
+			.foldLeft(
+				LazyList.empty[SortedModel]
+			): (acc, _) =>
 				acc.lastOption match
 					case Some(last) => acc ++ sortOnceWithIntermediateResults(last.sortableWithIndex, ordering)
-					case None => sortOnceWithIntermediateResults(toBeSorted.list.zipWithIndex.map((value, index) => ValueWithIndexModel.from(value, index).toOption.get), ordering) // ToDo return a error if this fails
-			)
+					case None => sortOnceWithIntermediateResults(toBeSorted.valuesWithIndices, ordering) // ToDo return a error if this fails
 
 	def sortOnceWithIntermediateResults(toBeSorted: List[ValueWithIndexModel], ordering: OrderModel): LazyList[SortedModel] =
 		LazyList.from(toBeSorted)

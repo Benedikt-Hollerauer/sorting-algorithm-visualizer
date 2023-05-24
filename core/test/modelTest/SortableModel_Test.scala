@@ -9,12 +9,27 @@ object SortableModel_Test:
 
     object from_should_return:
 
-        def `SortableModel`: Unit =
+        def `SortableModel(List(1, 4, 7))`: Unit =
             for
                 res <- core.model.SortableModel.from(
                     mayBeList = List(1, 4, 7)
                 )
-            yield assert(res.list == List(1, 4, 7))
+            yield
+                assert(res.valuesWithIndices.head.value == 1)
+                assert(res.valuesWithIndices.last.value == 7)
+                assert(res.valuesWithIndices.head.index == 0)
+                assert(res.valuesWithIndices.last.index == 2)
+
+        def `SortableModel(List(1, 7))`: Unit =
+            for
+                res <- core.model.SortableModel.from(
+                    mayBeList = List(1, 7)
+                )
+            yield
+                assert(res.valuesWithIndices.head.value == 1)
+                assert(res.valuesWithIndices.last.value == 7)
+                assert(res.valuesWithIndices.head.index == 0)
+                assert(res.valuesWithIndices.last.index == 1)
 
         def `EmptyList`: Unit =
             for

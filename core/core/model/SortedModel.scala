@@ -19,12 +19,11 @@ object SortedModel:
 		else if(mayBeFocusedIndices.exists(_ < 0)) Left(SortedModelError.NegativeChangedIndices(mayBeFocusedIndices))
 		else Right(
 			SortedModel(
-				sortableWithIndex = sortable.list
-					.zipWithIndex
+				sortableWithIndex = sortable.valuesWithIndices
 					.map: valueWithIndex =>
 						ValueWithIndexModel.from(
-							value = valueWithIndex._1,
-							mayBeIndex = valueWithIndex._2
+							value = valueWithIndex.value,
+							mayBeIndex = valueWithIndex.index
 						).toOption.get,
 				focusedIndices = mayBeFocusedIndices,
 				focusedIndicesChanged = focusedIndicesChanged
