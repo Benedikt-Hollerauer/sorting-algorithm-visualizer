@@ -23,7 +23,18 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
 			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted)
+				sortableValueMock <- SortableModel.from(
+					ToBeSortedMock.ascendingOrder
+						.unsorted
+						.zipWithIndex
+						.map: (value, index) =>
+							ValueWithIndexModel(
+								value = value,
+								indexModel = IndexModel.from(
+									mayBeIndex = index
+								).toOption.get
+							)
+				)
 				res = BubbleSortEntity.sortAscendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
@@ -39,7 +50,18 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.descendingOrder.unsorted)
+				sortableValueMock <- SortableModel.from(
+					ToBeSortedMock.descendingOrder
+						.unsorted
+						.zipWithIndex
+						.map: (value, index) =>
+							ValueWithIndexModel(
+								value = value,
+								indexModel = IndexModel.from(
+									mayBeIndex = index
+								).toOption.get
+							)
+				)
 				res = BubbleSortEntity.sortDescendingWithIntermediateResults(
 					toBeSorted = sortableValueMock
 				)
@@ -55,7 +77,18 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
 			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.ascendingOrder.unsorted)
+				sortableValueMock <- SortableModel.from(
+					ToBeSortedMock.ascendingOrder
+						.unsorted
+						.zipWithIndex
+						.map: (value, index) =>
+							ValueWithIndexModel(
+								value = value,
+								indexModel = IndexModel.from(
+									mayBeIndex = index
+								).toOption.get
+							)
+				)
 				res = BubbleSortEntity.sortWithIntermediateResults(
 					toBeSorted = sortableValueMock,
 					ordering = OrderModel.Ascending
@@ -70,7 +103,18 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			for
-				sortableValueMock <- SortableModel.from(ToBeSortedMock.descendingOrder.unsorted)
+				sortableValueMock <- SortableModel.from(
+					ToBeSortedMock.descendingOrder
+						.unsorted
+						.zipWithIndex
+						.map: (value, index) =>
+							ValueWithIndexModel(
+								value = value,
+								indexModel = IndexModel.from(
+									mayBeIndex = index
+								).toOption.get
+							)
+				)
 				res = BubbleSortEntity.sortWithIntermediateResults(
 					toBeSorted = sortableValueMock,
 					ordering = OrderModel.Descending

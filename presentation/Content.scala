@@ -48,8 +48,8 @@ object Content:
 					ContentStyle.singleBar(
 						barHeight = i.value,
 						barColor =
-							if(sorted.focusedIndicesChanged && sorted.focusedIndices.contains(i.index)) "green"
-							else if(sorted.focusedIndices.contains(i.index)) "red"
+							if(sorted.focusedIndicesChanged && sorted.focusedIndices.contains(i.indexModel.index)) "green"
+							else if(sorted.focusedIndices.contains(i.indexModel.index)) "red"
 							else "blue"
 					)
 				)

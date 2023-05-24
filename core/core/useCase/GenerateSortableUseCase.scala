@@ -1,7 +1,7 @@
 package core.useCase
 
 import core.input.GenerateSortableInput
-import core.model.{SortableModel, SortedModel}
+import core.model.{SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
 import error.useCaseError.GenerateSortableUseCaseError
 
 import scala.util.Random
@@ -11,7 +11,16 @@ object GenerateSortableUseCase:
 	def apply(input: GenerateSortableInput): Either[GenerateSortableUseCaseError, SortableModel] =
 		val toBeSorted = List.fill((input.from to input.to).length - 1)(Random.between(input.minSize, input.maxSize))
 		for
-			sortable <- SortableModel.from(toBeSorted)
+			sortable <- SortableModel.from(
+				toBeSorted.zipWithIndex
+					.map: (value, index) =>
+						ValueWithIndexModel(
+							value = value,
+							indexModel = IndexModel.from(
+								mayBeIndex = index
+							).toOption.get
+						)
+			)
 				.left
 				.map: sortableModelError =>
 					GenerateSortableUseCaseError.InputFailure(sortableModelError)

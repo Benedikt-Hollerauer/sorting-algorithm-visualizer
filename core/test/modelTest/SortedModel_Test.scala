@@ -1,6 +1,6 @@
 package test.modelTest
 
-import core.model.{SortableModel, ValueWithIndexModel}
+import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortedModelError
 import mock.ToBeSortedMock
 
@@ -9,7 +9,18 @@ object SortedModel_Test:
 	object from_should_return:
 
 		private val sortableMock = (
-			SortableModel.from(ToBeSortedMock.ascendingOrder.sorted).toOption.get,
+			SortableModel.from(
+				ToBeSortedMock.ascendingOrder
+					.sorted
+					.zipWithIndex
+					.map: (value, index) =>
+						ValueWithIndexModel(
+							value = value,
+							indexModel = IndexModel.from(
+								mayBeIndex = index
+							).toOption.get
+						)
+			).toOption.get,
 			-500,
 			999999
 		)
