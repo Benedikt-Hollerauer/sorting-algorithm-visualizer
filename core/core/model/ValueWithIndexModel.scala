@@ -2,20 +2,20 @@ package core.model
 
 import error.modelError.ValueWithIndexError
 
-case class ValueWithIndex private(
+case class ValueWithIndexModel private(
 	value: Int,
 	index: Int
 )
 
-object ValueWithIndex:
+object ValueWithIndexModel:
 
 	def from(
 		value: Int,
 		mayBeIndex: Int
-	): Either[ValueWithIndexError, ValueWithIndex] =
+	): Either[ValueWithIndexError, ValueWithIndexModel] =
 		if (mayBeIndex < 0) Left(ValueWithIndexError.NegativeIndex(mayBeIndex))
 		else Right(
-			ValueWithIndex(
+			ValueWithIndexModel(
 				value,
 				mayBeIndex
 			)

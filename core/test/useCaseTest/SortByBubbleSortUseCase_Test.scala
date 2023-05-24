@@ -1,6 +1,6 @@
 package useCaseTest
 
-import core.model.ValueWithIndex
+import core.model.ValueWithIndexModel
 import error.modelError.SortableModelError
 import error.useCaseError.SortByBubbleSortUseCaseError
 import mock.ToBeSortedMock

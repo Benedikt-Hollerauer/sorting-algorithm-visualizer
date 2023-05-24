@@ -1,6 +1,6 @@
 package test.modelTest
 
-import core.model.{SortableModel, ValueWithIndex}
+import core.model.{SortableModel, ValueWithIndexModel}
 import error.modelError.SortedModelError
 import mock.ToBeSortedMock
 

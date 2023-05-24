@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndex}
+import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
@@ -87,7 +87,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
+				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndexModel.from(value, index).toOption.get),
 				ordering = OrderModel.Ascending
 			)
 			assertCommonProperties(
@@ -100,7 +100,7 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndex.from(value, index).toOption.get),
+				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndexModel.from(value, index).toOption.get),
 				ordering = OrderModel.Descending
 			)
 			assertCommonProperties(
@@ -113,9 +113,9 @@ object BubbleSortEntity_Test:
 
 	object swapByOrdering_should_return:
 
-		private val accMock = ValueWithIndex.from(3, 0).toOption.get
+		private val accMock = ValueWithIndexModel.from(3, 0).toOption.get
 
-		private val nextMock = ValueWithIndex.from(1, 1).toOption.get
+		private val nextMock = ValueWithIndexModel.from(1, 1).toOption.get
 
 		def `SortedModel(ascending)`: Unit =
 			val res = BubbleSortEntity.swapByOrdering(

@@ -1,17 +1,17 @@
 package test.modelTest
 
-import core.model.ValueWithIndex
+import core.model.ValueWithIndexModel
 import error.modelError.ValueWithIndexError
 
 import scala.util.Random
 
-object ValueWithIndex_Test:
+object ValueWithIndexModel_Test:
 
 	object from_should_return:
 
 		def `ValidIndex`: Unit =
 			for
-				res <- ValueWithIndex.from(
+				res <- ValueWithIndexModel.from(
 					value = 10,
 					mayBeIndex = 3
 				)
@@ -19,7 +19,7 @@ object ValueWithIndex_Test:
 
 		def `NegativeIndex`: Unit =
 			for
-				res <- ValueWithIndex.from(
+				res <- ValueWithIndexModel.from(
 					value = 10,
 					mayBeIndex = -1
 				).left

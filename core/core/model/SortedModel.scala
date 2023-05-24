@@ -3,7 +3,7 @@ package core.model
 import error.modelError.SortedModelError
 
 case class SortedModel private(
-	sortableWithIndex: List[ValueWithIndex],
+	sortableWithIndex: List[ValueWithIndexModel],
 	focusedIndices: List[Int],
 	focusedIndicesChanged: Boolean
 )
@@ -22,7 +22,7 @@ object SortedModel:
 				sortableWithIndex = sortable.list
 					.zipWithIndex
 					.map: valueWithIndex =>
-						ValueWithIndex.from(
+						ValueWithIndexModel.from(
 							value = valueWithIndex._1,
 							mayBeIndex = valueWithIndex._2
 						).toOption.get,
@@ -32,7 +32,7 @@ object SortedModel:
 		)
 
 	def from(
-		sortable: List[ValueWithIndex],
+		sortable: List[ValueWithIndexModel],
 		mayBeFocusedIndices: List[Int], // ToDo maybe abstract away this and add tests
 		focusedIndicesChanged: Boolean
 	): Either[SortedModelError, SortedModel] =
