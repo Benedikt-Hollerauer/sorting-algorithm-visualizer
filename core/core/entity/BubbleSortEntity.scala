@@ -47,18 +47,18 @@ object BubbleSortEntity:
 			case Some(last) if swapNeeded(last) =>
 				SortedModel.from(
 					(acc.sortableWithIndex.dropRight(1) :+ next) :+ last,
-					List(last.index, next.index),
+					List(last.indexModel.index, next.indexModel.index),
 					true
 				).toOption.get
 			case Some(last) =>
 				SortedModel.from(
 					acc.sortableWithIndex :+ next,
-					List(last.index, next.index),
+					List(last.indexModel.index, next.indexModel.index),
 					false
 				).toOption.get
 			case _ =>
 				SortedModel.from(
 					acc.sortableWithIndex :+ next,
-					List(next.index),
+					List(next.indexModel.index),
 					false
 				).toOption.get

@@ -17,9 +17,11 @@ object SortableModel:
             SortableModel(
                 mayBeList.zipWithIndex
                     .map: (value, index) =>
-                        ValueWithIndexModel.from(
+                        ValueWithIndexModel(
                             value = value,
-                            mayBeIndex = index
-                        ).toOption.get
+                            indexModel = IndexModel.from(index)
+                                .toOption
+                                .get
+                        )
             )
         )

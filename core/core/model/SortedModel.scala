@@ -21,10 +21,10 @@ object SortedModel:
 			SortedModel(
 				sortableWithIndex = sortable.valuesWithIndices
 					.map: valueWithIndex =>
-						ValueWithIndexModel.from(
+						ValueWithIndexModel(
 							value = valueWithIndex.value,
-							mayBeIndex = valueWithIndex.index
-						).toOption.get,
+							indexModel = valueWithIndex.indexModel
+						),
 				focusedIndices = mayBeFocusedIndices,
 				focusedIndicesChanged = focusedIndicesChanged
 			)

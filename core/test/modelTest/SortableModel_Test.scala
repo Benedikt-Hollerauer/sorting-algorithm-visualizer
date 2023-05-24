@@ -17,8 +17,8 @@ object SortableModel_Test:
             yield
                 assert(res.valuesWithIndices.head.value == 1)
                 assert(res.valuesWithIndices.last.value == 7)
-                assert(res.valuesWithIndices.head.index == 0)
-                assert(res.valuesWithIndices.last.index == 2)
+                assert(res.valuesWithIndices.head.indexModel.index == 0)
+                assert(res.valuesWithIndices.last.indexModel.index == 2)
 
         def `SortableModel(List(1, 7))`: Unit =
             for
@@ -28,8 +28,8 @@ object SortableModel_Test:
             yield
                 assert(res.valuesWithIndices.head.value == 1)
                 assert(res.valuesWithIndices.last.value == 7)
-                assert(res.valuesWithIndices.head.index == 0)
-                assert(res.valuesWithIndices.last.index == 1)
+                assert(res.valuesWithIndices.head.indexModel.index == 0)
+                assert(res.valuesWithIndices.last.indexModel.index == 1)
 
         def `EmptyList`: Unit =
             for

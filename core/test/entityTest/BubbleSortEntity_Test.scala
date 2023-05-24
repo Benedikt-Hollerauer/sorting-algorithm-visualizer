@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel}
+import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
 import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
@@ -87,7 +87,14 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](ascending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.ascendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndexModel.from(value, index).toOption.get),
+				toBeSorted = ToBeSortedMock.ascendingOrder
+					.unsorted
+					.zipWithIndex
+					.map: (value, index) =>
+						ValueWithIndexModel(
+							value,
+							IndexModel.from(index).toOption.get
+						),
 				ordering = OrderModel.Ascending
 			)
 			assertCommonProperties(
@@ -100,7 +107,14 @@ object BubbleSortEntity_Test:
 
 		def `LazyList[SortedModel](descending)`: Unit =
 			val res = BubbleSortEntity.sortOnceWithIntermediateResults(
-				toBeSorted = ToBeSortedMock.descendingOrder.unsorted.zipWithIndex.map((value, index) => ValueWithIndexModel.from(value, index).toOption.get),
+				toBeSorted = ToBeSortedMock.descendingOrder
+					.unsorted
+					.zipWithIndex
+					.map: (value, index) =>
+						ValueWithIndexModel(
+							value,
+							IndexModel.from(index).toOption.get
+						),
 				ordering = OrderModel.Descending
 			)
 			assertCommonProperties(
@@ -113,9 +127,9 @@ object BubbleSortEntity_Test:
 
 	object swapByOrdering_should_return:
 
-		private val accMock = ValueWithIndexModel.from(3, 0).toOption.get
+		private val accMock = ValueWithIndexModel(3, IndexModel.from(0).toOption.get)
 
-		private val nextMock = ValueWithIndexModel.from(1, 1).toOption.get
+		private val nextMock = ValueWithIndexModel(1, IndexModel.from(1).toOption.get)
 
 		def `SortedModel(ascending)`: Unit =
 			val res = BubbleSortEntity.swapByOrdering(
@@ -136,8 +150,8 @@ object BubbleSortEntity_Test:
 						accMock
 					),
 					List(
-						accMock.index,
-						nextMock.index
+						accMock.indexModel.index,
+						nextMock.indexModel.index
 					),
 					true
 				).toOption.get
@@ -162,8 +176,8 @@ object BubbleSortEntity_Test:
 						nextMock
 					),
 					List(
-						accMock.index,
-						nextMock.index
+						accMock.indexModel.index,
+						nextMock.indexModel.index
 					),
 					false
 				).toOption.get
