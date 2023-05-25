@@ -1,10 +1,9 @@
 package test.modelTest
 
-import core.model.{SortableModel, ValueWithIndexModel}
-import error.modelError.SortableModelError
 import core.Util.*
+import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
+import error.modelError.SortableModelError
 
-import core.model.IndexModel
 import scala.util.Random
 
 object SortableModel_Test:

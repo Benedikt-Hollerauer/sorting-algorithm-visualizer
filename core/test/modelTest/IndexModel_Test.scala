@@ -2,6 +2,7 @@ package test.modelTest
 
 import core.model.IndexModel
 import error.modelError.IndexModelError
+import test.TestUtil.*
 
 object IndexModel_Test:
 
@@ -9,29 +10,29 @@ object IndexModel_Test:
 
 		def `IndexModel(0)`: Unit =
 			val mayBeIndexMock: Int = 0
-			for
-				res <- IndexModel.from(
-					mayBeIndex = mayBeIndexMock
+			val res = IndexModel.from(
+				mayBeIndex = mayBeIndexMock
+			)
+			assertRight(res)(
+				checkRight = Seq(
+					(i: IndexModel) => i.index == mayBeIndexMock
 				)
-			yield
-				assert(res.index == mayBeIndexMock)
+			)
 
 		def `IndexModel(100)`: Unit =
 			val mayBeIndexMock: Int = 100
-			for
-				res <- IndexModel.from(
-					mayBeIndex = mayBeIndexMock
+			val res = IndexModel.from(
+				mayBeIndex = mayBeIndexMock
+			)
+			assertRight(res)(
+				checkRight = Seq(
+					(i: IndexModel) => i.index == mayBeIndexMock
 				)
-			yield
-				assert(res.index == mayBeIndexMock)
+			)
 
 		def `NegativeIndex`: Unit =
 			val negativeIndexMock: Int = -1
-			for
-				res <- IndexModel.from(
-					mayBeIndex = negativeIndexMock
-				).left
-			yield
-				assert(res ==
-					IndexModelError.NegativeIndex(negativeIndexMock)
-				)
+			val res = IndexModel.from(
+				mayBeIndex = negativeIndexMock
+			)
+			assertLeft(res)(IndexModelError.NegativeIndex(negativeIndexMock))

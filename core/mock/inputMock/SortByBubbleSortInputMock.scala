@@ -1,9 +1,9 @@
 package mock.inputMock
 
-import core.input.SortByBubbleSortInput
-import core.model.{OrderModel, SortableModel, ValueWithIndexModel, IndexModel}
-import mock.ToBeSortedMock
 import core.Util.toValuesWithIndices
+import core.input.SortByBubbleSortInput
+import core.model.{IndexModel, OrderModel, SortableModel, ValueWithIndexModel}
+import mock.ToBeSortedMock
 
 import scala.util.Random
 

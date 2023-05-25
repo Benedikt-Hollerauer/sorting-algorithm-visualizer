@@ -1,7 +1,7 @@
 package core.model
 
-import error.modelError.SortableModelError
 import core.model.ValueWithIndexModel
+import error.modelError.SortableModelError
 
 case class SortableModel private(
     valuesWithIndices: List[ValueWithIndexModel]

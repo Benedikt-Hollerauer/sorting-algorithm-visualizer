@@ -1,9 +1,9 @@
 package test.entityTest
 
-import core.entity.BubbleSortEntity
-import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
-import mock.ToBeSortedMock
 import core.Util.toValuesWithIndices
+import core.entity.BubbleSortEntity
+import core.model.*
+import mock.ToBeSortedMock
 
 object BubbleSortEntity_Test:
 

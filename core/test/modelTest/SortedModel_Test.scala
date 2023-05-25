@@ -1,9 +1,9 @@
 package test.modelTest
 
+import core.Util.toValuesWithIndices
 import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortedModelError
 import mock.ToBeSortedMock
-import core.Util.toValuesWithIndices
 
 object SortedModel_Test:
 

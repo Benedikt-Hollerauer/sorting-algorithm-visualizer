@@ -1,9 +1,9 @@
 package core.useCase
 
-import core.input.GenerateSortableInput
-import core.model.{SortableModel, SortedModel, ValueWithIndexModel, IndexModel}
-import error.useCaseError.GenerateSortableUseCaseError
 import core.Util.toValuesWithIndices
+import core.input.GenerateSortableInput
+import core.model.{IndexModel, SortableModel, SortedModel, ValueWithIndexModel}
+import error.useCaseError.GenerateSortableUseCaseError
 
 import scala.util.Random
 
