@@ -14,8 +14,8 @@ object IndexModel_Test:
 				mayBeIndex = mayBeIndexMock
 			)
 			assertRight(res)(
-				checkRight = Seq(
-					(i: IndexModel) => i.index == mayBeIndexMock
+				checkRight = (i: IndexModel) => Seq(
+					i.index == mayBeIndexMock
 				)
 			)
 
@@ -25,8 +25,8 @@ object IndexModel_Test:
 				mayBeIndex = mayBeIndexMock
 			)
 			assertRight(res)(
-				checkRight = Seq(
-					(i: IndexModel) => i.index == mayBeIndexMock
+				checkRight = (i: IndexModel) => Seq(
+					i.index == mayBeIndexMock
 				)
 			)
 

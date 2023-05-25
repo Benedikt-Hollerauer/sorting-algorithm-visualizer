@@ -36,7 +36,7 @@ object SortByBubbleSortInputMock:
 
     val toManyElementsFailure = ascendingOrder.copy(
         toBeSorted = SortableModel.from(
-            List.fill(500)(Random.nextInt(200))
+            List.fill(501)(Random.nextInt(200))
                 .toValuesWithIndices
         )
     )

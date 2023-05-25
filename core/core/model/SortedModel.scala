@@ -15,7 +15,7 @@ object SortedModel:
 		mayBeFocusedIndices: List[Int],
 		focusedIndicesChanged: Boolean
 	): Either[SortedModelError, SortedModel] =
-		if(mayBeFocusedIndices.length <= 0) Left(SortedModelError.ToFewChangedIndices(mayBeFocusedIndices))
+		if(mayBeFocusedIndices.length <= 1) Left(SortedModelError.ToFewChangedIndices(mayBeFocusedIndices))
 		else if(mayBeFocusedIndices.exists(_ < 0)) Left(SortedModelError.NegativeChangedIndices(mayBeFocusedIndices))
 		else Right(
 			SortedModel(

@@ -4,6 +4,7 @@ import core.Util.toValuesWithIndices
 import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortedModelError
 import mock.ToBeSortedMock
+import test.TestUtil.*
 
 object SortedModel_Test:
 
@@ -21,35 +22,33 @@ object SortedModel_Test:
 
 		def `SortedModel`: Unit =
 			val correctFocusedIndicesMock = List(0, 1)
-			for
-				res <- core.model.SortedModel.from(
-					sortable = sortableMock._1,
-					mayBeFocusedIndices = correctFocusedIndicesMock,
-					focusedIndicesChanged = true
+			val res = core.model.SortedModel.from(
+				sortable = sortableMock._1,
+				mayBeFocusedIndices = correctFocusedIndicesMock,
+				focusedIndicesChanged = true
+			)
+			assertRight(res)(
+				(res: core.model.SortedModel) => Seq(
+					res.sortableWithIndex.head.value == sortableMock._2,
+					res.sortableWithIndex.last.value == sortableMock._3,
+					res.focusedIndices == correctFocusedIndicesMock
 				)
-			yield
-				assert(res.sortableWithIndex.head.value == sortableMock._2)
-				assert(res.sortableWithIndex.last.value == sortableMock._3)
-				assert(res.focusedIndices == correctFocusedIndicesMock)
+			)
 
 		def `ToFewChangedIndices`: Unit =
 			val toFewFocusedIndicesMock = List(0)
-			for
-				res <- core.model.SortedModel.from(
-					sortable = sortableMock._1,
-					mayBeFocusedIndices = toFewFocusedIndicesMock,
-					focusedIndicesChanged = true
-				).left
-			yield
-				assert(res == SortedModelError.ToFewChangedIndices(toFewFocusedIndicesMock))
+			val res = core.model.SortedModel.from(
+				sortable = sortableMock._1,
+				mayBeFocusedIndices = toFewFocusedIndicesMock, // NonEmptyListModel[IndexModel]
+				focusedIndicesChanged = true
+			)
+			assertLeft(res)(SortedModelError.ToFewChangedIndices(toFewFocusedIndicesMock))
 
 		def `NegativeChangedIndices`: Unit =
 			val negativeFocusedIndicesMock = List(0, -1)
-			for
-				res <- core.model.SortedModel.from(
-					sortable = sortableMock._1,
-					mayBeFocusedIndices = negativeFocusedIndicesMock,
-					focusedIndicesChanged = true
-				).left
-			yield
-				assert(res == SortedModelError.NegativeChangedIndices(negativeFocusedIndicesMock))
+			val res = core.model.SortedModel.from(
+				sortable = sortableMock._1,
+				mayBeFocusedIndices = negativeFocusedIndicesMock,
+				focusedIndicesChanged = true
+			)
+			assertLeft(res)(SortedModelError.NegativeChangedIndices(negativeFocusedIndicesMock))

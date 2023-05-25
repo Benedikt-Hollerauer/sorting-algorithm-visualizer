@@ -1,14 +1,22 @@
 package test
 
 import core.Util.*
+import core.model.ValueWithIndexModel
+import test.TestUtil.assertRight
 
 object Util_Test:
 
 	object toValuesWithIndices_should_return:
 
 		def `List[ValueWithIndexModel]`: Unit =
-			val res = List(9, 2, 5, 11, 23).toValuesWithIndices
-			assert(res.head.value == 9)
-			assert(res.last.value == 23)
-			assert(res.head.indexModel.index == 0)
-			assert(res.last.indexModel.index == 4)
+			val res = Right(
+				List(9, 2, 5, 11, 23).toValuesWithIndices
+			)
+			assertRight(res)(
+				(res: List[ValueWithIndexModel]) => Seq(
+					res.head.value == 9,
+					res.last.value == 23,
+					res.head.indexModel.index == 0,
+					res.last.indexModel.index == 4
+				)
+			)
