@@ -31,5 +31,5 @@ object NonEmptyListModel_Test:
 				mayBeList = List(1)
 			)
 			assertLeft(res)(
-				NonEmptyListModelError.ToFewElements(List(1))
+				NonEmptyListModelError.ToFewElements(1)
 			)

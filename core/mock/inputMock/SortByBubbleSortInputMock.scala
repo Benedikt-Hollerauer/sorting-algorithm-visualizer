@@ -2,7 +2,7 @@ package mock.inputMock
 
 import core.Util.toValuesWithIndices
 import core.input.SortByBubbleSortInput
-import core.model.{IndexModel, OrderModel, SortableModel, ValueWithIndexModel}
+import core.model.*
 import mock.ToBeSortedMock
 
 import scala.util.Random
@@ -10,11 +10,7 @@ import scala.util.Random
 object SortByBubbleSortInputMock:
 
     val ascendingOrder = SortByBubbleSortInput(
-        toBeSorted = SortableModel.from(
-            ToBeSortedMock.ascendingOrder.
-                unsorted
-                .toValuesWithIndices
-        ),
+        toBeSorted = ToBeSortedMock.ascendingOrder.unsorted,
         ordering = OrderModel.Ascending
     )
 
@@ -23,20 +19,13 @@ object SortByBubbleSortInputMock:
     )
 
     val emptyListFailure = ascendingOrder.copy(
-        toBeSorted = SortableModel.from(
-            List.empty[Int].toValuesWithIndices
-        )
+        toBeSorted = List.empty[Int]
     )
 
     val toFewElementsFailure = ascendingOrder.copy(
-        toBeSorted = SortableModel.from(
-            List(1).toValuesWithIndices
-        )
+        toBeSorted = List(1)
     )
 
     val toManyElementsFailure = ascendingOrder.copy(
-        toBeSorted = SortableModel.from(
-            List.fill(501)(Random.nextInt(200))
-                .toValuesWithIndices
-        )
+        toBeSorted = List.fill(501)(Random.nextInt(200))
     )

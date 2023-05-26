@@ -1,8 +1,8 @@
 package test.modelTest
 
 import core.Util.toValuesWithIndices
-import core.model.{IndexModel, SortableModel, ValueWithIndexModel}
-import error.modelError.SortedModelError
+import core.model.{IndexModel, NonEmptyListModel, SortableModel, ValueWithIndexModel}
+import error.modelError.{NonEmptyListModelError, SortedModelError}
 import mock.ToBeSortedMock
 import test.TestUtil.*
 
@@ -12,9 +12,11 @@ object SortedModel_Test:
 
 		private val sortableMock = (
 			SortableModel.from(
-				ToBeSortedMock.ascendingOrder
-					.sorted
-					.toValuesWithIndices
+				NonEmptyListModel.from(
+					ToBeSortedMock.ascendingOrder
+						.sorted
+						.toValuesWithIndices
+				).toOption.get
 			).toOption.get,
 			-500,
 			999999

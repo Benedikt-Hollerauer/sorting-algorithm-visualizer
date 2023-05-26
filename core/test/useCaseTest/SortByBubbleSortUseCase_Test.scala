@@ -1,7 +1,7 @@
 package useCaseTest
 
 import core.model.{SortedModel, ValueWithIndexModel}
-import error.modelError.SortableModelError
+import error.modelError.{NonEmptyListModelError, SortableModelError}
 import error.useCaseError.SortByBubbleSortUseCaseError
 import mock.ToBeSortedMock
 import mock.inputMock.SortByBubbleSortInputMock
@@ -40,32 +40,32 @@ object SortByBubbleSortUseCase_Test:
                 )
             )
 
-        def `InputFailure[EmptyList]`: Unit =
+        def `NonEmptyListModelCreationFailed[EmptyList]`: Unit =
             val res = SortByBubbleSortUseCase(
                 input = SortByBubbleSortInputMock.emptyListFailure
             )
             assertLeft(res)(
-                SortByBubbleSortUseCaseError.InputFailure(
-                    SortableModelError.EmptyList
+                SortByBubbleSortUseCaseError.NonEmptyListModelCreationFailed(
+                    NonEmptyListModelError.EmptyList
                 )
             )
 
-        def `InputFailure[ToFewElements]`: Unit =
+        def `NonEmptyListModelCreationFailed[ToFewElements]`: Unit =
             val res = SortByBubbleSortUseCase(
                 input = SortByBubbleSortInputMock.toFewElementsFailure
             )
             assertLeft(res)(
-                SortByBubbleSortUseCaseError.InputFailure(
-                    SortableModelError.ToFewElements(1)
+                SortByBubbleSortUseCaseError.NonEmptyListModelCreationFailed(
+                    NonEmptyListModelError.ToFewElements(1)
                 )
             )
 
-        def `InputFailure[ToManyElements]`: Unit =
+        def `SortableModelCreationFailed[ToManyElements]`: Unit =
             val res = SortByBubbleSortUseCase(
                 input = SortByBubbleSortInputMock.toManyElementsFailure
             )
             assertLeft(res)(
-                SortByBubbleSortUseCaseError.InputFailure(
+                SortByBubbleSortUseCaseError.SortableModelCreationFailed(
                     SortableModelError.ToManyElements(501)
                 )
             )
