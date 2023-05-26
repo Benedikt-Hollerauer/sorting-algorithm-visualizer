@@ -14,34 +14,38 @@ object BubbleSortEntity extends SortingAlgorithm:
 				mayBeIndex = 0
 			).toOption.get
 		)
+		val computation = sortable.valuesWithIndices
+			.list
+			.scanLeft(
+				SortingModel( // TODO add a .empty method for such occurrences
+					focusedIndices = (
+						valueWithIndexModelMock,
+						valueWithIndexModelMock
+					),
+					focusedIndicesChanged = false
+				)
+			): (first, second) =>
+				if(first.focusedIndices._2.value <= second.value) SortingModel(
+					focusedIndices = (
+						first.focusedIndices._2,
+						second
+					),
+					focusedIndicesChanged = false
+				)
+				else SortingModel(
+					focusedIndices = (
+						second,
+						first.focusedIndices._2
+					),
+					focusedIndicesChanged = true
+				)
 		val res = sortable.valuesWithIndices
 			.list
-			.flatMap: valueWithIndexModel => // TODO here needs to be a acc value and probably fold of scan and below fold
-				sortable.valuesWithIndices
-					.list
-					.scanLeft(
-						SortingModel(
-							focusedIndices = (
-								valueWithIndexModelMock,
-								valueWithIndexModelMock
-							),
-							focusedIndicesChanged = false
-						)
-					): (first, second) =>
-						if(first.focusedIndices._2.value <= second.value) SortingModel(
-							focusedIndices = (
-								first.focusedIndices._2,
-								second
-							),
-							focusedIndicesChanged = false
-						)
-						else SortingModel(
-							focusedIndices = (
-								second,
-								first.focusedIndices._2
-							),
-							focusedIndicesChanged = true
-						)
+			.foldLeft(
+				LazyList.empty[SortingModel]
+			): (acc, _) => // TODO here needs to be a acc value and probably fold of scan and below fold
+				acc ++ computation
+
 		sortable.valuesWithIndices.list.foreach(println)
 		res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
 		SortedModel.from(
