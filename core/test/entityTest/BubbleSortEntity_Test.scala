@@ -4,8 +4,35 @@ import core.Util.toValuesWithIndices
 import core.entity.BubbleSortEntity
 import core.model.*
 import mock.ToBeSortedMock
+import mock.modelMock.SortableModelMock
 
 object BubbleSortEntity_Test:
+
+	object sortAscending_should_return
+
+		def `SortedModel - ascending`: Unit =
+			val res = BubbleSortEntity.sortAscending(
+				SortableModelMock.sortable
+			)
+			//assert(res.sortableModel == SortableModelMock.sortable)
+			//assert(res.changes.last.focusedIndicesChanged == true)
+			//assert(res.changes.last.focusedIndices.list.head.value == 999999)
+			//assert(res.changes.last.focusedIndices.list.head.indexModel.index == 2)
+			//assert(res.changes.last.focusedIndices.list.last.value == 3)
+			//assert(res.changes.last.focusedIndices.list.last.indexModel.index == 1)
+
+	object sortDescending_should_return:
+
+		def `SortedModel - descending`: Unit = ???
+			val res = BubbleSortEntity.sortAscending(
+				SortableModelMock.sortable
+			)
+			//assert(res.sortableModel == SortableModelMock.sortable)
+			//assert(res.changes.last.focusedIndicesChanged == true)
+			//assert(res.changes.last.focusedIndices.list.head.value == 999999)
+			//assert(res.changes.last.focusedIndices.list.head.indexModel.index == 2)
+			//assert(res.changes.last.focusedIndices.list.last.value == 3)
+			//assert(res.changes.last.focusedIndices.list.last.indexModel.index == 1)
 
 	private def assertCommonProperties(
 		res: LazyList[SortedModel],

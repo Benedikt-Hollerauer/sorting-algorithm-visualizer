@@ -1,9 +1,55 @@
 package core.entity
 
+import core.SortingAlgorithm
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{OrderModel, SortableModel, SortedModel, ValueWithIndexModel}
+import core.model.{IndexModel, NonEmptyListModel, OrderModel, SortableModel, SortedModel, SortedModel2, SortingModel, ValueWithIndexModel}
+import mock.modelMock.SortableModelMock
 
-object BubbleSortEntity:
+object BubbleSortEntity extends SortingAlgorithm:
+
+	override def sortAscending(sortable: SortableModel): SortedModel =
+		val res = sortable.valuesWithIndices
+			.list
+			.scanLeft(
+				SortingModel(
+					focusedIndices = NonEmptyListModel.from(
+						List(
+							ValueWithIndexModel(
+								value = 0,
+								indexModel = IndexModel.from(
+									mayBeIndex = 0
+								).toOption.get
+							)
+						)
+					).toOption.get,
+					focusedIndicesChanged = false
+				)
+			): (first, second) =>
+				if (first.focusedIndices.list.last.value <= second.value) SortingModel(
+					focusedIndices = NonEmptyListModel.from(
+						List(
+							first.focusedIndices.list.last, second
+						)
+					).toOption.get,
+					focusedIndicesChanged = false
+				)
+				else SortingModel(
+					focusedIndices = NonEmptyListModel.from(
+						List(
+							second, first.focusedIndices.list.last
+						)
+					).toOption.get,
+					focusedIndicesChanged = true
+				)
+		res.foreach(println)
+		SortedModel.from(
+			sortable = SortableModelMock.sortable,
+			focusedIndicesChanged = false,
+			mayBeFocusedIndices = List(1, 3)
+		).toOption.get
+
+
+	override def sortDescending(sortable: SortableModel): SortedModel = ???
 
 	def sortAscendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortedModel] =
 		sortWithIntermediateResults(toBeSorted, OrderModel.Ascending)

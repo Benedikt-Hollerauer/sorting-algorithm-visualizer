@@ -2,6 +2,11 @@ package core.model
 
 import error.modelError.SortedModelError
 
+case class SortedModel2(
+	sortableModel: SortableModel,
+	changes: LazyList[SortingModel]
+)
+
 case class SortedModel private(
 	sortableWithIndex: List[ValueWithIndexModel],
 	focusedIndices: List[Int],

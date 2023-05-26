@@ -1,6 +1,6 @@
 package error.modelError
 
-enum SortedModelError:
-
-	case ToFewChangedIndices(toFewChangedIndices: List[Int])
-	case NegativeChangedIndices(negativeChangedIndices: List[Int])
+enum SortedModelError {
+	case ToFewChangedIndices(it: List[Int])
+	case NegativeChangedIndices(it: List[Int])
+}
