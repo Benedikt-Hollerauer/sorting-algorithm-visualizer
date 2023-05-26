@@ -3,8 +3,7 @@ import org.scalajs.dom
 
 object Main:
 
-	@main
-	def main: Unit =
+	def main(args: Array[String]): Unit =
 		render(
 			dom.document.body,
 			div(

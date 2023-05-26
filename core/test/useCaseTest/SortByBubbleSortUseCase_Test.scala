@@ -13,8 +13,10 @@ object SortByBubbleSortUseCase_Test:
     object apply_should_return:
 
         def `LazyList[SortedModel](ascending)`: Unit =
-            val res = SortByBubbleSortUseCase(
-                input = SortByBubbleSortInputMock.ascendingOrder
+            val res = Right(
+                SortByBubbleSortUseCase(
+                    input = SortByBubbleSortInputMock.ascendingOrder
+                )
             )
             assertRight(res)(
                 (res: LazyList[SortedModel]) => Seq(
@@ -27,8 +29,10 @@ object SortByBubbleSortUseCase_Test:
             )
 
         def `LazyList[SortedModel](descending)`: Unit =
-            val res = SortByBubbleSortUseCase(
-                input = SortByBubbleSortInputMock.descendingOrder
+            val res = Right(
+                SortByBubbleSortUseCase(
+                    input = SortByBubbleSortInputMock.descendingOrder
+                )
             )
             assertRight(res)(
                 (res: LazyList[SortedModel]) => Seq(
@@ -37,35 +41,5 @@ object SortByBubbleSortUseCase_Test:
                     res.last.sortableWithIndex.head.indexModel.index == 1,
                     res.last.sortableWithIndex.last.indexModel.index == 22,
                     res.length > 1
-                )
-            )
-
-        def `NonEmptyListModelCreationFailed[EmptyList]`: Unit =
-            val res = SortByBubbleSortUseCase(
-                input = SortByBubbleSortInputMock.emptyListFailure
-            )
-            assertLeft(res)(
-                SortByBubbleSortUseCaseError.NonEmptyListModelCreationFailed(
-                    NonEmptyListModelError.EmptyList
-                )
-            )
-
-        def `NonEmptyListModelCreationFailed[ToFewElements]`: Unit =
-            val res = SortByBubbleSortUseCase(
-                input = SortByBubbleSortInputMock.toFewElementsFailure
-            )
-            assertLeft(res)(
-                SortByBubbleSortUseCaseError.NonEmptyListModelCreationFailed(
-                    NonEmptyListModelError.ToFewElements(1)
-                )
-            )
-
-        def `SortableModelCreationFailed[ToManyElements]`: Unit =
-            val res = SortByBubbleSortUseCase(
-                input = SortByBubbleSortInputMock.toManyElementsFailure
-            )
-            assertLeft(res)(
-                SortByBubbleSortUseCaseError.SortableModelCreationFailed(
-                    SortableModelError.ToManyElements(501)
                 )
             )

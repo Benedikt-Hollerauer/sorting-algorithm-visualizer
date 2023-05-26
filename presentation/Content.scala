@@ -15,29 +15,29 @@ import java.time.Instant
 object Content:
 
 	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm): ReactiveHtmlElement[HTMLDivElement] =
-		val sortable = GenerateSortableUseCase(
+		GenerateSortableUseCase(
 			GenerateSortableInputMock.success
-		).left.map:
-			case GenerateSortableUseCaseError.InputFailure(value) => value
-		SortByBubbleSortUseCase(
-			SortByBubbleSortInput(
-				sortable,
-				OrderModel.Ascending
-			)
 		) match
 			case Left(error) =>
 				Error.getHtmlDiv(
 					error.toString
 				)
-			case Right(res) =>
+			case Right(sortableModel) =>
 				div(
 					ContentStyle.pageContentStyle,
-					child <-- EventStream.periodic(250).map: x =>
+					child <-- EventStream.periodic(250).map { x =>
+						val res = SortByBubbleSortUseCase(
+							SortByBubbleSortInput(
+								sortableModel,
+								OrderModel.Ascending
+							)
+						)
 						if (res.lift(x).isDefined)
 							getBarArrayDiv(res(x))
 						else div(
 							getBarArrayDiv(res.last)
 						)
+					}
 				)
 
 	private def getBarArrayDiv(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
