@@ -8,37 +8,35 @@ import mock.modelMock.SortableModelMock
 object BubbleSortEntity extends SortingAlgorithm:
 
 	override def sortAscending(sortable: SortableModel): SortedModel =
+		val valueWithIndexModelMock = ValueWithIndexModel(
+			value = 0,
+			indexModel = IndexModel.from(
+				mayBeIndex = 0
+			).toOption.get
+		)
 		val res = sortable.valuesWithIndices
 			.list
 			.scanLeft(
 				SortingModel(
-					focusedIndices = NonEmptyListModel.from(
-						List(
-							ValueWithIndexModel(
-								value = 0,
-								indexModel = IndexModel.from(
-									mayBeIndex = 0
-								).toOption.get
-							)
-						)
-					).toOption.get,
+					focusedIndices = (
+						valueWithIndexModelMock,
+						valueWithIndexModelMock
+					),
 					focusedIndicesChanged = false
 				)
 			): (first, second) =>
-				if (first.focusedIndices.list.last.value <= second.value) SortingModel(
-					focusedIndices = NonEmptyListModel.from(
-						List(
-							first.focusedIndices.list.last, second
-						)
-					).toOption.get,
+				if(first.focusedIndices._2.value <= second.value) SortingModel(
+					focusedIndices = (
+						first.focusedIndices._2,
+						second
+					),
 					focusedIndicesChanged = false
 				)
 				else SortingModel(
-					focusedIndices = NonEmptyListModel.from(
-						List(
-							second, first.focusedIndices.list.last
-						)
-					).toOption.get,
+					focusedIndices = (
+						second,
+						first.focusedIndices._2
+					),
 					focusedIndicesChanged = true
 				)
 		res.foreach(println)

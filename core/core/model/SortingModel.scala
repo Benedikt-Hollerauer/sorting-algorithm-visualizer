@@ -1,6 +1,6 @@
 package core.model
 
 case class SortingModel(
-	focusedIndices: NonEmptyListModel[ValueWithIndexModel],
+	focusedIndices: (ValueWithIndexModel, ValueWithIndexModel),
 	focusedIndicesChanged: Boolean
 )
