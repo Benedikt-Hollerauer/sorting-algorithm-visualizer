@@ -8,7 +8,7 @@ object IndexModel_Test:
 
 	object from_should_return:
 
-		def `IndexModel(0)`: Unit =
+		def `IndexModel - 0`: Unit =
 			val mayBeIndexMock: Int = 0
 			val res = IndexModel.from(
 				mayBeIndex = mayBeIndexMock
@@ -19,7 +19,7 @@ object IndexModel_Test:
 				)
 			)
 
-		def `IndexModel(100)`: Unit =
+		def `IndexModel - 100`: Unit =
 			val mayBeIndexMock: Int = 100
 			val res = IndexModel.from(
 				mayBeIndex = mayBeIndexMock
@@ -35,4 +35,6 @@ object IndexModel_Test:
 			val res = IndexModel.from(
 				mayBeIndex = negativeIndexMock
 			)
-			assertLeft(res)(IndexModelError.NegativeIndex(negativeIndexMock))
+			assertLeft(res)(
+				IndexModelError.NegativeIndex(negativeIndexMock)
+			)

@@ -8,7 +8,7 @@ object Util_Test:
 
 	object toValuesWithIndices_should_return:
 
-		def `List[ValueWithIndexModel]`: Unit =
+		def `List[ValueWithIndexModel]`: Unit = // TODO use toValuesWithIndices only on NonEmptyList
 			val res = Right(
 				List(9, 2, 5, 11, 23).toValuesWithIndices
 			)

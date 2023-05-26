@@ -11,7 +11,7 @@ object SortableModel_Test:
 
     object from_should_return:
 
-        def `SortableModel(List(1, 4, 7))`: Unit =
+        def `SortableModel - List(1, 4, 7)`: Unit =
             val res = SortableModel.from(
                 mayBeList = List(1, 4, 7).toValuesWithIndices
             )
