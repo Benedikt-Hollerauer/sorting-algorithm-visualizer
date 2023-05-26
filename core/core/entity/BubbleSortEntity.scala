@@ -16,30 +16,34 @@ object BubbleSortEntity extends SortingAlgorithm:
 		)
 		val res = sortable.valuesWithIndices
 			.list
-			.scanLeft(
-				SortingModel(
-					focusedIndices = (
-						valueWithIndexModelMock,
-						valueWithIndexModelMock
-					),
-					focusedIndicesChanged = false
-				)
-			): (first, second) =>
-				if(first.focusedIndices._2.value <= second.value) SortingModel(
-					focusedIndices = (
-						first.focusedIndices._2,
-						second
-					),
-					focusedIndicesChanged = false
-				)
-				else SortingModel(
-					focusedIndices = (
-						second,
-						first.focusedIndices._2
-					),
-					focusedIndicesChanged = true
-				)
-		res.foreach(println)
+			.flatMap: valueWithIndexModel => // TODO here needs to be a acc value and probably fold of scan and below fold
+				sortable.valuesWithIndices
+					.list
+					.scanLeft(
+						SortingModel(
+							focusedIndices = (
+								valueWithIndexModelMock,
+								valueWithIndexModelMock
+							),
+							focusedIndicesChanged = false
+						)
+					): (first, second) =>
+						if(first.focusedIndices._2.value <= second.value) SortingModel(
+							focusedIndices = (
+								first.focusedIndices._2,
+								second
+							),
+							focusedIndicesChanged = false
+						)
+						else SortingModel(
+							focusedIndices = (
+								second,
+								first.focusedIndices._2
+							),
+							focusedIndicesChanged = true
+						)
+		sortable.valuesWithIndices.list.foreach(println)
+		res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
 		SortedModel.from(
 			sortable = SortableModelMock.sortable,
 			focusedIndicesChanged = false,
