@@ -25,11 +25,3 @@ object NonEmptyListModel_Test:
 			assertLeft(res)(
 				NonEmptyListModelError.EmptyList
 			)
-
-		def `ToFewElements`: Unit =
-			val res = NonEmptyListModel.from(
-				mayBeList = List(1)
-			)
-			assertLeft(res)(
-				NonEmptyListModelError.ToFewElements(1)
-			)

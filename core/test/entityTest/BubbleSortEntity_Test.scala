@@ -156,7 +156,7 @@ object BubbleSortEntity_Test:
 				.get
 		)
 
-		def `SortedModel(ascending)`: Unit =
+		def `SortingModel(ascending)`: Unit =
 			val res = BubbleSortEntity.swapByOrdering(
 				acc = SortedModel.from(
 					List(accMock),
@@ -182,7 +182,7 @@ object BubbleSortEntity_Test:
 				).toOption.get
 			)
 
-		def `SortedModel(descending)`: Unit =
+		def `SortingModel(descending)`: Unit =
 			val res = BubbleSortEntity.swapByOrdering(
 				acc = SortedModel.from(
 					List(accMock),

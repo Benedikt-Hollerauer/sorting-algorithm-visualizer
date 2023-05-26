@@ -27,17 +27,13 @@ object SortableModel_Test:
                     )
             )
 
-        //def `EmptyList`: Unit =
-        //    val res = SortableModel.from(
-        //        mayBeList = List.empty[Int].toValuesWithIndices
-        //    )
-        //    assertLeft(res)(SortableModelError.EmptyList)
-
-        //def `ToFewElements`: Unit =
-        //    val res = SortableModel.from(
-        //        mayBeList = List(1).toValuesWithIndices
-        //    )
-        //    assertLeft(res)(SortableModelError.ToFewElements(1))
+        def `ToFewElements`: Unit =
+            val res = SortableModel.from(
+                mayBeList = NonEmptyListModel.from(
+                    List(1).toValuesWithIndices
+                ).toOption.get
+            )
+            assertLeft(res)(SortableModelError.ToFewElements(1))
 
         def `ToManyElements`: Unit =
             val res = SortableModel.from(
