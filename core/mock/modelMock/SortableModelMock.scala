@@ -1,8 +1,8 @@
 package mock.modelMock
 
+import core.Util.toValuesWithIndices
 import core.model.{NonEmptyListModel, SortableModel}
 import mock.ToBeSortedMock
-import core.Util.toValuesWithIndices
 
 object SortableModelMock:
 	

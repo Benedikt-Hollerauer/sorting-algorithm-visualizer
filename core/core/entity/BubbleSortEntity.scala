@@ -2,7 +2,7 @@ package core.entity
 
 import core.SortingAlgorithm
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{IndexModel, NonEmptyListModel, OrderModel, SortableModel, SortedModel, SortedModel2, SortingModel, ValueWithIndexModel}
+import core.model.*
 import mock.modelMock.SortableModelMock
 
 object BubbleSortEntity extends SortingAlgorithm:
@@ -12,8 +12,9 @@ object BubbleSortEntity extends SortingAlgorithm:
 			.list
 			.foldLeft(
 				LazyList.empty[SortingModel]
-			): (acc, _) => // TODO here needs to be a acc value and probably fold of scan and below fold
-				acc ++ sortable.valuesWithIndices
+			): (acc, _) =>
+				acc ++ sortable
+					.valuesWithIndices
 					.list
 					.scanLeft(
 						SortingModel.empty
@@ -34,7 +35,8 @@ object BubbleSortEntity extends SortingAlgorithm:
 						)
 
 		sortable.valuesWithIndices.list.foreach(println)
-		res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
+		//res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
+		res.foreach(println)
 		SortedModel.from(
 			sortable = SortableModelMock.sortable,
 			focusedIndicesChanged = false,

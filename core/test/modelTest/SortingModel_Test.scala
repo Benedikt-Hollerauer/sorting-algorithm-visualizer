@@ -1,7 +1,6 @@
 package test.modelTest
 
-import core.model.SortingModel
-import core.model.ValueWithIndexModel
+import core.model.{SortingModel, ValueWithIndexModel}
 
 object SortingModel_Test:
 

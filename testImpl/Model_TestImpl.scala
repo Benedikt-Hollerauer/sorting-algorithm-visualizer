@@ -1,4 +1,4 @@
-import test.modelTest.{IndexModel_Test, NonEmptyListModel_Test, SortableModel_Test, SortingModel_Test, ValueWithIndexModel_Test}
+import test.modelTest.*
 
 class Model_TestImpl extends TestUtil:
 
