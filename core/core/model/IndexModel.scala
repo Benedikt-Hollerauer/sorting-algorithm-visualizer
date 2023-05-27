@@ -16,3 +16,8 @@ object IndexModel:
 		else Right(
 			IndexModel(mayBeIndex)
 		)
+		
+	def empty: IndexModel =
+		IndexModel(
+			index = -1
+		)

@@ -38,3 +38,9 @@ object IndexModel_Test:
 			assertLeft(res)(
 				IndexModelError.NegativeIndex(negativeIndexMock)
 			)
+			
+	object empty_should_return:
+	
+		def `IndexModel - empty`: Unit =
+			val res = IndexModel.empty
+			assert(res.index == -1)
