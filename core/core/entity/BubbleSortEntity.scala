@@ -7,99 +7,126 @@ import mock.modelMock.SortableModelMock
 
 object BubbleSortEntity extends SortingAlgorithm:
 
-	override def sortAscending(sortable: SortableModel): SortedModel =
+	def sortAscending(sortable: SortableModel): SortedModel =
 		val res = sortable.valuesWithIndices
 			.list
 			.foldLeft(
-				LazyList.empty[SortingModel]
+				(LazyList.empty[SortingModel], 0)
 			): (acc, _) =>
-				acc ++ sortable
-					.valuesWithIndices
-					.list
-					.scanLeft(
-						SortingModel.empty
-					): (first, second) =>
-						if(first.focusedIndices._2.value <= second.value) SortingModel(
-							focusedIndices = (
-								first.focusedIndices._2,
-								second
-							),
-							focusedIndicesChanged = false
-						)
-						else SortingModel(
-							focusedIndices = (
-								second,
-								first.focusedIndices._2
-							),
-							focusedIndicesChanged = true
-						)
-
+				acc._1.lastOption match
+					case Some(last) => (
+						acc._1 ++ sortable
+							.valuesWithIndices
+							.list
+							.drop(acc._2)
+							.scanLeft(
+								SortingModel.empty
+							): (first, second) =>
+								if (first.focusedIndices._2.value <= second.value) SortingModel(
+									focusedIndices = (
+										first.focusedIndices._2,
+										second
+									),
+									focusedIndicesChanged = false
+								)
+								else SortingModel(
+									focusedIndices = (
+										second,
+										first.focusedIndices._2
+									),
+									focusedIndicesChanged = true
+								),
+						acc._2 + 1
+					)
+					case None => (
+						acc._1 ++ sortable
+							.valuesWithIndices
+							.list
+							.scanLeft(
+								SortingModel.empty
+							): (first, second) =>
+								if (first.focusedIndices._2.value >= second.value) SortingModel(
+									focusedIndices = (
+										first.focusedIndices._2,
+										second
+									),
+									focusedIndicesChanged = false
+								)
+								else SortingModel(
+									focusedIndices = (
+										second,
+										first.focusedIndices._2
+									),
+									focusedIndicesChanged = true
+								),
+						acc._2 + 1
+					)
 		sortable.valuesWithIndices.list.foreach(println)
 		//res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
-		res.foreach(println)
-		SortedModel.from(
-			sortable = SortableModelMock.sortable,
-			focusedIndicesChanged = false,
-			mayBeFocusedIndices = List(1, 3)
-		).toOption.get
+		res._1.foreach(println)
+		SortedModel(
+			sortableModel = sortable,
+			changes = res._1
+		)
 
-
-	override def sortDescending(sortable: SortableModel): SortedModel = ???
-
-	def sortAscendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortedModel] =
-		sortWithIntermediateResults(toBeSorted, OrderModel.Ascending)
-
-	def sortDescendingWithIntermediateResults(toBeSorted: SortableModel): LazyList[SortedModel] =
-		sortWithIntermediateResults(toBeSorted, OrderModel.Descending)
-
-	def sortWithIntermediateResults(toBeSorted: SortableModel, ordering: OrderModel): LazyList[SortedModel] =
-		LazyList.from(toBeSorted.valuesWithIndices.list)
+	def sortDescending(sortable: SortableModel): SortedModel =
+		val res = sortable.valuesWithIndices
+			.list
 			.foldLeft(
-				LazyList.empty[SortedModel]
+				(LazyList.empty[SortingModel], 0)
 			): (acc, _) =>
-				acc.lastOption match
-					case Some(last) => acc ++ sortOnceWithIntermediateResults(last.sortableWithIndex, ordering)
-					case None => sortOnceWithIntermediateResults(toBeSorted.valuesWithIndices.list, ordering) // ToDo return a error if this fails
-
-	def sortOnceWithIntermediateResults(toBeSorted: List[ValueWithIndexModel], ordering: OrderModel): LazyList[SortedModel] =
-		LazyList.from(toBeSorted)
-			.scanLeft(
-				SortedModel.from(
-					List.empty[ValueWithIndexModel],
-					List(0),
-					false
-				).toOption.get
-			): (acc, next) =>
-				swapByOrdering(acc, next, ordering)
-			.map: sortedModel =>
-				SortedModel.from(
-					sortedModel.sortableWithIndex
-						.++(toBeSorted.drop(sortedModel.sortableWithIndex.length)),
-					sortedModel.focusedIndices,
-					sortedModel.focusedIndicesChanged
-				).toOption.get
-
-	def swapByOrdering(acc: SortedModel, next: ValueWithIndexModel, ordering: OrderModel): SortedModel =
-		def swapNeeded(last: ValueWithIndexModel): Boolean = ordering match
-			case Ascending => last.value > next.value
-			case Descending => last.value < next.value
-
-		acc.sortableWithIndex.lastOption match
-			case Some(last) if swapNeeded(last) =>
-				SortedModel.from(
-					(acc.sortableWithIndex.dropRight(1) :+ next) :+ last,
-					List(last.indexModel.index, next.indexModel.index),
-					true
-				).toOption.get
-			case Some(last) =>
-				SortedModel.from(
-					acc.sortableWithIndex :+ next,
-					List(last.indexModel.index, next.indexModel.index),
-					false
-				).toOption.get
-			case _ =>
-				SortedModel.from(
-					acc.sortableWithIndex :+ next,
-					List(next.indexModel.index),
-					false
-				).toOption.get
+				acc._1.lastOption match
+					case Some(last) => (
+						acc._1 ++ sortable
+							.valuesWithIndices
+							.list
+							.drop(acc._2)
+							.scanLeft(
+								SortingModel.empty
+							): (first, second) =>
+								if (first.focusedIndices._2.value <= second.value) SortingModel(
+									focusedIndices = (
+										first.focusedIndices._2,
+										second
+									),
+									focusedIndicesChanged = false
+								)
+								else SortingModel(
+									focusedIndices = (
+										second,
+										first.focusedIndices._2
+									),
+									focusedIndicesChanged = true
+								),
+						acc._2 + 1
+					)
+					case None => (
+						acc._1 ++ sortable
+							.valuesWithIndices
+							.list
+							.scanLeft(
+								SortingModel.empty
+							): (first, second) =>
+								if (first.focusedIndices._2.value >= second.value) SortingModel(
+									focusedIndices = (
+										first.focusedIndices._2,
+										second
+									),
+									focusedIndicesChanged = false
+								)
+								else SortingModel(
+									focusedIndices = (
+										second,
+										first.focusedIndices._2
+									),
+									focusedIndicesChanged = true
+								),
+						acc._2 + 1
+					)
+		sortable.valuesWithIndices.list.foreach(println)
+		//res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
+		res._1.foreach(println)
+		SortedModel(
+			sortableModel = sortable,
+			changes = res._1
+		)

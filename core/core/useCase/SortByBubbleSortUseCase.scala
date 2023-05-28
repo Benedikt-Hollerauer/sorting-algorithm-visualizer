@@ -9,7 +9,7 @@ import error.useCaseError.SortByBubbleSortUseCaseError
 
 object SortByBubbleSortUseCase:
 
-    def apply(input: SortByBubbleSortInput): LazyList[SortedModel] =
+    def apply(input: SortByBubbleSortInput): SortedModel =
         input.ordering match
-            case Ascending => BubbleSortEntity.sortAscendingWithIntermediateResults(input.toBeSorted)
-            case Descending => BubbleSortEntity.sortDescendingWithIntermediateResults(input.toBeSorted)
+            case Ascending => BubbleSortEntity.sortAscending(input.toBeSorted)
+            case Descending => BubbleSortEntity.sortDescending(input.toBeSorted)

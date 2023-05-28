@@ -32,10 +32,10 @@ object Content:
 								OrderModel.Ascending
 							)
 						)
-						if (res.lift(x).isDefined)
-							getBarArrayDiv(res(x))
+						if (res.changes.lift(x).isDefined)
+							getBarArrayDiv(res)
 						else div(
-							getBarArrayDiv(res.last)
+							getBarArrayDiv(res)
 						)
 					}
 				)
@@ -43,13 +43,13 @@ object Content:
 	private def getBarArrayDiv(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
-			sorted.sortableWithIndex.map: i =>
+			sorted.sortableModel.valuesWithIndices.list.map: i =>
 				div(
 					ContentStyle.singleBar(
 						barHeight = i.value,
 						barColor =
-							if(sorted.focusedIndicesChanged && sorted.focusedIndices.contains(i.indexModel.index)) "green"
-							else if(sorted.focusedIndices.contains(i.indexModel.index)) "red"
+							if(sorted.changes(i.indexModel.index).focusedIndicesChanged && sorted.changes.contains(i.indexModel.index)) "green"
+							else if(sorted.changes.contains(i.indexModel.index)) "red"
 							else "blue"
 					)
 				)

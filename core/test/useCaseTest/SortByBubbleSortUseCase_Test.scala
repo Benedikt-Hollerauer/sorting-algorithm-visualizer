@@ -12,34 +12,38 @@ object SortByBubbleSortUseCase_Test:
 
     object apply_should_return:
 
-        def `LazyList[SortedModel](ascending)`: Unit =
+        def `SortedModel - ascending`: Unit =
             val res = Right(
                 SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.ascendingOrder
                 )
             )
             assertRight(res)(
-                (res: LazyList[SortedModel]) => Seq(
-                    res.last.sortableWithIndex.head.value == -500,
-                    res.last.sortableWithIndex.last.value == 999999,
-                    res.last.sortableWithIndex.head.indexModel.index == 22,
-                    res.last.sortableWithIndex.last.indexModel.index == 1,
-                    res.length > 1
+                (res: SortedModel) => Seq(
+                    res.sortableModel == SortByBubbleSortInputMock.ascendingOrder.toBeSorted,
+                    res.changes.last.focusedIndicesChanged == false,
+                    res.changes.last.focusedIndices._1.value == 1,
+                    res.changes.last.focusedIndices._2.value == 1,
+                    res.changes.last.focusedIndices._1.indexModel.index == 1,
+                    res.changes.last.focusedIndices._2.indexModel.index == 1,
+                    res.changes.length > 1
                 )
             )
 
-        def `LazyList[SortedModel](descending)`: Unit =
+        def `SortedModel - descending`: Unit =
             val res = Right(
                 SortByBubbleSortUseCase(
                     input = SortByBubbleSortInputMock.descendingOrder
                 )
             )
             assertRight(res)(
-                (res: LazyList[SortedModel]) => Seq(
-                    res.last.sortableWithIndex.head.value == 999999,
-                    res.last.sortableWithIndex.last.value == -500,
-                    res.last.sortableWithIndex.head.indexModel.index == 1,
-                    res.last.sortableWithIndex.last.indexModel.index == 22,
-                    res.length > 1
+                (res: SortedModel) => Seq(
+                    res.sortableModel == SortByBubbleSortInputMock.descendingOrder.toBeSorted,
+                    res.changes.last.focusedIndicesChanged == false,
+                    res.changes.last.focusedIndices._1.value == 1,
+                    res.changes.last.focusedIndices._2.value == 1,
+                    res.changes.last.focusedIndices._1.indexModel.index == 1,
+                    res.changes.last.focusedIndices._2.indexModel.index == 1,
+                    res.changes.length > 1
                 )
             )
