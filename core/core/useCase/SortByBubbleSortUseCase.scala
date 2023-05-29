@@ -5,7 +5,6 @@ import core.entity.BubbleSortEntity
 import core.input.SortByBubbleSortInput
 import core.model.OrderModel.{Ascending, Descending}
 import core.model.{NonEmptyListModel, SortableModel, SortedModel}
-import error.useCaseError.SortByBubbleSortUseCaseError
 
 object SortByBubbleSortUseCase:
 

@@ -1,7 +1,7 @@
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import core.input.SortByBubbleSortInput
-import core.model.{OrderModel, SortedModel}
+import core.model.{NonEmptyListModel, OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 import core.useCase.GenerateSortableUseCase
 import error.useCaseError.GenerateSortableUseCaseError
 import mock.ToBeSortedMock
@@ -11,56 +11,63 @@ import org.scalajs.dom.HTMLDivElement
 import useCase.SortByBubbleSortUseCase
 
 import java.time.Instant
+import scala.scalajs.js.timers.setInterval
 
 object Content:
 
-	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm): ReactiveHtmlElement[HTMLDivElement] =
-		GenerateSortableUseCase(
-			GenerateSortableInputMock.success
-		) match
-			case Left(error) =>
-				Error.getHtmlDiv(
-					error.toString
-				)
-			case Right(sortableModel) =>
-				div(
-					ContentStyle.pageContentStyle,
-					child <-- EventStream.periodic(250).map { x =>
-						val res = SortByBubbleSortUseCase(
-							SortByBubbleSortInput(
-								sortableModel,
-								OrderModel.Ascending
-							)
-						)
-						if (res.changes.lift(x).isDefined)
-							getBarArrayDiv(res)
-						else div(
-							getBarArrayDiv(res)
-						)
-					}
-				)
+	private val barArrayId = "barArray"
 
-	private def getBarArrayDiv(sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
+	def getErrorHtmlDiv(error: GenerateSortableUseCaseError): ReactiveHtmlElement[HTMLDivElement] =
+		Error.getHtmlDiv(
+			error.toString
+		)
+
+	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sortable: SortableModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
+			ContentStyle.pageContentStyle,
+			getBarArrayDiv(sortable)
+		)
+
+	private def getBarArrayDiv(sortable: SortableModel): ReactiveHtmlElement[HTMLDivElement] =
+		div(
+			idAttr := barArrayId,
 			ContentStyle.barArrayStyle,
-			sorted.sortableModel.valuesWithIndices.list.map: i =>
+			sortable.valuesWithIndices.list.map: i =>
 				div(
 					ContentStyle.singleBar(
 						barHeight = i.value,
-						barColor =
-							if(sorted.changes(i.indexModel.index).focusedIndicesChanged && sorted.changes.contains(i.indexModel.index)) "green"
-							else if(sorted.changes.contains(i.indexModel.index)) "red"
-							else "blue"
+						i.indexModel.index
 					)
 				)
 		)
 
+	def changeBarColors(changes: LazyList[SortingModel], intervalMs: Int): Unit =
+		val changeStream = changes.iterator
+		setInterval(intervalMs)
+			if(changeStream.hasNext)
+				val change = changeStream.next
+				changeFocusedBars(change)
+
+	private def changeFocusedBars(change: SortingModel): Unit =
+		val focusedIds = Seq(
+			change.focusedIndices._1,
+			change.focusedIndices._2
+		)
+		focusedIds.foreach: id =>
+			val barElement = dom.document.getElementById(id.indexModel.index.toString).asInstanceOf[HTMLDivElement]
+			if(barElement != null)
+				if(change.focusedIndicesChanged)
+					barElement.style.backgroundColor = "green"
+				else barElement.style.backgroundColor = "red"
+				barElement.style.height = id.value.toString
+
 object ContentStyle:
 
-	def singleBar(barHeight: Int, barColor: String) = Seq(
+	def singleBar(barHeight: Int, id: Int) = Seq(
+		idAttr := id.toString,
 		width := "20px",
 		height := s"${barHeight}px",
-		backgroundColor := barColor,
+		backgroundColor.blue,
 		margin := "3px"
 	)
 

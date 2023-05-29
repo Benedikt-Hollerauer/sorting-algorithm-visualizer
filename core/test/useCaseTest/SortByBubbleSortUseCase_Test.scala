@@ -2,7 +2,6 @@ package useCaseTest
 
 import core.model.{SortedModel, ValueWithIndexModel}
 import error.modelError.{NonEmptyListModelError, SortableModelError}
-import error.useCaseError.SortByBubbleSortUseCaseError
 import mock.ToBeSortedMock
 import mock.inputMock.SortByBubbleSortInputMock
 import test.TestUtil.*

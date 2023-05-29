@@ -1,8 +1,8 @@
 package core.entity
 
 import core.SortingAlgorithm
-import core.model.OrderModel.{Ascending, Descending}
 import core.model.*
+import core.model.OrderModel.{Ascending, Descending}
 import mock.modelMock.SortableModelMock
 
 object BubbleSortEntity extends SortingAlgorithm:
