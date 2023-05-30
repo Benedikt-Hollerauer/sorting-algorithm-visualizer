@@ -15,61 +15,81 @@ import scala.scalajs.js.timers.setInterval
 
 object Content:
 
-	private val barArrayId = "barArray"
+	private def getBars(sortable: SortableModel): Map[Int, Var[Bar]] =
+		Map.from(
+			sortable.valuesWithIndices
+			.list
+			.map: valueWithIndex =>
+				valueWithIndex.indexModel.index -> Var(
+					Bar(
+						id = valueWithIndex.indexModel.index,
+						height = valueWithIndex.value,
+						backgroundColor = "blue"
+					)
+				)
+		)
 
 	def getErrorHtmlDiv(error: GenerateSortableUseCaseError): ReactiveHtmlElement[HTMLDivElement] =
 		Error.getHtmlDiv(
 			error.toString
 		)
 
-	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sortable: SortableModel): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArrayDiv(sortable)
+			{
+				val bars = getBars(sorted.sortableModel)
+				changeBars(sorted.changes, bars)
+				getBarArrayDiv(sorted.sortableModel, bars)
+			}
 		)
 
-	private def getBarArrayDiv(sortable: SortableModel): ReactiveHtmlElement[HTMLDivElement] =
-		div(
-			idAttr := barArrayId,
-			ContentStyle.barArrayStyle,
-			sortable.valuesWithIndices.list.map: i =>
-				div(
-					ContentStyle.singleBar(
-						barHeight = i.value,
-						i.indexModel.index
-					)
-				)
-		)
-
-	def changeBarColors(changes: LazyList[SortingModel], intervalMs: Int): Unit =
+	private def changeBars(changes: LazyList[SortingModel], bars: Map[Int, Var[Bar]]) =
 		val changeStream = changes.iterator
-		setInterval(intervalMs)
+		setInterval(250):
 			if(changeStream.hasNext)
 				val change = changeStream.next
-				changeFocusedBars(change)
+				changeFocusedBars(change, bars)
 
-	private def changeFocusedBars(change: SortingModel): Unit =
+	private def changeFocusedBars(change: SortingModel, barVar: Map[Int, Var[Bar]]): Unit =
 		val focusedIds = Seq(
 			change.focusedIndices._1,
 			change.focusedIndices._2
 		)
+		val changeIndices = (
+			change.focusedIndices._1.indexModel.index,
+			change.focusedIndices._2.indexModel.index
+		)
 		focusedIds.foreach: id =>
-			val barElement = dom.document.getElementById(id.indexModel.index.toString).asInstanceOf[HTMLDivElement]
-			if(barElement != null)
-				if(change.focusedIndicesChanged)
-					barElement.style.backgroundColor = "green"
-				else barElement.style.backgroundColor = "red"
-				barElement.style.height = id.value.toString
+			if(change.focusedIndicesChanged)
+				barVar.get(changeIndices._1).get.update(current => current.copy(backgroundColor = "green"))
+				barVar.get(changeIndices._2).get.update(current => current.copy(backgroundColor = "green"))
+			else
+				barVar.get(changeIndices._1).get.update(current => current.copy(backgroundColor = "red"))
+				barVar.get(changeIndices._2).get.update(current => current.copy(backgroundColor = "red"))
+			barVar.get(changeIndices._1).get.update(current => current.copy(height = id.value))
+			barVar.get(changeIndices._2).get.update(current => current.copy(height = id.value))
+
+	private def getBarArrayDiv(sortable: SortableModel, bars: Map[Int, Var[Bar]]): ReactiveHtmlElement[HTMLDivElement] =
+		div(
+			idAttr := "barArray",
+			ContentStyle.barArrayStyle,
+			bars.map: i =>
+				div(
+					ContentStyle.singleBar(i._2)
+				)
+			.toSeq
+		)
 
 object ContentStyle:
 
-	def singleBar(barHeight: Int, id: Int) = Seq(
-		idAttr := id.toString,
-		width := "20px",
-		height := s"${barHeight}px",
-		backgroundColor.blue,
-		margin := "3px"
-	)
+	def singleBar(bar: Var[Bar]) = Seq(
+			idAttr <-- bar.signal.map(_.id.toString),
+			width := "20px",
+			height.px <-- bar.signal.map(_.height),
+			backgroundColor <-- bar.signal.map(_.backgroundColor),
+			margin := "3px"
+		)
 
 	val pageContentStyle = Seq(
 		position.relative,
@@ -87,3 +107,9 @@ object ContentStyle:
 		flexWrap.wrap,
 		alignItems.flexEnd,
 	)
+
+case class Bar(
+	id: Int,
+	height: Int,
+	backgroundColor: String
+)

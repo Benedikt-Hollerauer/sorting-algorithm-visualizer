@@ -37,8 +37,7 @@ object Main:
 						),
 						Content.getHtmlDiv(
 							SortingAlgorithm.BubbleSort,
-							sorted.sortableModel
+							sorted
 						)
 					)
 				)
-				Content.changeBarColors(sorted.changes, 250)
