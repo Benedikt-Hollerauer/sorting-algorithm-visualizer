@@ -1,20 +1,20 @@
 import com.raquo.laminar.api.L.{*, given}
 import core.model.{SortableModel, SortedModel}
 
-object NewContent:
+object Content:
 
 	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel) =
 		div(
-			NewContentStyle.pageContentStyle,
+			ContentStyle.pageContentStyle,
 			getBarArrayDiv(sorted.sortableModel)
 		)
 
 	private def getBarArrayDiv(sortableModel: SortableModel) =
 		div(
-			NewContentStyle.barArrayStyle,
+			ContentStyle.barArrayStyle,
 			getBars(sortableModel).map: bar =>
 				div(
-					NewContentStyle.singleBar(bar)
+					ContentStyle.singleBar(bar)
 				)
 		)
 
@@ -28,7 +28,7 @@ object NewContent:
 					backgroundColor = "blue"
 				)
 
-object NewContentStyle:
+object ContentStyle:
 
 	def singleBar(bar: Bar) = Seq(
 		idAttr := bar.id.toString,

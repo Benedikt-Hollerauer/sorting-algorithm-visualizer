@@ -35,7 +35,7 @@ object Main:
 							"test",
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 						),
-						NewContent.getHtmlDiv(
+						Content.getHtmlDiv(
 							SortingAlgorithm.BubbleSort,
 							sorted
 						)
