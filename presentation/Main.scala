@@ -17,7 +17,7 @@ object Main:
 			case Left(generateSortableError) =>
 				render(
 					dom.document.body,
-					Content.getErrorHtmlDiv(generateSortableError)
+					Error.getHtmlDiv(generateSortableError.toString)
 				)
 			case Right(sortable) =>
 				val sorted = SortByBubbleSortUseCase(
@@ -35,7 +35,7 @@ object Main:
 							"test",
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 						),
-						Content.getHtmlDiv(
+						NewContent.getHtmlDiv(
 							SortingAlgorithm.BubbleSort,
 							sorted
 						)
