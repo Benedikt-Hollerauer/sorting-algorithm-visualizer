@@ -1,31 +1,37 @@
 import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.model.{SortableModel, SortedModel}
+import org.scalajs.dom.HTMLDivElement
 
 object Content:
 
 	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel) =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArrayDiv(sorted.sortableModel)
+			getBarArrayDiv(sorted)
 		)
 
-	private def getBarArrayDiv(sortableModel: SortableModel) =
+	private def getBarArrayDiv(sortedModel: SortedModel) =
 		div(
 			ContentStyle.barArrayStyle,
-			getBars(sortableModel).map: bar =>
-				div(
-					ContentStyle.singleBar(bar)
-				)
+			getBarArrayVisualisation(sortedModel, 250)
 		)
 
-	private def getBars(sortableModel: SortableModel): List[Bar] =
+	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int) =
+		getBars(sortedModel.sortableModel)
+
+	private def getBars(sortableModel: SortableModel): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices
 			.list
 			.map: valueWithIndex =>
-				Bar(
-					id = valueWithIndex.indexModel.index,
-					height = valueWithIndex.value,
-					backgroundColor = "blue"
+				div(
+					ContentStyle.singleBar(
+						Bar(
+							id = valueWithIndex.indexModel.index,
+							height = valueWithIndex.value,
+							backgroundColor = "blue"
+						)
+					)
 				)
 
 object ContentStyle:
