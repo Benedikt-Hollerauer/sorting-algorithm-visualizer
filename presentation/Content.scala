@@ -1,7 +1,8 @@
 import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import core.model.{SortableModel, SortedModel}
-import org.scalajs.dom.HTMLDivElement
+import core.model.{SortableModel, SortedModel, SortingModel}
+import org.scalajs.dom.{HTMLDivElement, console}
 
 object Content:
 
@@ -17,10 +18,18 @@ object Content:
 			getBarArrayVisualisation(sortedModel, 250)
 		)
 
-	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int) =
-		getBars(sortedModel.sortableModel)
+	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int): List[ReactiveHtmlElement[HTMLDivElement]] =
+		var sorted = sortedModel
+		EventStream.periodic(intervalMs).map: tick =>
+			if(sortedModel.changes.lift(tick).isDefined)
+				sorted = sorted.sortableModel
+					.valuesWithIndices
+					.list
+					.updated()
+					.updated()
+			else
 
-	private def getBars(sortableModel: SortableModel): List[ReactiveHtmlElement[HTMLDivElement]] =
+	private def getBars(sortableModel: SortableModel, backgroundColor: String): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices
 			.list
 			.map: valueWithIndex =>
@@ -29,7 +38,7 @@ object Content:
 						Bar(
 							id = valueWithIndex.indexModel.index,
 							height = valueWithIndex.value,
-							backgroundColor = "blue"
+							backgroundColor = backgroundColor
 						)
 					)
 				)
