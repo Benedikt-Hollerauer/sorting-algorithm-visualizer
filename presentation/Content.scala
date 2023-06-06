@@ -25,6 +25,17 @@ object Content:
 				"blue"
 			)
 
+	private def swapSortable(tobeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
+		val swapped = tobeUpdated.valuesWithIndices
+			.list
+			.updated(swappedIndices._1, tobeUpdated.valuesWithIndices.list(swappedIndices._2))
+			.updated(swappedIndices._2, tobeUpdated.valuesWithIndices.list(swappedIndices._1))
+		SortableModel.from(
+			NonEmptyListModel.from(
+				swapped
+			).toOption.get
+		).toOption.get
+
 	private def changeSorted(sortedModel: SortedModel, tick: Int): SortedModel =
 		if(sortedModel.changes.lift(tick).isDefined)
 			val changedPositions = sortedModel.sortableModel
