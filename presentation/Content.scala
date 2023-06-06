@@ -1,7 +1,7 @@
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import core.model.{SortableModel, SortedModel, SortingModel}
+import core.model.{NonEmptyListModel, SortableModel, SortedModel, SortingModel}
 import org.scalajs.dom.{HTMLDivElement, console}
 
 object Content:
@@ -15,19 +15,31 @@ object Content:
 	private def getBarArrayDiv(sortedModel: SortedModel) =
 		div(
 			ContentStyle.barArrayStyle,
-			getBarArrayVisualisation(sortedModel, 250)
+			children <-- getBarArrayVisualisation(sortedModel, 250)
 		)
 
-	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int): List[ReactiveHtmlElement[HTMLDivElement]] =
-		var sorted = sortedModel
+	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int): EventStream[List[ReactiveHtmlElement[HTMLDivElement]]] =
 		EventStream.periodic(intervalMs).map: tick =>
-			if(sortedModel.changes.lift(tick).isDefined)
-				sorted = sorted.sortableModel
-					.valuesWithIndices
-					.list
-					.updated()
-					.updated()
-			else
+			getBars(
+				changeSorted(sortedModel, tick).sortableModel,
+				"blue"
+			)
+
+	private def changeSorted(sortedModel: SortedModel, tick: Int): SortedModel =
+		if(sortedModel.changes.lift(tick).isDefined)
+			val changedPositions = sortedModel.sortableModel
+				.valuesWithIndices
+				.list
+				.updated(sortedModel.changes(tick).focusedIndices._1.indexModel.index, sortedModel.sortableModel.valuesWithIndices.list(sortedModel.changes(tick).focusedIndices._1.value))
+				.updated(sortedModel.changes(tick).focusedIndices._2.indexModel.index, sortedModel.sortableModel.valuesWithIndices.list(sortedModel.changes(tick).focusedIndices._2.value))
+			sortedModel.copy(
+				sortableModel = SortableModel.from(
+					NonEmptyListModel.from(
+						changedPositions
+					).toOption.get
+				).toOption.get
+			)
+		else sortedModel
 
 	private def getBars(sortableModel: SortableModel, backgroundColor: String): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices
