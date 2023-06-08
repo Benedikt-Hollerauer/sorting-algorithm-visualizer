@@ -20,6 +20,7 @@ object BubbleSortEntity_Test:
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
 			assert(res.changes.last.focusedIndices._2.value == 3)
 			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
+			//TODO: test if there is a index -1
 
 	object sortDescending_should_return:
 
@@ -33,3 +34,4 @@ object BubbleSortEntity_Test:
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
 			assert(res.changes.last.focusedIndices._2.value == 3)
 			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
+			//TODO: test if there is a index -1

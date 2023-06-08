@@ -61,12 +61,12 @@ object BubbleSortEntity extends SortingAlgorithm:
 								),
 						acc._2 + 1
 					)
-		sortable.valuesWithIndices.list.foreach(println)
-		//res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
-		res._1.foreach(println)
+			._1.filter:
+				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+		res.foreach(println)
 		SortedModel(
 			sortableModel = sortable,
-			changes = res._1
+			changes = res
 		)
 
 	def sortDescending(sortable: SortableModel): SortedModel =
@@ -123,10 +123,9 @@ object BubbleSortEntity extends SortingAlgorithm:
 								),
 						acc._2 + 1
 					)
-		sortable.valuesWithIndices.list.foreach(println)
-		//res.map(it => (it.focusedIndices._1.value, it.focusedIndices._2.value)).foreach(println)
-		res._1.foreach(println)
+			._1.filter:
+				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
 		SortedModel(
 			sortableModel = sortable,
-			changes = res._1
+			changes = res
 		)

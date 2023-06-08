@@ -3,27 +3,35 @@ import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.model.{NonEmptyListModel, SortableModel, SortedModel, SortingModel}
 import org.scalajs.dom.{HTMLDivElement, console}
+import scalajs.js.timers.setTimeout
 
 object Content:
 
-	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel) =
+	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArrayDiv(sorted)
+			getBarArrayDiv(sorted, 250)
 		)
 
-	private def getBarArrayDiv(sortedModel: SortedModel) =
+	private def getBarArrayDiv(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
-			children <-- getBarArrayVisualisation(sortedModel, 250)
+			children <-- EventStream.periodic(intervalMs).map: tick =>
+				val barArray = getBarArrayVisualisation(sortedModel)
+				if(barArray.lift(tick).isDefined)
+					barArray(tick)
+				else barArray.last
 		)
 
-	private def getBarArrayVisualisation(sortedModel: SortedModel, intervalMs: Int): EventStream[List[ReactiveHtmlElement[HTMLDivElement]]] =
-		EventStream.periodic(intervalMs).map: tick =>
-			getBars(
-				changeSorted(sortedModel, tick).sortableModel,
-				"blue"
-			)
+	private def getBarArrayVisualisation(sortedModel: SortedModel): LazyList[List[ReactiveHtmlElement[HTMLDivElement]]] =
+		var sortable = sortedModel.sortableModel
+		sortedModel.changes
+			.map: change =>
+				sortable = swapSortable(sortable, (change.focusedIndices._1.indexModel.index, change.focusedIndices._2.indexModel.index))
+				getBars(
+					sortable,
+					"blue"
+				)
 
 	private def swapSortable(tobeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
 		val swapped = tobeUpdated.valuesWithIndices
