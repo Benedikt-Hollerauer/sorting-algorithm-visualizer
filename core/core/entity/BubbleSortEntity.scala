@@ -17,18 +17,15 @@ object BubbleSortEntity extends SortingAlgorithm:
 		val res = sortable.valuesWithIndices
 			.list
 			.foldLeft(
-				(LazyList.empty[SortingModel], 0)
+				(LazyList.empty[SortingModel], sortable.valuesWithIndices.list)
 			): (acc, _) =>
 				acc._1.lastOption match
 					case Some(last) => (
-						acc._1 ++ sortable
-							.valuesWithIndices
-							.list
-							.drop(acc._2)
+						acc._1 ++ acc._2
 							.scanLeft(
 								SortingModel.empty
 							): (first, second) =>
-								if (comparator(first.focusedIndices._2.value, second.value)) SortingModel(
+								if(comparator(first.focusedIndices._2.value, second.value)) SortingModel(
 									focusedIndices = (
 										first.focusedIndices._2,
 										second
@@ -42,16 +39,14 @@ object BubbleSortEntity extends SortingAlgorithm:
 									),
 									focusedIndicesChanged = true
 								),
-						acc._2 + 1
+						acc._2.drop(1)
 					)
 					case None => (
-						acc._1 ++ sortable
-							.valuesWithIndices
-							.list
+						acc._1 ++ acc._2
 							.scanLeft(
 								SortingModel.empty
 							): (first, second) =>
-								if (comparator(first.focusedIndices._2.value, second.value)) SortingModel(
+								if(comparator(first.focusedIndices._2.value, second.value)) SortingModel(
 									focusedIndices = (
 										first.focusedIndices._2,
 										second
@@ -65,10 +60,10 @@ object BubbleSortEntity extends SortingAlgorithm:
 									),
 									focusedIndicesChanged = true
 								),
-						acc._2 + 1
+						acc._2
 					)
 			._1.filter:
-			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
 		SortedModel(
 			sortableModel = sortable,
 			changes = res
