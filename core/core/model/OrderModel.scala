@@ -1,6 +1,9 @@
 package core.model
 
-enum OrderModel:
+enum OrderModel(ordering: (Int, Int) => Boolean):
     
-    case Ascending,
-        Descending
+    def getOrdering: (Int, Int) => Boolean =
+        this.ordering
+    
+    case Ascending extends OrderModel(_ <= _)
+    case Descending extends OrderModel(_ >= _)

@@ -14,37 +14,6 @@ object BubbleSortEntity extends SortingAlgorithm:
 		sort(sortable, _ >= _)
 
 	private def sort(sortable: SortableModel, comparator: (Int, Int) => Boolean): SortedModel =
-		def bubbleSort(
-			toBeCompared: List[ValueWithIndexModel],
-			acc: List[SortingModel] = List.empty[SortingModel],
-			comparator: (Int, Int) => Boolean
-		): List[SortingModel] =
-			toBeCompared match
-				case first :: second :: tail if comparator(first.value, second.value) =>
-					bubbleSort(
-						toBeCompared = second :: tail,
-						acc = acc :+ SortingModel(
-							focusedIndices = (first, second),
-							focusedIndicesChanged = false
-						),
-						comparator = comparator
-					)
-				case first :: second :: tail =>
-					bubbleSort(
-						toBeCompared = second :: tail,
-						acc = acc :+ SortingModel(
-							focusedIndices = (second, first),
-							focusedIndicesChanged = true
-						),
-						comparator = comparator
-					)
-				case first :: Nil => acc :+ SortingModel(
-					focusedIndices = (acc.last.focusedIndices._2, first),
-					focusedIndicesChanged = true
-				)
-				//TODO: probably add another comparison here
-				case Nil => acc
-
 		val res = sortable.valuesWithIndices
 			.list
 			.foldLeft(
@@ -99,3 +68,20 @@ object BubbleSortEntity extends SortingAlgorithm:
 			sortableModel = sortable,
 			changes = res
 		)
+
+	def sortOnce(
+		toBeCompared: List[ValueWithIndexModel],
+		comparator: OrderModel,
+	): List[SortingModel] =
+		toBeCompared.scanLeft(SortingModel.empty): (first, second) => //TODO: add something, to have a valid sorted model as starter value instead of an empty one
+			if(comparator.getOrdering(first.focusedIndices._2.value, second.value))
+				SortingModel(
+					focusedIndices = (first.focusedIndices._2, second),
+					focusedIndicesChanged = false
+				)
+			else SortingModel(
+				focusedIndices = (second, first.focusedIndices._2),
+				focusedIndicesChanged = true
+			)
+		.filter:
+			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1

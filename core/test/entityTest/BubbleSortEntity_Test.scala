@@ -67,3 +67,25 @@ object BubbleSortEntity_Test:
 						) => false
 						case _ => true
 			)
+
+	object sortOnce_should_return:
+
+		def `List[SortingModel] - ascending`: Unit =
+			val res = BubbleSortEntity.sortOnce(
+				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
+				comparator = OrderModel.Ascending
+			)
+			assert(res.head.focusedIndicesChanged == true)
+			assert(res.last.focusedIndicesChanged == true)
+			assert(res.head.focusedIndices._1.value == -2)
+			assert(res.last.focusedIndices._2.value == 999999)
+
+		def `List[SortingModel] - descending`: Unit =
+			val res = BubbleSortEntity.sortOnce(
+				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
+				comparator = OrderModel.Descending
+			)
+			assert(res.head.focusedIndicesChanged == true)
+			assert(res.last.focusedIndicesChanged == false)
+			assert(res.head.focusedIndices._1.value == 999999)
+			assert(res.last.focusedIndices._2.value == -500)
