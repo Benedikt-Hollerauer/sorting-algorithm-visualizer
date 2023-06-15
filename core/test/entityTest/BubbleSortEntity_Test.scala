@@ -72,28 +72,29 @@ object BubbleSortEntity_Test:
 
 	object sortOnce_should_return:
 
-		@main
-		def it =
-			this.`List[SortingModel] - ascending`
+		private def testCommonProperties(
+			res: List[SortingModel],
+			focusedIndicesChangedHeadAndTail: (Boolean, Boolean),
+			focusIndicesHeadAndTail: (Int, Int)
+		): Unit =
+			assert(res.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
+			assert(res.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
+			assert(res.head.focusedIndices._1.value == focusIndicesHeadAndTail._1)
+			assert(res.last.focusedIndices._2.value == focusIndicesHeadAndTail._2)
+			assert(res.exists:
+				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+			)
 
 		def `List[SortingModel] - ascending`: Unit =
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
 				comparator = OrderModel.Ascending
 			)
-			//res.foreach(println)
-			assert(res.head.focusedIndicesChanged == false)
-			assert(res.last.focusedIndicesChanged == true)
-			assert(res.head.focusedIndices._1.value == -2)
-			assert(res.last.focusedIndices._2.value == 999999)
+			testCommonProperties(res, (false, true), (-2, 999999))
 
 		def `List[SortingModel] - descending`: Unit =
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
 				comparator = OrderModel.Descending
 			)
-			assert(res.head.focusedIndicesChanged == false)
-			assert(res.last.focusedIndicesChanged == false)
-			assert(res.head.focusedIndices._1.value == -2)
-			assert(res.last.focusedIndices._2.value == -500)
-			//TODO: assert that there is no -1 IndexModel
+			testCommonProperties(res, (true, false), (999999, -500))
