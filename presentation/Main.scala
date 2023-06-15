@@ -1,9 +1,9 @@
 import com.raquo.laminar.api.L.{*, given}
 import core.input.SortByBubbleSortInput
 import core.model.OrderModel
-import org.scalajs.dom
 import core.useCase.GenerateSortableUseCase
 import mock.inputMock.GenerateSortableInputMock
+import org.scalajs.dom
 import useCase.SortByBubbleSortUseCase
 
 import scala.scalajs.js.timers.setTimeout

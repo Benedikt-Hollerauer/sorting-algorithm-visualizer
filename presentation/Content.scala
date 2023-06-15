@@ -3,7 +3,8 @@ import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.model.{NonEmptyListModel, SortableModel, SortedModel, SortingModel}
 import org.scalajs.dom.{HTMLDivElement, console}
-import scalajs.js.timers.setTimeout
+
+import scala.scalajs.js.timers.setTimeout
 
 object Content:
 

@@ -10,6 +10,11 @@ import scala.main
 
 object BubbleSortEntity_Test:
 
+	private def testIfEmptyIndexModelExists(res: List[SortingModel]): Unit =
+		assert(res.exists:
+			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+		)
+
 	object sortAscending_should_return:
 
 		def `SortedModel - ascending`: Unit =
@@ -22,22 +27,7 @@ object BubbleSortEntity_Test:
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
 			assert(res.changes.last.focusedIndices._2.value == 3)
 			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
-			assert(res.changes.exists: sortingModel =>
-				sortingModel match
-					case SortingModel(
-						(ValueWithIndexModel(_, IndexModel(-1)), _),
-						_
-					) => false
-					case _ => true
-			)
-			assert(res.changes.exists: sortingModel =>
-				sortingModel match
-					case SortingModel(
-						(_, ValueWithIndexModel(_, IndexModel(-1))),
-						_
-					) => false
-					case _ => true
-			)
+			testIfEmptyIndexModelExists(res.changes.toList)
 
 	object sortDescending_should_return:
 
@@ -51,24 +41,7 @@ object BubbleSortEntity_Test:
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
 			assert(res.changes.last.focusedIndices._2.value == 3)
 			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
-			assert(
-				res.changes.exists: sortingModel =>
-					sortingModel match
-						case SortingModel(
-							(ValueWithIndexModel(_, IndexModel(-1)), _),
-							_
-						) => false
-						case _ => true
-			)
-			assert(
-				res.changes.exists: sortingModel =>
-					sortingModel match
-						case SortingModel(
-							(_, ValueWithIndexModel(_, IndexModel(-1))),
-							_
-						) => false
-						case _ => true
-			)
+			testIfEmptyIndexModelExists(res.changes.toList)
 
 	object sortOnce_should_return:
 
@@ -81,9 +54,7 @@ object BubbleSortEntity_Test:
 			assert(res.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
 			assert(res.head.focusedIndices._1.value == focusIndicesHeadAndTail._1)
 			assert(res.last.focusedIndices._2.value == focusIndicesHeadAndTail._2)
-			assert(res.exists:
-				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
-			)
+			testIfEmptyIndexModelExists(res)
 
 		def `List[SortingModel] - ascending`: Unit =
 			val res = BubbleSortEntity.sortOnce(
