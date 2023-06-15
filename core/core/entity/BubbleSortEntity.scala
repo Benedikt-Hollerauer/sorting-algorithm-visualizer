@@ -73,29 +73,29 @@ object BubbleSortEntity extends SortingAlgorithm:
 		toBeCompared: List[ValueWithIndexModel],
 		comparator: OrderModel,
 	): List[SortingModel] =
-		toBeCompared.scanLeft(SortingModel.empty): (first, second) =>
-			if(first.focusedIndices._1 == ValueWithIndexModel.empty)
-				SortingModel(
-					focusedIndices = (second, first.focusedIndices._1),
+		toBeCompared.scanLeft(SortingModel.empty):
+			case (SortingModel((first, second), _), next)
+				if first == ValueWithIndexModel.empty => SortingModel(
+					focusedIndices = (next, first),
 					focusedIndicesChanged = false
 				)
-			else if(first.focusedIndices._2 == ValueWithIndexModel.empty) //TODO: I think i have to add a comparator.getOrdering comparison, to check how the should be ordered
-				if(comparator.getOrdering(first.focusedIndices._1.value, first.focusedIndices._2.value))
-					SortingModel(
-						focusedIndices = (first.focusedIndices._1, second),
+			case (SortingModel((first, second), _), next)
+				if second == ValueWithIndexModel.empty =>
+					if (comparator.getOrdering(first.value, second.value)) SortingModel(
+						focusedIndices = (first, next),
 						focusedIndicesChanged = false
 					)
-				else SortingModel(
-					focusedIndices = (second, first.focusedIndices._1),
-					focusedIndicesChanged = true
-				)
-			else if(comparator.getOrdering(first.focusedIndices._2.value, second.value))
-				SortingModel(
-					focusedIndices = (first.focusedIndices._2, second),
+					else SortingModel(
+						focusedIndices = (next, first),
+						focusedIndicesChanged = true
+					)
+			case (SortingModel((first, second), _), next)
+				if comparator.getOrdering(second.value, next.value) => SortingModel(
+					focusedIndices = (second, next),
 					focusedIndicesChanged = false
 				)
-			else SortingModel(
-				focusedIndices = (second, first.focusedIndices._2),
+			case (SortingModel((first, second), _), next) => SortingModel(
+				focusedIndices = (next, second),
 				focusedIndicesChanged = true
 			)
 		.filter:
