@@ -8,66 +8,27 @@ import mock.modelMock.SortableModelMock
 object BubbleSortEntity extends SortingAlgorithm:
 
 	override def sortAscending(sortable: SortableModel): SortedModel =
-		sort(sortable, _ <= _)
+		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Ascending)
 
 	override def sortDescending(sortable: SortableModel): SortedModel =
-		sort(sortable, _ >= _)
+		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Descending)
 
-	private def sort(sortable: SortableModel, comparator: (Int, Int) => Boolean): SortedModel =
-		val res = sortable.valuesWithIndices
-			.list
-			.foldLeft(
-				(LazyList.empty[SortingModel], sortable.valuesWithIndices.list)
-			): (acc, _) =>
-				acc._1.lastOption match
-					case Some(last) => (
-						acc._1 ++ acc._2
-							.scanLeft(
-								SortingModel.empty
-							): (first, second) =>
-								if(comparator(first.focusedIndices._2.value, second.value)) SortingModel(
-									focusedIndices = (
-										first.focusedIndices._2,
-										second
-									),
-									focusedIndicesChanged = false
-								)
-								else SortingModel(
-									focusedIndices = (
-										second,
-										first.focusedIndices._2
-									),
-									focusedIndicesChanged = true
-								),
-						acc._2.drop(1)
-					)
-					case None => (
-						acc._1 ++ acc._2
-							.scanLeft(
-								SortingModel.empty
-							): (first, second) =>
-								if(comparator(first.focusedIndices._2.value, second.value)) SortingModel(
-									focusedIndices = (
-										first.focusedIndices._2,
-										second
-									),
-									focusedIndicesChanged = false
-								)
-								else SortingModel(
-									focusedIndices = (
-										second,
-										first.focusedIndices._2
-									),
-									focusedIndicesChanged = true
-								),
-						acc._2
-					)
-			._1.filter:
-				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
-		SortedModel(
-			sortableModel = sortable,
-			changes = res
-		)
+	private def sort(valuesWithIndices: List[ValueWithIndexModel], sortable: SortableModel, comparator: OrderModel, acc: LazyList[SortingModel] = LazyList.empty[SortingModel]): SortedModel =
+		valuesWithIndices match
+			case Nil => SortedModel(
+				sortable,
+				acc
+			)
+			case valuesWithIndices =>
+				val newValuesWithIndices = comparator match
+					case OrderModel.Ascending => valuesWithIndices.dropRight(1)
+					case OrderModel.Descending => valuesWithIndices.tail
+				sort(
+					newValuesWithIndices,
+					sortable,
+					comparator,
+					acc ++ sortOnce(newValuesWithIndices, comparator)
+				)
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],
