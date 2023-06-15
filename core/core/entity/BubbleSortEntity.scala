@@ -74,29 +74,19 @@ object BubbleSortEntity extends SortingAlgorithm:
 		comparator: OrderModel,
 	): List[SortingModel] =
 		toBeCompared.scanLeft(SortingModel.empty):
-			case (SortingModel((first, second), _), next)
-				if first == ValueWithIndexModel.empty => SortingModel(
-					focusedIndices = (next, first),
-					focusedIndicesChanged = false
-				)
-			case (SortingModel((first, second), _), next)
-				if second == ValueWithIndexModel.empty =>
-					if (comparator.getOrdering(first.value, second.value)) SortingModel(
-						focusedIndices = (first, next),
-						focusedIndicesChanged = false
-					)
-					else SortingModel(
-						focusedIndices = (next, first),
-						focusedIndicesChanged = true
-					)
-			case (SortingModel((first, second), _), next)
-				if comparator.getOrdering(second.value, next.value) => SortingModel(
-					focusedIndices = (second, next),
-					focusedIndicesChanged = false
-				)
-			case (SortingModel((first, second), _), next) => SortingModel(
-				focusedIndices = (next, second),
-				focusedIndicesChanged = true
-			)
+			case (SortingModel((first, second), _), next) =>
+				val (newFirst, newSecond, changed) = (first, second) match
+					case (f, _) if f == ValueWithIndexModel.empty =>
+						(next, f, false)
+					case (f, s) if s == ValueWithIndexModel.empty && comparator.getOrdering(f.value, s.value) =>
+						(f, next, false)
+					case (f, s) if s == ValueWithIndexModel.empty =>
+						(next, f, true)
+					case (_, s) if comparator.getOrdering(s.value, next.value) =>
+						(s, next, false)
+					case _ =>
+						(next, second, true)
+				SortingModel((newFirst, newSecond), changed)
 		.filter:
-			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) =>
+				index0 != -1 && index1 != -1
