@@ -73,8 +73,18 @@ object BubbleSortEntity extends SortingAlgorithm:
 		toBeCompared: List[ValueWithIndexModel],
 		comparator: OrderModel,
 	): List[SortingModel] =
-		toBeCompared.scanLeft(SortingModel.empty): (first, second) => //TODO: add something, to have a valid sorted model as starter value instead of an empty one
-			if(comparator.getOrdering(first.focusedIndices._2.value, second.value))
+		toBeCompared.scanLeft(SortingModel.empty): (first, second) =>
+			if(first.focusedIndices._1 == ValueWithIndexModel.empty)
+				SortingModel(
+					focusedIndices = (second, first.focusedIndices._1),
+					focusedIndicesChanged = false
+				)
+			else if(first.focusedIndices._2 == ValueWithIndexModel.empty) //TODO: I think i have to add a comparator.getOrdering comparison, to check how the should be ordered
+				SortingModel(
+					focusedIndices = (first.focusedIndices._1, second),
+					focusedIndicesChanged = false
+				)
+			else if(comparator.getOrdering(first.focusedIndices._2.value, second.value))
 				SortingModel(
 					focusedIndices = (first.focusedIndices._2, second),
 					focusedIndicesChanged = false
@@ -85,3 +95,12 @@ object BubbleSortEntity extends SortingAlgorithm:
 			)
 		.filter:
 			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) => index0 != -1 && index1 != -1
+		val pairs = toBeCompared.zip(toBeCompared.tail)
+		println(toBeCompared.map(_.value).sliding(2).toList.map(x => (x.head, x.last)))
+		pairs.foldLeft(List.empty[SortingModel]):
+			case (acc, (first, second)) =>
+				val newModel = if (comparator.getOrdering(first.value, second.value))
+					SortingModel((first, second), focusedIndicesChanged = false)
+				else
+					SortingModel((second, first), focusedIndicesChanged = true)
+				acc :+ newModel
