@@ -12,7 +12,7 @@ object BubbleSortEntity_Test:
 
 	@main
 	def it =
-		sortAscending_should_return.`SortedModel - ascending`
+		sortOnce_should_return.`List[SortingModel] - ascending`
 
 	private def testIfEmptyIndexModelExists(res: List[SortingModel]): Unit =
 		assert(res.exists:
@@ -25,7 +25,6 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.sortable
 			)
-			//res.changes.foreach(println)
 			assert(res.sortableModel == SortableModelMock.sortable)
 			assert(res.changes.last.focusedIndicesChanged == true)
 			assert(res.changes.last.focusedIndices._1.value == 999999)
@@ -40,7 +39,6 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.sortable
 			)
-			res.changes.foreach(println)
 			assert(res.sortableModel == SortableModelMock.sortable)
 			assert(res.changes.last.focusedIndicesChanged == true)
 			assert(res.changes.last.focusedIndices._1.value == 999999)
@@ -67,7 +65,8 @@ object BubbleSortEntity_Test:
 				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
 				comparator = OrderModel.Ascending
 			)
-			res.foreach(it => println(it))//(it.focusedIndices._1.value, it.focusedIndices._2.value)))
+			println(res.map(_.focusedIndices._1.value) :+ 999999)
+			assert(res.map(_.focusedIndices._1.value) :+ 999999 == ToBeSortedMock.ascendingOrder.sortedOnce)
 			testCommonProperties(res, (false, true), (-2, 999999))
 
 		def `List[SortingModel] - descending`: Unit =
@@ -75,5 +74,5 @@ object BubbleSortEntity_Test:
 				toBeCompared = SortableModelMock.sortable.valuesWithIndices.list,
 				comparator = OrderModel.Descending
 			)
-			res.foreach(it => println((it.focusedIndices._1.value, it.focusedIndices._2.value)))
+			assert(res.map(_.focusedIndices._1.value) :+ -500 == ToBeSortedMock.descendingOrder.sortedOnce)
 			testCommonProperties(res, (true, false), (999999, -500))

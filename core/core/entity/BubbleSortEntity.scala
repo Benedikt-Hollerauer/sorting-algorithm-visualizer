@@ -32,8 +32,6 @@ object BubbleSortEntity extends SortingAlgorithm:
 						case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
 						case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
 				val sortedOnce = sortOnce(newValuesWithIndices, comparator)
-				sortedOnce.foreach(it => println(((it.focusedIndices._1.value, it.focusedIndices._1.indexModel.index), (it.focusedIndices._2.value, it.focusedIndices._2.indexModel.index))))
-				println(Seq.fill(100)('-').mkString)
 				sort(
 					newValuesWithIndices,
 					sortable,
