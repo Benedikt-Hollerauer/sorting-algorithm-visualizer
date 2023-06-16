@@ -11,7 +11,7 @@ object Content:
 	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArrayDiv(sorted, 10)
+			getBarArrayDiv(sorted, 100)
 		)
 
 	private def getBarArrayDiv(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
@@ -25,41 +25,35 @@ object Content:
 		)
 
 	private def getBarArrayVisualisation(sortedModel: SortedModel): LazyList[List[ReactiveHtmlElement[HTMLDivElement]]] =
-		var sortable = sortedModel.sortableModel
 		sortedModel.changes
-			.map: change =>
-				sortable = swapSortable(sortable, (change.focusedIndices._1.indexModel.index, change.focusedIndices._2.indexModel.index))
-				getBars(
-					sortable,
-					"blue"
+			.foldLeft(
+				(sortedModel.sortableModel, LazyList.empty[List[ReactiveHtmlElement[HTMLDivElement]]])
+			): (acc, change) =>
+				val newSortable = swapSortable(acc._1, (change.focusedIndices._1.indexModel.index, change.focusedIndices._2.indexModel.index))
+				(
+					newSortable,
+					acc._2 :+ getBars(
+						newSortable,
+						"#009FFD"
+					)
 				)
+			._2
 
-	private def swapSortable(tobeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
-		val swapped = tobeUpdated.valuesWithIndices
-			.list
-			.updated(swappedIndices._1, tobeUpdated.valuesWithIndices.list(swappedIndices._2))
-			.updated(swappedIndices._2, tobeUpdated.valuesWithIndices.list(swappedIndices._1))
+	private def swapSortable(toBeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
+		val list = toBeUpdated.valuesWithIndices.list
+		val element1 = list.find(_.indexModel.index == swappedIndices._1)
+		val element2 = list.find(_.indexModel.index == swappedIndices._2)
+		if (element1.isEmpty || element2.isEmpty)
+			throw new IllegalArgumentException(s"Could not find elements with indices ${swappedIndices._1} and ${swappedIndices._2}")
+		val swapped = list.map:
+			case v if v == element1.get => element2.get
+			case v if v == element2.get => element1.get
+			case other => other
 		SortableModel.from(
 			NonEmptyListModel.from(
 				swapped
 			).toOption.get
 		).toOption.get
-
-	private def changeSorted(sortedModel: SortedModel, tick: Int): SortedModel =
-		if(sortedModel.changes.lift(tick).isDefined)
-			val changedPositions = sortedModel.sortableModel
-				.valuesWithIndices
-				.list
-				.updated(sortedModel.changes(tick).focusedIndices._1.indexModel.index, sortedModel.sortableModel.valuesWithIndices.list(sortedModel.changes(tick).focusedIndices._1.value))
-				.updated(sortedModel.changes(tick).focusedIndices._2.indexModel.index, sortedModel.sortableModel.valuesWithIndices.list(sortedModel.changes(tick).focusedIndices._2.value))
-			sortedModel.copy(
-				sortableModel = SortableModel.from(
-					NonEmptyListModel.from(
-						changedPositions
-					).toOption.get
-				).toOption.get
-			)
-		else sortedModel
 
 	private def getBars(sortableModel: SortableModel, backgroundColor: String): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices
