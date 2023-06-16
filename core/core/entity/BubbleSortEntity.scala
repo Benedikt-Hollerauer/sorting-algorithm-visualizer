@@ -13,21 +13,35 @@ object BubbleSortEntity extends SortingAlgorithm:
 	override def sortDescending(sortable: SortableModel): SortedModel =
 		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Descending)
 
-	private def sort(valuesWithIndices: List[ValueWithIndexModel], sortable: SortableModel, comparator: OrderModel, acc: LazyList[SortingModel] = LazyList.empty[SortingModel]): SortedModel =
+	private def sort(
+		valuesWithIndices: List[ValueWithIndexModel],
+		sortable: SortableModel,
+		comparator: OrderModel,
+		acc: LazyList[SortingModel] = LazyList.empty[SortingModel],
+		firstIteration: Boolean = true
+	): SortedModel =
 		valuesWithIndices match
 			case Nil => SortedModel(
 				sortable,
 				acc
 			)
 			case valuesWithIndices =>
-				val newValuesWithIndices = comparator match
-					case OrderModel.Ascending => valuesWithIndices.dropRight(1)
-					case OrderModel.Descending => valuesWithIndices.tail
+				val newValuesWithIndices =
+					if(firstIteration)
+						valuesWithIndices
+					else
+						comparator match
+							case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
+							case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
+				val sortedOnce = sortOnce(newValuesWithIndices, comparator)
+				sortedOnce.foreach(it => println(((it.focusedIndices._1.value, it.focusedIndices._1.indexModel.index), (it.focusedIndices._2.value, it.focusedIndices._2.indexModel.index))))
+				println(Seq.fill(100)('-').mkString)
 				sort(
 					newValuesWithIndices,
 					sortable,
 					comparator,
-					acc ++ sortOnce(newValuesWithIndices, comparator)
+					acc ++ sortedOnce,
+					false
 				)
 
 	def sortOnce(
