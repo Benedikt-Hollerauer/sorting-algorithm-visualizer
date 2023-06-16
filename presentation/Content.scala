@@ -19,9 +19,9 @@ object Content:
 			ContentStyle.barArrayStyle,
 			children <-- EventStream.periodic(intervalMs).map: tick =>
 				val barArray = getBarArrayVisualisation(sortedModel)
-				if(barArray.lift(tick).isDefined)
-					barArray(tick)
-				else barArray.last
+				barArray.lift(tick) match
+					case Some(bar) => bar
+					case None => barArray.last
 		)
 
 	private def getBarArrayVisualisation(sortedModel: SortedModel): LazyList[List[ReactiveHtmlElement[HTMLDivElement]]] =
