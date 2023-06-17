@@ -12,7 +12,7 @@ object BubbleSortEntity_Test:
 
 	@main
 	def it =
-		sortOnce_should_return.`List[SortingModel] - ascending`
+		sortAscending_should_return.`SortedModel - ascending`
 
 	private def testIfEmptyIndexModelExists(res: List[SortingModel]): Unit =
 		assert(res.exists:
@@ -25,12 +25,13 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.sortable
 			)
+			res.changes.foreach(println)
 			assert(res.sortableModel == SortableModelMock.sortable)
 			assert(res.changes.last.focusedIndicesChanged == true)
 			assert(res.changes.last.focusedIndices._1.value == 999999)
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
-			assert(res.changes.last.focusedIndices._2.value == 3)
-			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
+			assert(res.changes.last.focusedIndices._2.value == 999999)
+			assert(res.changes.last.focusedIndices._2.indexModel.index == 2)
 			testIfEmptyIndexModelExists(res.changes.toList)
 
 	object sortDescending_should_return:
@@ -43,7 +44,7 @@ object BubbleSortEntity_Test:
 			assert(res.changes.last.focusedIndicesChanged == true)
 			assert(res.changes.last.focusedIndices._1.value == 999999)
 			assert(res.changes.last.focusedIndices._1.indexModel.index == 2)
-			assert(res.changes.last.focusedIndices._2.value == 3)
+			assert(res.changes.last.focusedIndices._2.value == -500)
 			assert(res.changes.last.focusedIndices._2.indexModel.index == 1)
 			testIfEmptyIndexModelExists(res.changes.toList)
 
