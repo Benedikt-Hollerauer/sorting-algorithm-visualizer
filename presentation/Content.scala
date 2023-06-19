@@ -26,34 +26,35 @@ object Content:
 
 	private def getBarArrayVisualisation(sortedModel: SortedModel): LazyList[List[ReactiveHtmlElement[HTMLDivElement]]] =
 		sortedModel.changes
-			.foldLeft(
-				(sortedModel.sortableModel, LazyList.empty[List[ReactiveHtmlElement[HTMLDivElement]]])
+			.scanLeft(
+				(sortedModel.sortableModel, List.empty[ReactiveHtmlElement[HTMLDivElement]])
 			): (acc, change) =>
 				val newSortable = swapSortable(acc._1, (change.focusedIndices._1.indexModel.index, change.focusedIndices._2.indexModel.index))
 				(
 					newSortable,
-					acc._2 :+ getBars(
+					getBars(
 						newSortable,
 						"#009FFD"
 					)
 				)
-			._2
+			.map(_._2)
 
 	private def swapSortable(toBeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
 		val list = toBeUpdated.valuesWithIndices.list
-		val element1 = list.find(_.indexModel.index == swappedIndices._1)
-		val element2 = list.find(_.indexModel.index == swappedIndices._2)
-		if (element1.isEmpty || element2.isEmpty)
-			throw new IllegalArgumentException(s"Could not find elements with indices ${swappedIndices._1} and ${swappedIndices._2}")
-		val swapped = list.map:
-			case v if v == element1.get => element2.get
-			case v if v == element2.get => element1.get
-			case other => other
-		SortableModel.from(
-			NonEmptyListModel.from(
-				swapped
-			).toOption.get
-		).toOption.get
+		val indexMap = list.map(v => v.indexModel.index -> v).toMap
+		(indexMap.get(swappedIndices._1), indexMap.get(swappedIndices._2)) match
+			case (Some(element1), Some(element2)) =>
+				val swapped = list.map:
+					case v if v == element1 => element2
+					case v if v == element2 => element1
+					case other => other
+				SortableModel.from(
+					NonEmptyListModel.from(
+						swapped
+					).toOption.get
+				).toOption.get
+			case _ =>
+				throw new IllegalArgumentException(s"Could not find elements with indices ${swappedIndices._1} and ${swappedIndices._2}")
 
 	private def getBars(sortableModel: SortableModel, backgroundColor: String): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices
