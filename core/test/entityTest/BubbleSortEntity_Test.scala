@@ -25,6 +25,8 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.sortable
 			)
+			println(SortableModelMock.sortable)
+			println(List.fill(100)('-').mkString)
 			res.changes.foreach(println)
 			assert(res.sortableModel == SortableModelMock.sortable)
 			assert(res.changes.last.focusedIndicesChanged == true)

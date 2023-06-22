@@ -1,7 +1,7 @@
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import core.model.{NonEmptyListModel, SortableModel, SortedModel, SortingModel}
+import core.model.{NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 import org.scalajs.dom.{HTMLDivElement, console}
 
 import scala.scalajs.js.timers.setTimeout
@@ -29,7 +29,7 @@ object Content:
 			.scanLeft(
 				(sortedModel.sortableModel, List.empty[ReactiveHtmlElement[HTMLDivElement]])
 			): (acc, change) =>
-				val newSortable = swapSortable(acc._1, (change.focusedIndices._1.indexModel.index, change.focusedIndices._2.indexModel.index))
+				val newSortable = swapSortable(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
 				(
 					newSortable,
 					getBars(
@@ -39,22 +39,18 @@ object Content:
 				)
 			.map(_._2)
 
-	private def swapSortable(toBeUpdated: SortableModel, swappedIndices: (Int, Int)): SortableModel =
+	private def swapSortable(toBeUpdated: SortableModel, swappedValues: (ValueWithIndexModel, ValueWithIndexModel)): SortableModel =
 		val list = toBeUpdated.valuesWithIndices.list
-		val indexMap = list.map(v => v.indexModel.index -> v).toMap
-		(indexMap.get(swappedIndices._1), indexMap.get(swappedIndices._2)) match
-			case (Some(element1), Some(element2)) =>
-				val swapped = list.map:
-					case v if v == element1 => element2
-					case v if v == element2 => element1
-					case other => other
-				SortableModel.from(
-					NonEmptyListModel.from(
-						swapped
-					).toOption.get
-				).toOption.get
-			case _ =>
-				throw new IllegalArgumentException(s"Could not find elements with indices ${swappedIndices._1} and ${swappedIndices._2}")
+		val swapped = list.updated(
+			list.indexWhere(_ == swappedValues._1), swappedValues._2
+		).updated(
+			list.indexWhere(_ == swappedValues._2), swappedValues._1
+		)
+		SortableModel.from(
+			NonEmptyListModel.from(
+				swapped
+			).toOption.get
+		).toOption.get
 
 	private def getBars(sortableModel: SortableModel, backgroundColor: String): List[ReactiveHtmlElement[HTMLDivElement]] =
 		sortableModel.valuesWithIndices

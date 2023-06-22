@@ -31,12 +31,11 @@ object BubbleSortEntity extends SortingAlgorithm:
 					else comparator match
 						case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
 						case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
-				val sortedOnce = sortOnce(newValuesWithIndices, comparator)
 				sort(
 					newValuesWithIndices,
 					sortable,
 					comparator,
-					acc ++ sortedOnce,
+					acc ++ sortOnce(newValuesWithIndices, comparator),
 					false
 				)
 
