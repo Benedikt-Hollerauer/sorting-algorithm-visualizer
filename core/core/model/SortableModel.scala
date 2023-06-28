@@ -9,11 +9,11 @@ case class SortableModel private(
 
 object SortableModel:
 
-    def from(mayBeList: NonEmptyListModel[ValueWithIndexModel]): Either[SortableModelError, SortableModel] =
-        if(mayBeList.list.length > 500) Left(SortableModelError.ToManyElements(mayBeList.list.length))
-        else if(mayBeList.list.length == 1) Left(SortableModelError.ToFewElements(mayBeList.list.length))
+    def from(mayBeValuesWithIndices: NonEmptyListModel[ValueWithIndexModel]): Either[SortableModelError, SortableModel] =
+        if(mayBeValuesWithIndices.list.length > 500) Left(SortableModelError.ToManyElements(mayBeValuesWithIndices.list.length))
+        else if(mayBeValuesWithIndices.list.length == 1) Left(SortableModelError.ToFewElements(mayBeValuesWithIndices.list.length))
         else Right(
             SortableModel(
-                valuesWithIndices = mayBeList
+                valuesWithIndices = mayBeValuesWithIndices
             )
         )

@@ -7,7 +7,7 @@ import mock.ToBeSortedMock
 object SortableModelMock:
 	
 	val sortable = SortableModel.from(
-		mayBeList = NonEmptyListModel.from(
+		mayBeValuesWithIndices = NonEmptyListModel.from(
 			mayBeList = ToBeSortedMock.ascendingOrder
 				.unsorted
 				.toValuesWithIndices

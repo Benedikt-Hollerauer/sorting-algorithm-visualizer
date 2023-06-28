@@ -13,7 +13,7 @@ object SortableModel_Test:
 
         def `SortableModel - List(1, 4, 7)`: Unit =
             val res = SortableModel.from(
-                mayBeList = NonEmptyListModel.from(
+                mayBeValuesWithIndices = NonEmptyListModel.from(
                     List(1, 4, 7).toValuesWithIndices
                 ).toOption.get
             )
@@ -29,7 +29,7 @@ object SortableModel_Test:
 
         def `ToFewElements`: Unit =
             val res = SortableModel.from(
-                mayBeList = NonEmptyListModel.from(
+                mayBeValuesWithIndices = NonEmptyListModel.from(
                     List(1).toValuesWithIndices
                 ).toOption.get
             )
@@ -37,7 +37,7 @@ object SortableModel_Test:
 
         def `ToManyElements`: Unit =
             val res = SortableModel.from(
-                mayBeList = NonEmptyListModel.from(
+                mayBeValuesWithIndices = NonEmptyListModel.from(
                     List.fill(501)(Random.nextInt(200)).toValuesWithIndices
                 ).toOption.get
             )
