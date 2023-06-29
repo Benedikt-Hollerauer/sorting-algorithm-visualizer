@@ -2,12 +2,12 @@ package core.model
 
 import error.modelError.IndexModelError
 
-case class IndexModel(
+case class IndexModel private(
 	index: Int
 )
 
 object IndexModel:
-	
+		
 	def from(mayBeIndex: Int): Either[IndexModelError, IndexModel] =
 		if(mayBeIndex < 0)
 			Left(

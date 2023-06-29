@@ -11,7 +11,7 @@ import scala.util.Random
 object SortByBubbleSortInputMock:
 
     val ascendingOrder = SortByBubbleSortInput(
-        toBeSorted = SortableModelMock.sortable,
+        toBeSorted = SortableModelMock.unsorted,
         ordering = OrderModel.Ascending
     )
 

@@ -6,10 +6,18 @@ import mock.ToBeSortedMock
 
 object SortableModelMock:
 	
-	val sortable = SortableModel.from(
+	val unsorted = SortableModel.from(
 		mayBeValuesWithIndices = NonEmptyListModel.from(
 			mayBeList = ToBeSortedMock.ascendingOrder
 				.unsorted
+				.toValuesWithIndices
+		).toOption.get
+	).toOption.get
+
+	val sorted = SortableModel.from(
+		mayBeValuesWithIndices = NonEmptyListModel.from(
+			mayBeList = ToBeSortedMock.ascendingOrder
+				.sorted
 				.toValuesWithIndices
 		).toOption.get
 	).toOption.get

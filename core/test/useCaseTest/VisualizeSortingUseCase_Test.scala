@@ -1,6 +1,8 @@
 package test.useCaseTest
 
 import core.model.SortableModel
+import core.useCase.VisualizeSortingUseCase
+import mock.inputMock.VisualizeSortingInputMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil.*
 
