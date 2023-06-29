@@ -25,14 +25,6 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			println(SortableModelMock.unsorted)
-			println(List.fill(100)('-').mkString)
-			println(res.changes.toList.map(it =>/*.map(it => s"\"$it\"")*/ it match
-				case SortingModel((ValueWithIndexModel(value0, IndexModel(index0)), ValueWithIndexModel(value1, IndexModel(index1))), changed) =>
-					s"SortingModel((ValueWithIndexModel($value0, IndexModel.from($index0).toOption.get), ValueWithIndexModel($value1, IndexModel.from($index1).toOption.get)), $changed)"
-			))
-			println(List.fill(100)('-').mkString)
-			res.changes.foreach(println)
 			assert(res.sortableModel == SortableModelMock.unsorted)
 			assert(res.changes.last.focusedIndicesChanged == true)
 			assert(res.changes.last.focusedIndices._1.value == 999999)
@@ -73,7 +65,6 @@ object BubbleSortEntity_Test:
 				toBeCompared = SortableModelMock.unsorted.valuesWithIndices.list,
 				comparator = OrderModel.Ascending
 			)
-			println(res.map(_.focusedIndices._1.value) :+ 999999)
 			assert(res.map(_.focusedIndices._1.value) :+ 999999 == ToBeSortedMock.ascendingOrder.sortedOnce)
 			testCommonProperties(res, (false, true), (-2, 999999))
 
