@@ -5,6 +5,8 @@ import core.model.*
 import core.model.OrderModel.{Ascending, Descending}
 import mock.modelMock.SortableModelMock
 
+import scala.annotation.tailrec
+
 object BubbleSortEntity extends SortingAlgorithm:
 
 	override def sortAscending(sortable: SortableModel): SortedModel =
@@ -13,6 +15,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 	override def sortDescending(sortable: SortableModel): SortedModel =
 		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Descending)
 
+	@tailrec
 	private def sort(
 		valuesWithIndices: List[ValueWithIndexModel],
 		sortable: SortableModel,
@@ -31,23 +34,29 @@ object BubbleSortEntity extends SortingAlgorithm:
 					else comparator match
 						case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
 						case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
+				val newAcc: LazyList[SortingModel] = sortOnce(newValuesWithIndices, comparator) match
+					case Some(it) => acc ++ it
+					case None => acc
 				sort(
 					newValuesWithIndices,
 					sortable,
 					comparator,
-					acc ++ sortOnce(newValuesWithIndices, comparator),
+					newAcc,
 					false
 				)
 
 	def sortOnce(
-		toBeCompared: List[ValueWithIndexModel], //TODO use NonEmptyListModel here (here non empty list would have to have at least 2 values)
+		toBeCompared: List[ValueWithIndexModel],
 		comparator: OrderModel,
-	): List[SortingModel] =
-		toBeCompared.tail
-			.foldLeft(
-				(List.empty[SortingModel], toBeCompared.head)
-			):
-				case ((acc, f), s) if comparator.getOrdering(f.value, s.value) =>
-					(acc :+ SortingModel((f, s), false), s)
-				case ((acc, f), s) => (acc :+ SortingModel((s, f), true), f)
-			._1
+	): Option[List[SortingModel]] =
+		if(toBeCompared.isEmpty) None
+		else Some(
+			toBeCompared.tail
+				.foldLeft(
+					(List.empty[SortingModel], toBeCompared.head)
+				):
+					case ((acc, f), s) if comparator.getOrdering(f.value, s.value) =>
+						(acc :+ SortingModel((f, s), false), s)
+					case ((acc, f), s) => (acc :+ SortingModel((s, f), true), f)
+				._1
+		)
