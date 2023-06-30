@@ -21,8 +21,8 @@ object VisualizeEntity:
 							.list
 							.map: valueWithIndex =>
 								if (valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2)
-									BarModel(valueWithIndex.value, BarColorModel.TTT)
-								else BarModel(valueWithIndex.value, BarColorModel.`___`)
+									BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Red)
+								else BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Blue)
 					).toOption.get
 				)
 			._2
