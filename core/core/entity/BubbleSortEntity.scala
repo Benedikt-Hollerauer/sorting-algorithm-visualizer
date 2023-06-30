@@ -40,23 +40,14 @@ object BubbleSortEntity extends SortingAlgorithm:
 				)
 
 	def sortOnce(
-		toBeCompared: List[ValueWithIndexModel],
+		toBeCompared: List[ValueWithIndexModel], //TODO use NonEmptyListModel here (here non empty list would have to have at least 2 values)
 		comparator: OrderModel,
 	): List[SortingModel] =
-		toBeCompared.scanLeft(SortingModel.empty):
-			case (SortingModel((first, second), _), next) =>
-				val (newFirst, newSecond, changed) = (first, second) match
-					case (f, _) if f == ValueWithIndexModel.empty =>
-						(next, f, false)
-					case (f, s) if s == ValueWithIndexModel.empty && comparator.getOrdering(f.value, s.value) =>
-						(f, next, false) // TODO somewhere here is the error
-					case (f, s) if s == ValueWithIndexModel.empty =>
-						(next, f, true)
-					case (_, s) if comparator.getOrdering(s.value, next.value) =>
-						(s, next, false)
-					case _ =>
-						(next, second, true)
-				SortingModel((newFirst, newSecond), changed)
-		.filter:
-			case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _) =>
-				index0 != -1 && index1 != -1
+		toBeCompared.tail
+			.foldLeft(
+				(List.empty[SortingModel], toBeCompared.head)
+			):
+				case ((acc, f), s) if comparator.getOrdering(f.value, s.value) =>
+					(acc :+ SortingModel((f, s), false), s)
+				case ((acc, f), s) => (acc :+ SortingModel((s, f), true), f)
+			._1

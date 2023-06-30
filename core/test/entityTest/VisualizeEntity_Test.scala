@@ -19,7 +19,6 @@ object VisualizeEntity_Test:
 					sortedModel = SortedModelMock.sortedModel
 				)
 			)
-			res.value.foreach(println)
 			assertRight(res)(
 				(res: LazyList[NonEmptyListModel[BarModel]]) =>
 					Seq(

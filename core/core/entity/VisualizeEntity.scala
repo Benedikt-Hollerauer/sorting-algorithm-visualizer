@@ -7,7 +7,6 @@ object VisualizeEntity:
 	def getBarVisualisation(
 		sortedModel: SortedModel
 	): LazyList[NonEmptyListModel[BarModel]] =
-		sortedModel.changes.foreach(println)
 		sortedModel.changes
 			.foldLeft(
 				(sortedModel.sortableModel, List.empty[NonEmptyListModel[BarModel]])
