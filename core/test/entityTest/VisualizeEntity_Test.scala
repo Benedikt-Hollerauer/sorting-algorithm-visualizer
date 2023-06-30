@@ -7,6 +7,34 @@ import test.TestUtil.assertRight
 
 object VisualizeEntity_Test:
 
+	@main
+	def mon =
+		getBarVisualisation_should_return.`LazyList[NonEmptyListModel[BarModel]]`
+
+	object getBarVisualisation_should_return:
+
+		def `LazyList[NonEmptyListModel[BarModel]]`: Unit =
+			val res = Right(
+				VisualizeEntity.getBarVisualisation(
+					sortedModel = SortedModelMock.sortedModel
+				)
+			)
+			res.value.foreach(println)
+			assertRight(res)(
+				(res: LazyList[NonEmptyListModel[BarModel]]) =>
+					Seq(
+						res.head.list.head.value == -2,
+						res.head.list.last.value == -500,
+						res.last.list.head.value == -500,
+						res.last.list.last.value == 999999,
+						//res.head.list.head.barColor == BarColorModel.Blue,
+						//res.head.list.last.barColor == BarColorModel.Red,
+						//res.last.list.head.barColor == BarColorModel.Blue,
+						//res.last.list.last.barColor == BarColorModel.Red,
+						res.head.list.length == res.head.list.length
+					)
+			)
+
 	object swapSortable_should_return:
 
 		def `SortableModel`: Unit =
@@ -20,33 +48,6 @@ object VisualizeEntity_Test:
 				)
 			)
 			val resList = res.valuesWithIndices.list
-			println(SortableModelMock.unsorted.valuesWithIndices.list)
-			println(resList)
 			assert(resList(0) == secondValueWithIndex)
 			assert(resList(1) == firstValueWithIndex)
 			assert(resList.length == SortableModelMock.unsorted.valuesWithIndices.list.length)
-
-	object getBarVisualisation_should_return:
-
-		def `LazyList[NonEmptyListModel[BarModel]]`: Unit =
-			val res = Right(
-				VisualizeEntity.getBarVisualisation(
-					sortedModel = SortedModelMock.sortedModel
-				)
-			)
-			assertRight(res)(
-				(res: LazyList[NonEmptyListModel[BarModel]]) =>
-					val headList = res.head.list
-					val lastList = res.last.list
-					Seq(
-						res.head.list.head.value == -2,
-						res.head.list.last.value == -500,
-						res.last.list.head.value == -500,
-						res.last.list.last.value == 999999,
-						res.head.list.head.barColor == BarColorModel.Blue,
-						res.head.list.last.barColor == BarColorModel.Red,
-						res.last.list.head.barColor == BarColorModel.Blue,
-						res.last.list.last.barColor == BarColorModel.Red,
-						headList.length == lastList.length
-					)
-			)

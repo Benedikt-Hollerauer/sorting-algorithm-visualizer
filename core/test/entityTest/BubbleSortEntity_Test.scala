@@ -10,7 +10,6 @@ import scala.main
 
 object BubbleSortEntity_Test:
 
-	@main
 	def it =
 		sortAscending_should_return.`SortedModel - ascending`
 

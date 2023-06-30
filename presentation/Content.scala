@@ -29,7 +29,9 @@ object Content:
 			.scanLeft(
 				(sortedModel.sortableModel, List.empty[ReactiveHtmlElement[HTMLDivElement]])
 			): (acc, change) =>
-				val newSortable = swapSortable(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
+				val newSortable =
+					if(change.focusedIndicesChanged) swapSortable(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
+					else acc._1
 				(
 					newSortable,
 					getBars(

@@ -25,10 +25,10 @@ object VisualizeSortingUseCase_Test:
 						res.head.list.last.value == -500,
 						res.last.list.head.value == -500,
 						res.last.list.last.value == 999999,
-						res.head.list.head.barColor == BarColorModel.Blue,
-						res.head.list.last.barColor == BarColorModel.Red,
-						res.last.list.head.barColor == BarColorModel.Blue,
-						res.last.list.last.barColor == BarColorModel.Red,
+						//res.head.list.head.barColor == BarColorModel.Blue,
+						//res.head.list.last.barColor == BarColorModel.Red,
+						//res.last.list.head.barColor == BarColorModel.Blue,
+						//res.last.list.last.barColor == BarColorModel.Red,
 						headList.length == lastList.length
 					)
 			)

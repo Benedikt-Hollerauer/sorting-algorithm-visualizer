@@ -49,7 +49,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 					case (f, _) if f == ValueWithIndexModel.empty =>
 						(next, f, false)
 					case (f, s) if s == ValueWithIndexModel.empty && comparator.getOrdering(f.value, s.value) =>
-						(f, next, false)
+						(f, next, false) // TODO somewhere here is the error
 					case (f, s) if s == ValueWithIndexModel.empty =>
 						(next, f, true)
 					case (_, s) if comparator.getOrdering(s.value, next.value) =>
