@@ -8,7 +8,7 @@ import test.TestUtil.assertRight
 object VisualizeEntity_Test:
 
 	@main
-	def mon =
+	def visualizeEntityTest =
 		getBarVisualisation_should_return.`LazyList[NonEmptyListModel[BarModel]]`
 
 	object getBarVisualisation_should_return:

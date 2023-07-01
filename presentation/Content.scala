@@ -2,7 +2,7 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.entity.VisualizeEntity
-import core.model.{BarModel, NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 import org.scalajs.dom.{HTMLDivElement, console}
 
 import scala.scalajs.js.timers.setTimeout
@@ -39,7 +39,11 @@ object ContentStyle:
 		idAttr := bar.id.toString,
 		width := "20px",
 		height.px := bar.value,
-		backgroundColor := bar.barColor.getColor,
+		backgroundColor := (
+			bar.barColor match
+				case BarColorModel.Blue => "blue"
+				case BarColorModel.Red => "red"
+		),
 		margin := "3px"
 	)
 

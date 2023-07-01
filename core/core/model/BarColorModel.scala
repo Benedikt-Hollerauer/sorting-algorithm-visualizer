@@ -1,9 +1,6 @@
 package core.model
 
-enum BarColorModel(color: String):
+enum BarColorModel:
 
-	def getColor: String =
-		this.color
-
-	case Blue extends BarColorModel("Blue")
-	case Red extends BarColorModel("Red")
+	case Blue
+	case Red
