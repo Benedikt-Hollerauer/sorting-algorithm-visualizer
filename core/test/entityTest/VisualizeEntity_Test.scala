@@ -40,7 +40,7 @@ object VisualizeEntity_Test:
 		def `SortableModel`: Unit =
 			val firstValueWithIndex = SortableModelMock.unsorted.valuesWithIndices.list(0)
 			val secondValueWithIndex = SortableModelMock.unsorted.valuesWithIndices.list(1)
-			val res = VisualizeEntity.swapSortable(
+			val res = VisualizeEntity.swapSortableValues(
 				toBeUpdated = SortableModelMock.unsorted,
 				swappedValues = (
 					firstValueWithIndex,

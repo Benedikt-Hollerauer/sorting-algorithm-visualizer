@@ -9,10 +9,10 @@ object VisualizeEntity:
 	): LazyList[NonEmptyListModel[BarModel]] =
 		sortedModel.changes
 			.foldLeft(
-				(sortedModel.sortableModel, List.empty[NonEmptyListModel[BarModel]])
+				(sortedModel.sortableModel, LazyList.empty[NonEmptyListModel[BarModel]])
 			): (acc, change) =>
 				val newSortable =
-					if(change.focusedIndicesChanged) swapSortable(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
+					if(change.focusedIndicesChanged) swapSortableValues(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
 					else acc._1
 				(
 					newSortable,
@@ -26,9 +26,8 @@ object VisualizeEntity:
 					).toOption.get
 				)
 			._2
-			.to(LazyList)
 
-	def swapSortable(
+	def swapSortableValues(
 		toBeUpdated: SortableModel,
 		swappedValues: (ValueWithIndexModel, ValueWithIndexModel)
 	): SortableModel =

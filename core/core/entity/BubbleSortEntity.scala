@@ -15,7 +15,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 	override def sortDescending(sortable: SortableModel): SortedModel =
 		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Descending)
 
-	@tailrec
+	//@tailrec
 	private def sort(
 		valuesWithIndices: List[ValueWithIndexModel],
 		sortable: SortableModel,
@@ -23,27 +23,40 @@ object BubbleSortEntity extends SortingAlgorithm:
 		acc: LazyList[SortingModel] = LazyList.empty[SortingModel],
 		firstIteration: Boolean = true
 	): SortedModel =
-		valuesWithIndices match
-			case Nil => SortedModel(
-				sortable,
-				acc
+		val test = valuesWithIndices.foldLeft((
+			LazyList.empty[SortingModel],
+			valuesWithIndices
+		)): (acc, _) =>
+			val sortedOnce = sortOnce(acc._2, comparator).getOrElse(acc._1.toList)
+			(
+				acc._1 ++ sortedOnce,
+				sortedOnce.map(x => x.focusedIndices._1) :+ sortedOnce.last.focusedIndices._2 //TODO refactor this to be cleaner
 			)
-			case valuesWithIndices =>
-				val newValuesWithIndices =
-					if(firstIteration) valuesWithIndices
-					else comparator match
-						case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
-						case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
-				val newAcc: LazyList[SortingModel] = sortOnce(newValuesWithIndices, comparator) match
-					case Some(it) => acc ++ it
-					case None => acc
-				sort(
-					newValuesWithIndices,
-					sortable,
-					comparator,
-					newAcc,
-					false
-				)
+		SortedModel(
+			sortableModel = sortable,
+			changes = test._1
+		)
+		//valuesWithIndices match
+		//	case Nil => SortedModel(
+		//		sortable,
+		//		acc
+		//	)
+		//	case valuesWithIndices =>
+		//		val newValuesWithIndices =
+		//			if(firstIteration) valuesWithIndices
+		//			else comparator match
+		//				case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
+		//				case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
+		//		val newAcc: LazyList[SortingModel] = sortOnce(newValuesWithIndices, comparator) match
+		//			case Some(it) => acc ++ it
+		//			case None => acc
+		//		sort(
+		//			newValuesWithIndices,
+		//			sortable,
+		//			comparator,
+		//			newAcc,
+		//			false
+		//		)
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],
