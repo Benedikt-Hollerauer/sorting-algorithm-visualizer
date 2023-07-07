@@ -12,7 +12,7 @@ object BubbleSortEntity_Test:
 
 	@main
 	def bubbleSortEntityTest =
-		sortAscending_should_return.`SortedModel - ascending`
+		sortOnce_should_return.`List[SortingModel] - descending`
 
 	private def testCommonProperties(
 		res: SortedModel,
@@ -44,7 +44,6 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			) //TODO use TestUtil.assertRight here | also the error lies here
-			res.changes.foreach(x => println(x.focusedIndices))
 			testCommonProperties(res, (false, true), (-500, 22), (-2, 0))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
@@ -79,7 +78,7 @@ object BubbleSortEntity_Test:
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
 				comparator = OrderModel.Ascending
 			)
-			assert(res.get.map(_.focusedIndices._1.value) :+ 999999 == ToBeSortedMock.ascendingOrder.sortedOnce)
+			assert(res.get.map(_.focusedIndices._1.value) :+ res.get.last.focusedIndices._2.value == ToBeSortedMock.ascendingOrder.sortedOnce)
 			testCommonPropertiesSortOnce(res, (false, true), (-2, 999999))
 
 		def `List[SortingModel] - descending`: Unit =
