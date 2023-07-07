@@ -2,6 +2,7 @@ package test.entityTest
 
 import core.entity.VisualizeEntity
 import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel}
+import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil.assertRight
 
@@ -22,10 +23,10 @@ object VisualizeEntity_Test:
 			assertRight(res)(
 				(res: LazyList[NonEmptyListModel[BarModel]]) =>
 					Seq(
-						res.head.list.head.value == -2,
-						res.head.list.last.value == -500,
-						res.last.list.head.value == -500,
-						res.last.list.last.value == 999999,
+						res.head.list.head.value == ToBeSortedMock.unsorted.head,
+						res.head.list.last.value == ToBeSortedMock.unsorted.last,
+						res.last.list.head.value == ToBeSortedMock.smallest,
+						res.last.list.last.value == ToBeSortedMock.biggest,
 						//res.head.list.head.barColor == BarColorModel.Blue,
 						//res.head.list.last.barColor == BarColorModel.Red,
 						//res.last.list.head.barColor == BarColorModel.Blue,

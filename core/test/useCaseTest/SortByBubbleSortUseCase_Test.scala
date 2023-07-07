@@ -17,15 +17,19 @@ object SortByBubbleSortUseCase_Test:
                     input = SortByBubbleSortInputMock.ascendingOrder
                 )
             )
+            println(res.value.changes.head)
             assertRight(res)(
                 (res: SortedModel) => Seq(
                     res.sortableModel == SortByBubbleSortInputMock.ascendingOrder.toBeSorted,
+                    res.changes.head.focusedIndices._1.value ==,
+                    res.changes.head.focusedIndices._2.value == ,
                     res.changes.last.focusedIndicesChanged == false,
-                    res.changes.last.focusedIndices._1.value == 1,
-                    res.changes.last.focusedIndices._2.value == 1,
-                    res.changes.last.focusedIndices._1.indexModel.index == 1,
-                    res.changes.last.focusedIndices._2.indexModel.index == 1,
-                    res.changes.length > 1
+                    res.changes.last.focusedIndicesChanged == false,
+                    res.changes.last.focusedIndices._1.value == 5,
+                    res.changes.last.focusedIndices._2.value == 196,
+                    res.changes.last.focusedIndices._1.indexModel.index == 2,
+                    res.changes.last.focusedIndices._2.indexModel.index == 7,
+                    res.changes.length == 45
                 )
             )
 
@@ -39,10 +43,10 @@ object SortByBubbleSortUseCase_Test:
                 (res: SortedModel) => Seq(
                     res.sortableModel == SortByBubbleSortInputMock.descendingOrder.toBeSorted,
                     res.changes.last.focusedIndicesChanged == false,
-                    res.changes.last.focusedIndices._1.value == 1,
-                    res.changes.last.focusedIndices._2.value == 1,
+                    res.changes.last.focusedIndices._1.value == 743,
+                    res.changes.last.focusedIndices._2.value == 662,
                     res.changes.last.focusedIndices._1.indexModel.index == 1,
-                    res.changes.last.focusedIndices._2.indexModel.index == 1,
-                    res.changes.length > 1
+                    res.changes.last.focusedIndices._2.indexModel.index == 6,
+                    res.changes.length == 45
                 )
             )

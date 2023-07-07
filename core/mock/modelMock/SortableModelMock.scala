@@ -8,8 +8,7 @@ object SortableModelMock:
 	
 	val unsorted = SortableModel.from(
 		mayBeValuesWithIndices = NonEmptyListModel.from(
-			mayBeList = ToBeSortedMock.ascendingOrder
-				.unsorted
+			mayBeList = ToBeSortedMock.unsorted
 				.toValuesWithIndices
 		).toOption.get
 	).toOption.get

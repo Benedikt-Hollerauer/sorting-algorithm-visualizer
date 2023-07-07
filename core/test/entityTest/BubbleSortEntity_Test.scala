@@ -12,7 +12,7 @@ object BubbleSortEntity_Test:
 
 	@main
 	def bubbleSortEntityTest =
-		sortOnce_should_return.`List[SortingModel] - descending`
+		sortAscending_should_return.`SortedModel - ascending`
 
 	private def testCommonProperties(
 		res: SortedModel,
@@ -44,7 +44,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			) //TODO use TestUtil.assertRight here | also the error lies here
-			testCommonProperties(res, (false, true), (-500, 22), (-2, 0))
+			testCommonProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
 
@@ -54,7 +54,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortDescending(
 				SortableModelMock.unsorted
 			)
-			testCommonProperties(res, (true, false), (999999, 1), (6587, 15))
+			testCommonProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
 
@@ -79,15 +79,15 @@ object BubbleSortEntity_Test:
 				comparator = OrderModel.Ascending
 			)
 			assert(res.get.map(_.focusedIndices._1.value) :+ res.get.last.focusedIndices._2.value == ToBeSortedMock.ascendingOrder.sortedOnce)
-			testCommonPropertiesSortOnce(res, (false, true), (-2, 999999))
+			testCommonPropertiesSortOnce(res, (false, true), (636, ToBeSortedMock.biggest))
 
 		def `List[SortingModel] - descending`: Unit =
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
 				comparator = OrderModel.Descending
 			)
-			assert(res.get.map(_.focusedIndices._1.value) :+ -500 == ToBeSortedMock.descendingOrder.sortedOnce)
-			testCommonPropertiesSortOnce(res, (true, false), (999999, -500))
+			assert(res.get.map(_.focusedIndices._1.value) :+ res.get.last.focusedIndices._2.value == ToBeSortedMock.descendingOrder.sortedOnce)
+			testCommonPropertiesSortOnce(res, (true, true), (743, ToBeSortedMock.smallest))
 
 		def `None`: Unit =
 			val res = BubbleSortEntity.sortOnce(
