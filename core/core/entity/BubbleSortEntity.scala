@@ -6,6 +6,7 @@ import core.model.OrderModel.{Ascending, Descending}
 import mock.modelMock.SortableModelMock
 
 import scala.annotation.tailrec
+import scala.util.Try
 
 object BubbleSortEntity extends SortingAlgorithm:
 
@@ -47,11 +48,12 @@ object BubbleSortEntity extends SortingAlgorithm:
 		//			else comparator match
 		//				case OrderModel.Ascending => valuesWithIndices.filterNot(_ == valuesWithIndices.max)
 		//				case OrderModel.Descending => valuesWithIndices.filterNot(_ == valuesWithIndices.min)
-		//		val newAcc: LazyList[SortingModel] = sortOnce(newValuesWithIndices, comparator) match
+		//		val sortedOnce = sortOnce(newValuesWithIndices, comparator)
+		//		val newAcc = sortedOnce match //TODO this has to go into new valuesWithIndices
 		//			case Some(it) => acc ++ it
 		//			case None => acc
 		//		sort(
-		//			newValuesWithIndices,
+		//			sortedOnce,
 		//			sortable,
 		//			comparator,
 		//			newAcc,
@@ -62,8 +64,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 		toBeCompared: List[ValueWithIndexModel],
 		comparator: OrderModel,
 	): Option[List[SortingModel]] =
-		if(toBeCompared.isEmpty) None
-		else Some(
+		Try(
 			toBeCompared.tail
 				.foldLeft(
 					(List.empty[SortingModel], toBeCompared.head)
@@ -72,4 +73,4 @@ object BubbleSortEntity extends SortingAlgorithm:
 						(acc :+ SortingModel((f, s), false), s)
 					case ((acc, f), s) => (acc :+ SortingModel((s, f), true), f)
 				._1
-		)
+		).toOption
