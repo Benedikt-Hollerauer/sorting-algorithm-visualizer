@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.VisualizeEntity
-import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel}
+import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil.assertRight

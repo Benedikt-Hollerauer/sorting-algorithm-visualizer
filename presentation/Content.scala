@@ -2,7 +2,7 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.entity.VisualizeEntity
-import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 import org.scalajs.dom.{HTMLDivElement, console}
 
 import scala.scalajs.js.timers.setTimeout

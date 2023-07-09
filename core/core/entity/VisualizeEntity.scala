@@ -1,6 +1,6 @@
 package core.entity
 
-import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 
 object VisualizeEntity:
 
