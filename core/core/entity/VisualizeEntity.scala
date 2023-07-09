@@ -1,6 +1,6 @@
 package core.entity
 
-import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel, ValueWithIndexModel}
+import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 
 object VisualizeEntity:
 
@@ -20,12 +20,18 @@ object VisualizeEntity:
 						newSortable.valuesWithIndices
 							.list
 							.map: valueWithIndex =>
-								if (valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2)
-									BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Red)
-								else BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Blue)
+								getBar(valueWithIndex, change)
 					).toOption.get
 				)
 			._2
+
+	private def getBar(valueWithIndex: ValueWithIndexModel, change: SortingModel): BarModel =
+		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
+		if(isCorrectValueWithIndex && change.focusedIndicesChanged)
+			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Focused)
+		else if(isCorrectValueWithIndex)
+			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Swapped)
+		else BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarColorModel.Normal)
 
 	def swapSortableValues(
 		toBeUpdated: SortableModel,

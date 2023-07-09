@@ -26,10 +26,10 @@ object VisualizeSortingUseCase_Test:
 						res.head.list.last.value == 259,
 						res.last.list.head.value == ToBeSortedMock.smallest,
 						res.last.list.last.value == ToBeSortedMock.biggest,
-						res.head.list.head.barColor == BarColorModel.Red,
-						res.head.list.last.barColor == BarColorModel.Blue,
-						res.last.list.head.barColor == BarColorModel.Red,
-						res.last.list.last.barColor == BarColorModel.Blue,
+						res.head.list.head.barColor == BarColorModel.Swapped,
+						res.head.list.last.barColor == BarColorModel.Normal,
+						res.last.list.head.barColor == BarColorModel.Swapped,
+						res.last.list.last.barColor == BarColorModel.Normal,
 						headList.length == lastList.length
 					)
 			)
