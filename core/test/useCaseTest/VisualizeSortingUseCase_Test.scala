@@ -1,6 +1,6 @@
 package test.useCaseTest
 
-import core.model.{BarColorModel, BarModel, NonEmptyListModel, SortableModel}
+import core.model.{BarStateModel, BarModel, NonEmptyListModel, SortableModel}
 import core.useCase.VisualizeSortingUseCase
 import mock.ToBeSortedMock
 import mock.inputMock.VisualizeSortingInputMock
@@ -26,10 +26,10 @@ object VisualizeSortingUseCase_Test:
 						res.head.list.last.value == 259,
 						res.last.list.head.value == ToBeSortedMock.smallest,
 						res.last.list.last.value == ToBeSortedMock.biggest,
-						res.head.list.head.barColor == BarColorModel.Swapped,
-						res.head.list.last.barColor == BarColorModel.Normal,
-						res.last.list.head.barColor == BarColorModel.Swapped,
-						res.last.list.last.barColor == BarColorModel.Normal,
+						res.head.list.head.barColor == BarStateModel.Swapped,
+						res.head.list.last.barColor == BarStateModel.Normal,
+						res.last.list.head.barColor == BarStateModel.Swapped,
+						res.last.list.last.barColor == BarStateModel.Normal,
 						headList.length == lastList.length
 					)
 			)

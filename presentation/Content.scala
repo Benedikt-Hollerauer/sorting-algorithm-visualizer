@@ -41,9 +41,9 @@ object ContentStyle:
 		height.px := bar.value,
 		backgroundColor := (
 			bar.barColor match
-				case BarColorModel.Normal => "blue"
-				case BarColorModel.Focused => "red"
-				case BarColorModel.Swapped => "green"
+				case BarStateModel.Normal => "blue"
+				case BarStateModel.Focused => "red"
+				case BarStateModel.Swapped => "green"
 		),
 		margin := "3px"
 	)

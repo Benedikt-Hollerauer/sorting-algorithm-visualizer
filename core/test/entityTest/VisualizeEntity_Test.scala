@@ -20,6 +20,7 @@ object VisualizeEntity_Test:
 					sortedModel = SortedModelMock.sortedModel
 				)
 			)
+			println(res.value.last)
 			assertRight(res)(
 				(res: LazyList[NonEmptyListModel[BarModel]]) =>
 					Seq(
@@ -27,10 +28,10 @@ object VisualizeEntity_Test:
 						res.head.list.last.value == ToBeSortedMock.unsorted.last,
 						res.last.list.head.value == ToBeSortedMock.smallest,
 						res.last.list.last.value == ToBeSortedMock.biggest,
-						//res.head.list.head.barColor == BarColorModel.Blue,
-						//res.head.list.last.barColor == BarColorModel.Red,
-						//res.last.list.head.barColor == BarColorModel.Blue,
-						//res.last.list.last.barColor == BarColorModel.Red,
+						res.head.list.head.barColor == BarStateModel.Swapped,
+						res.head.list.last.barColor == BarStateModel.Normal,
+						res.last.list.head.barColor == BarStateModel.Swapped,
+						res.last.list.last.barColor == BarStateModel.Normal,
 						res.head.list.length == res.head.list.length
 					)
 			)

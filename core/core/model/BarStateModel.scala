@@ -1,6 +1,6 @@
 package core.model
 
-enum BarColorModel:
+enum BarStateModel:
 
 	case Normal
 	case Focused

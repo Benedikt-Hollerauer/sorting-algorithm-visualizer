@@ -21,19 +21,19 @@ object BubbleSortEntity extends SortingAlgorithm:
 		valuesWithIndices: List[ValueWithIndexModel],
 		sortable: SortableModel,
 		comparator: OrderModel,
-		acc: LazyList[SortingModel] = LazyList.empty[SortingModel],
+		changes: LazyList[SortingModel] = LazyList.empty[SortingModel],
 		firstIteration: Boolean = true
 	): SortedModel =
 		valuesWithIndices match
 			case Nil => SortedModel(
 				sortable,
-				acc
+				changes
 			)
 			case valuesWithIndices =>
 				val sortedOnce = sortOnce(valuesWithIndices, comparator)
 				val newAcc = sortedOnce match
-					case Some(it) => acc ++ it
-					case None => acc
+					case Some(it) => changes ++ it
+					case None => changes
 				val newValuesWithIndices = sortedOnce match
 					case Some(it) =>
 						if(it.isEmpty) Nil
