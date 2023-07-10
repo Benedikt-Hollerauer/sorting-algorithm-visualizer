@@ -2,13 +2,13 @@ import com.raquo.laminar.api.L.{*, given}
 
 object Error:
 
-	def getHtmlDiv(errorMessage: String) =
+	def getHtml(errorMessage: String) =
 		div(
 			ErrorStyle.errorWrapperDiv,
-			getErrorMessageWrapperDiv(errorMessage)
+			getErrorMessageWrapper(errorMessage)
 		)
 
-	private def getErrorMessageWrapperDiv(errorMessage: String) =
+	private def getErrorMessageWrapper(errorMessage: String) =
 		div(
 			ErrorStyle.errorMessageWrapperDiv,
 			"An error occurred - ",

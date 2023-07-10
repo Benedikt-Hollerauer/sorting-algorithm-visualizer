@@ -17,7 +17,7 @@ object Main:
 			case Left(generateSortableError) =>
 				render(
 					dom.document.body,
-					Error.getHtmlDiv(generateSortableError.toString)
+					Error.getHtml(generateSortableError.toString)
 				)
 			case Right(sortable) =>
 				val sorted = SortByBubbleSortUseCase(
@@ -31,11 +31,11 @@ object Main:
 					div(
 						height := "100vh",
 						width := "100vw",
-						NavigationBar.getHtmlDiv(
+						NavigationBar.getHtml(
 							"test",
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 						),
-						Content.getHtmlDiv(
+						Content.getHtml(
 							SortingAlgorithm.BubbleSort,
 							sorted
 						)

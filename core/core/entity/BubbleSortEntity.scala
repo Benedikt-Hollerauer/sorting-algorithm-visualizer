@@ -53,7 +53,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],
-		comparator: OrderModel,
+		comparator: OrderModel
 	): Option[List[SortingModel]] =
 		Try(
 			toBeCompared.tail

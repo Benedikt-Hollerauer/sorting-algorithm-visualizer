@@ -2,25 +2,28 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import core.entity.VisualizeEntity
+import core.input.VisualizeSortingInput
 import core.model.*
+import core.useCase.VisualizeSortingUseCase
 import org.scalajs.dom.{HTMLDivElement, console}
 
 import scala.scalajs.js.timers.setTimeout
 
 object Content:
 
-	def getHtmlDiv(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArrayDiv(sorted, 100)
+			getBarArray(sorted, 100)
 		)
 
-	private def getBarArrayDiv(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
+	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
 			children <-- EventStream.periodic(intervalMs).map: tick =>
-				val barArray = VisualizeEntity.getBarVisualisation(sortedModel)
-					.map(this.getBars)
+				val barArray = VisualizeSortingUseCase(
+					VisualizeSortingInput(sortedModel)
+				).map(this.getBars)
 				barArray.lift(tick) match
 					case Some(bar) => bar
 					case None => barArray.last
