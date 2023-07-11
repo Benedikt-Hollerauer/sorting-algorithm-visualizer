@@ -14,7 +14,7 @@ object Content:
 	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 150)
+			getBarArray(sorted, 100)
 		)
 
 	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
@@ -47,6 +47,7 @@ object ContentStyle:
 				case BarStateModel.Normal => "blue"
 				case BarStateModel.Focused => "red"
 				case BarStateModel.Swapped => "green"
+				case BarStateModel.AlreadySorted => "lightblue"
 		),
 		margin := "3px"
 	)

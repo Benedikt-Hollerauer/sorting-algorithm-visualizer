@@ -5,3 +5,4 @@ enum BarStateModel:
 	case Normal
 	case Focused
 	case Swapped
+	case AlreadySorted

@@ -27,7 +27,9 @@ object VisualizeEntity:
 
 	private def getBar(valueWithIndex: ValueWithIndexModel, change: SortingModel): BarModel =
 		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
-		if(isCorrectValueWithIndex && change.focusedIndicesChanged)
+		if(change.alreadySorted.contains(valueWithIndex))
+			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.AlreadySorted)
+		else if (isCorrectValueWithIndex && change.focusedIndicesChanged)
 			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Focused)
 		else if(isCorrectValueWithIndex)
 			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Swapped)

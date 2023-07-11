@@ -22,6 +22,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 		sortable: SortableModel,
 		comparator: OrderModel,
 		changes: LazyList[SortingModel] = LazyList.empty[SortingModel],
+		alreadySorted: List[ValueWithIndexModel] = List.empty[ValueWithIndexModel],
 		firstIteration: Boolean = true
 	): SortedModel =
 		valuesWithIndices match
@@ -30,7 +31,7 @@ object BubbleSortEntity extends SortingAlgorithm:
 				changes
 			)
 			case valuesWithIndices =>
-				val sortedOnce = sortOnce(valuesWithIndices, comparator)
+				val sortedOnce = sortOnce(valuesWithIndices, alreadySorted, comparator)
 				val newAcc = sortedOnce match
 					case Some(it) => changes ++ it
 					case None => changes
@@ -43,16 +44,23 @@ object BubbleSortEntity extends SortingAlgorithm:
 								case OrderModel.Ascending => newIt.filterNot(_ == valuesWithIndices.max)
 								case OrderModel.Descending => newIt.filterNot(_ == valuesWithIndices.min)
 					case None => Nil
+				val newAlreadySorted = alreadySorted :+ (
+					comparator match
+						case OrderModel.Ascending => valuesWithIndices.max
+						case OrderModel.Descending => valuesWithIndices.min
+				)
 				sort(
 					newValuesWithIndices,
 					sortable,
 					comparator,
 					newAcc,
+					newAlreadySorted,
 					false
 				)
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],
+		alreadySorted: List[ValueWithIndexModel],
 		comparator: OrderModel
 	): Option[List[SortingModel]] =
 		Try(
@@ -61,7 +69,8 @@ object BubbleSortEntity extends SortingAlgorithm:
 					(List.empty[SortingModel], toBeCompared.head)
 				):
 					case ((acc, f), s) if comparator.getOrdering(f.value, s.value) =>
-						(acc :+ SortingModel((f, s), false), s)
-					case ((acc, f), s) => (acc :+ SortingModel((s, f), true), f)
+						(acc :+ SortingModel((f, s), alreadySorted, false), s)
+					case ((acc, f), s) =>
+						(acc :+ SortingModel((s, f), alreadySorted, true), f)
 				._1
 		).toOption
