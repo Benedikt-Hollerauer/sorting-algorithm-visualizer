@@ -20,7 +20,6 @@ object VisualizeEntity_Test:
 					sortedModel = SortedModelMock.sortedModel
 				)
 			)
-			println(res.value.last)
 			assertRight(res)(
 				(res: LazyList[NonEmptyListModel[BarModel]]) =>
 					Seq(

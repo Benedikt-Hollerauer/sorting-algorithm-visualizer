@@ -14,16 +14,16 @@ object Content:
 	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 100)
+			getBarArray(sorted, 150)
 		)
 
 	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
+		val barArray = VisualizeSortingUseCase(
+			VisualizeSortingInput(sortedModel)
+		).map(getBars)
 		div(
 			ContentStyle.barArrayStyle,
 			children <-- EventStream.periodic(intervalMs).map: tick =>
-				val barArray = VisualizeSortingUseCase(
-					VisualizeSortingInput(sortedModel)
-				).map(this.getBars)
 				barArray.lift(tick) match
 					case Some(bar) => bar
 					case None => barArray.last

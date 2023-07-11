@@ -43,7 +43,7 @@ object BubbleSortEntity_Test:
 		def `SortedModel - ascending`: Unit =
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
-			) //TODO use TestUtil.assertRight here | also the error lies here
+			)
 			testCommonProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
