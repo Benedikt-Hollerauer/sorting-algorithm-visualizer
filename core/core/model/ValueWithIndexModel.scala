@@ -8,11 +8,5 @@ case class ValueWithIndexModel(
 )
 
 object ValueWithIndexModel:
-	
-	def empty: ValueWithIndexModel =
-		ValueWithIndexModel(
-			value = 0,
-			indexModel = IndexModel.empty
-		)
-	
+
 	implicit val ordering: Ordering[ValueWithIndexModel] = Ordering.by(_.value)
