@@ -39,7 +39,6 @@ object Content:
 object ContentStyle:
 
 	def singleBar(bar: BarModel) = Seq(
-		idAttr := bar.id.toString, //TODO this is probably not necessary (also remove from BarModel)
 		width.px := 20,
 		height.px := bar.value,
 		backgroundColor := (

@@ -32,19 +32,18 @@ object VisualizeEntity:
 	private def getBar(valueWithIndex: ValueWithIndexModel, change: SortingModel): BarModel =
 		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
 		if(change.alreadySorted.contains(valueWithIndex))
-			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.AlreadySorted)
+			BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
 		else if (isCorrectValueWithIndex && change.focusedIndicesChanged)
-			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Focused)
+			BarModel(valueWithIndex.value, BarStateModel.Focused)
 		else if(isCorrectValueWithIndex)
-			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Swapped)
-		else BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Normal)
+			BarModel( valueWithIndex.value, BarStateModel.Swapped)
+		else BarModel(valueWithIndex.value, BarStateModel.Normal)
 
 	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] =
 		val sortedBars = finishedSorting.valuesWithIndices
 			.list
 			.map: valueWithIndex =>
 				BarModel(
-					valueWithIndex.indexModel,
 					value = valueWithIndex.value,
 					barState = BarStateModel.FinishedSorting
 				)
