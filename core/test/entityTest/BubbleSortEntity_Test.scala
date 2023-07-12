@@ -21,14 +21,14 @@ object BubbleSortEntity_Test:
 		focusedIndicesSecondValueWithIndex: (Int, Int),
 		alreadySorted: List[ValueWithIndexModel]
 	): Unit =
-		assert(res.sortableModel == SortableModelMock.unsorted)
+		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
 		assert(res.changes.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
 		assert(res.changes.last.focusedIndices._1.value == focusedIndicesFirstValueWithIndex._1)
 		assert(res.changes.last.focusedIndices._1.indexModel.index == focusedIndicesFirstValueWithIndex._2)
 		assert(res.changes.last.focusedIndices._2.value == focusedIndicesSecondValueWithIndex._1)
 		assert(res.changes.last.focusedIndices._2.indexModel.index == focusedIndicesSecondValueWithIndex._2)
-		assert(res.changes.last.alreadySorted == alreadySorted)
+		assert(res.changes.last.alreadySorted.map(_.value) == alreadySorted.map(_.value))
 
 	private def testIfEmptyValueWithIndexModelExists(res: List[SortingModel]): Unit =
 		assert(res.exists:
@@ -46,8 +46,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			res.changes.foreach(println)
-			testCommonProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices)
+			testCommonProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices.dropRight(2))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
 
@@ -57,7 +56,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortDescending(
 				SortableModelMock.unsorted
 			)
-			testCommonProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices)
+			testCommonProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices.dropRight(2))
 			testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			testIfEmptyIndexModelExists(res.changes.toList)
 

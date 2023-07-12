@@ -19,7 +19,7 @@ object SortByBubbleSortUseCase_Test:
             )
             assertRight(res)(
                 (res: SortedModel) => Seq(
-                    res.sortableModel == SortByBubbleSortInputMock.ascendingOrder.toBeSorted,
+                    res.toBeSorted == SortByBubbleSortInputMock.ascendingOrder.toBeSorted,
                     res.changes.head.focusedIndices._1.value == 636,
                     res.changes.head.focusedIndices._2.value == 743,
                     res.changes.head.focusedIndicesChanged == false,
@@ -40,7 +40,7 @@ object SortByBubbleSortUseCase_Test:
             )
             assertRight(res)(
                 (res: SortedModel) => Seq(
-                    res.sortableModel == SortByBubbleSortInputMock.descendingOrder.toBeSorted,
+                    res.toBeSorted == SortByBubbleSortInputMock.descendingOrder.toBeSorted,
                     res.changes.head.focusedIndices._1.value == 743,
                     res.changes.head.focusedIndices._2.value == 636,
                     res.changes.head.focusedIndicesChanged == true,
