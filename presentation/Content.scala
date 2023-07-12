@@ -39,8 +39,8 @@ object Content:
 object ContentStyle:
 
 	def singleBar(bar: BarModel) = Seq(
-		idAttr := bar.id.toString,
-		width := "20px",
+		idAttr := bar.id.toString, //TODO this is probably not necessary (also remove from BarModel)
+		width.px := 20,
 		height.px := bar.value,
 		backgroundColor := (
 			bar.barState match
@@ -50,18 +50,19 @@ object ContentStyle:
 				case BarStateModel.AlreadySorted => "#4cc9f0"
 				case BarStateModel.FinishedSorting => "#f72585"
 		),
-		margin := "3px"
+		margin.px := 3,
+		borderRadius.px := 8
 	)
 
 	val pageContentStyle = Seq(
 		position.relative,
-		width <-- NavigationBar.menuVisibleVar.signal.map:
-			if (_) "75%"
-			else "100%",
-		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight})",
+		width.percent <-- NavigationBar.menuVisibleVar.signal.map: //TODO make public to fulfill dry principle
+			if(_) 75
+			else 100,
+		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight.value} - ${LegendStyle.legendHeight.value})",
 		display.flex,
 		justifyContent.center,
-		alignItems.center
+		alignItems.flexEnd
 	)
 
 	val barArrayStyle = Seq(

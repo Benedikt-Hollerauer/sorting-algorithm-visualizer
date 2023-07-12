@@ -81,13 +81,13 @@ object NavigationBar:
 
 object NavigationBarStyle:
 
-	val navigationBarHeight: String = "7%"
+	val navigationBarHeight = height.percent := 7
 
-	private val subMenuWidth: String = "25%"
+	private val subMenuWidth = width.percent := 25
 
 	val navigationBarStyle = Seq(
-		height := navigationBarHeight,
-		width := "100%",
+		navigationBarHeight,
+		width.percent := 100,
 		backgroundColor := "#f5f5f5",
 		display.flex,
 		alignItems.center,
@@ -97,16 +97,16 @@ object NavigationBarStyle:
 	)
 
 	val logoStyle = Seq(
-		height := "40px",
-		marginRight := "20px"
+		height.px := 40,
+		marginRight.px := 20
 	)
 
 	val socialIconsStyle = Seq(
-		listStyle := "none",
+		listStyleType.none,
 		display.flex,
 		alignItems.flexStart,
-		paddingLeft := "0",
-		margin := "0"
+		paddingLeft.px := 0,
+		margin.px := 0
 	)
 
 	val hamburgerMenuStyle = Seq(
@@ -117,37 +117,37 @@ object NavigationBarStyle:
 
 	val slidingMenuStyle = Seq(
 		position.fixed,
-		top := navigationBarHeight,
-		right := "0",
-		height := "100%",
-		width := subMenuWidth,
+		top := navigationBarHeight.value,
+		right.px := 0,
+		height.percent := 100,
+		subMenuWidth,
 		backgroundColor := "#ffffff",
 		transform := "translateX(100%)",
 		transition := "transform 0.3s ease-in-out",
-		outline := "thin solid black"
+		borderLeft := "thin solid black"
 	)
 
 	val menuItemsStyle = Seq(
-		listStyle := "none",
-		padding := "0",
-		margin := "0",
-		marginTop := "10px"
+		listStyleType.none,
+		padding.px := 0,
+		margin.px := 0,
+		marginTop.px := 10
 	)
 
 	val sortingAlgorithmMenuItemStyle = Seq(
 		padding := "8px 12px",
-		borderRadius := "4px",
+		borderRadius.px := 4,
 		backgroundColor := "#ffffff",
 		color := "#333333",
 		fontWeight.bold,
-		marginRight := "10px",
+		marginRight.px := 10,
 		cursor.pointer
 	)
 
 	val socialIconStyle = Seq(
 		display.flex,
 		alignItems.center,
-		marginRight := "10px"
+		marginRight.px := 10
 	)
 
 	val iconImageStyle = Seq(

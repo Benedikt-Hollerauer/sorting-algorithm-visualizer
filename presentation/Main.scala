@@ -38,6 +38,7 @@ object Main:
 						Content.getHtml(
 							SortingAlgorithm.BubbleSort,
 							sorted
-						)
+						),
+						Legend.getHtml
 					)
 				)
