@@ -8,10 +8,6 @@ import test.TestUtil.assertRight
 
 object VisualizeEntity_Test:
 
-	@main
-	def visualizeEntityTest =
-		getBarVisualisation_should_return.`LazyList[NonEmptyListModel[BarModel]]`
-
 	object getBarVisualisation_should_return:
 
 		def `LazyList[NonEmptyListModel[BarModel]]`: Unit =

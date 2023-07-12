@@ -11,10 +11,6 @@ object GenerateSortableUseCase_Test:
 
 	object apply_should_return:
 
-		@main
-		def generateSortableUseCaseTest: Unit =
-			`SortableModel`
-
 		def `SortableModel`: Unit =
 			val res = GenerateSortableUseCase(
 				input = GenerateSortableInputMock.success
