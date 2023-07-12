@@ -6,8 +6,8 @@ object VisualizeEntity:
 
 	def getBarVisualisation(
 		sortedModel: SortedModel
-	): LazyList[NonEmptyListModel[BarModel]] =
-		sortedModel.changes
+	): VisualizeModel =
+		val changes = sortedModel.changes
 			.foldLeft(
 				(sortedModel.toBeSorted, LazyList.empty[NonEmptyListModel[BarModel]])
 			): (acc, change) =>
@@ -24,6 +24,10 @@ object VisualizeEntity:
 					).toOption.get
 				)
 			._2
+		VisualizeModel(
+			changes = changes,
+			finishedSorting = getFinishedSortingBars(sortedModel.sorted)
+		)
 
 	private def getBar(valueWithIndex: ValueWithIndexModel, change: SortingModel): BarModel =
 		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
@@ -34,6 +38,17 @@ object VisualizeEntity:
 		else if(isCorrectValueWithIndex)
 			BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Swapped)
 		else BarModel(valueWithIndex.indexModel, valueWithIndex.value, BarStateModel.Normal)
+
+	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] =
+		val sortedBars = finishedSorting.valuesWithIndices
+			.list
+			.map: valueWithIndex =>
+				BarModel(
+					valueWithIndex.indexModel,
+					value = valueWithIndex.value,
+					barState = BarStateModel.FinishedSorting
+				)
+		NonEmptyListModel.from(sortedBars).toOption.get
 
 	def swapSortableValues(
 		toBeUpdated: SortableModel,

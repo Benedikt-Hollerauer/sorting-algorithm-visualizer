@@ -10,24 +10,28 @@ object VisualizeEntity_Test:
 
 	object getBarVisualisation_should_return:
 
-		def `LazyList[NonEmptyListModel[BarModel]]`: Unit =
+		def `VisualizeModel`: Unit =
 			val res = Right(
 				VisualizeEntity.getBarVisualisation(
 					sortedModel = SortedModelMock.sortedModel
 				)
 			)
 			assertRight(res)(
-				(res: LazyList[NonEmptyListModel[BarModel]]) =>
+				(res: VisualizeModel) =>
 					Seq(
-						res.head.list.head.value == ToBeSortedMock.unsorted.head,
-						res.head.list.last.value == ToBeSortedMock.unsorted.last,
-						res.last.list.head.value == ToBeSortedMock.smallest,
-						res.last.list.last.value == ToBeSortedMock.biggest,
-						res.head.list.head.barColor == BarStateModel.Swapped,
-						res.head.list.last.barColor == BarStateModel.Normal,
-						res.last.list.head.barColor == BarStateModel.Swapped,
-						res.last.list.last.barColor == BarStateModel.AlreadySorted,
-						res.head.list.length == res.head.list.length
+						res.changes.head.list.head.value == ToBeSortedMock.unsorted.head,
+						res.changes.head.list.last.value == ToBeSortedMock.unsorted.last,
+						res.changes.last.list.head.value == ToBeSortedMock.smallest,
+						res.changes.last.list.last.value == ToBeSortedMock.biggest,
+						res.changes.head.list.head.barState == BarStateModel.Swapped,
+						res.changes.head.list.last.barState == BarStateModel.Normal,
+						res.changes.last.list.head.barState == BarStateModel.Swapped,
+						res.changes.last.list.last.barState == BarStateModel.AlreadySorted,
+						res.changes.head.list.length == res.changes.head.list.length,
+						res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
+						res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
+						res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
+						res.finishedSorting.list.last.value == ToBeSortedMock.biggest
 					)
 			)
 

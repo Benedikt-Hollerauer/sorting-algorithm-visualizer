@@ -14,19 +14,19 @@ object Content:
 	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 100)
+			getBarArray(sorted, 150)
 		)
 
 	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
 		val barArray = VisualizeSortingUseCase(
 			VisualizeSortingInput(sortedModel)
-		).map(getBars)
+		)
 		div(
 			ContentStyle.barArrayStyle,
 			children <-- EventStream.periodic(intervalMs).map: tick =>
-				barArray.lift(tick) match
-					case Some(bar) => bar
-					case None => barArray.last
+				barArray.changes.lift(tick) match
+					case Some(bar) => getBars(bar)
+					case None => getBars(barArray.finishedSorting)
 		)
 
 	private def getBars(toBeBars: NonEmptyListModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =
@@ -43,11 +43,12 @@ object ContentStyle:
 		width := "20px",
 		height.px := bar.value,
 		backgroundColor := (
-			bar.barColor match
-				case BarStateModel.Normal => "blue"
-				case BarStateModel.Focused => "red"
-				case BarStateModel.Swapped => "green"
-				case BarStateModel.AlreadySorted => "lightblue"
+			bar.barState match
+				case BarStateModel.Normal => "#390099"
+				case BarStateModel.Focused => "#c1121f"
+				case BarStateModel.Swapped => "#008000"
+				case BarStateModel.AlreadySorted => "#4cc9f0"
+				case BarStateModel.FinishedSorting => "#f72585"
 		),
 		margin := "3px"
 	)

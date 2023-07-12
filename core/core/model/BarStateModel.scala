@@ -6,3 +6,4 @@ enum BarStateModel:
 	case Focused
 	case Swapped
 	case AlreadySorted
+	case FinishedSorting

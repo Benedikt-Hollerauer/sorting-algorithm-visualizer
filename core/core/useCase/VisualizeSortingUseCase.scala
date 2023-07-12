@@ -2,11 +2,11 @@ package core.useCase
 
 import core.entity.VisualizeEntity
 import core.input.VisualizeSortingInput
-import core.model.{BarModel, NonEmptyListModel, SortableModel}
+import core.model.{BarModel, NonEmptyListModel, SortableModel, VisualizeModel}
 
 object VisualizeSortingUseCase:
 
 	def apply(
 		input: VisualizeSortingInput
-	): LazyList[NonEmptyListModel[BarModel]] =
+	): VisualizeModel =
 		VisualizeEntity.getBarVisualisation(input.sortedModel)
