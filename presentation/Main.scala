@@ -29,10 +29,10 @@ object Main:
 				render(
 					dom.document.body,
 					div(
-						height := "100vh",
-						width := "100vw",
+						height.vh := 100,
+						width.vw := 100,
 						NavigationBar.getHtml(
-							"test",
+							"assets/sorting-visualizer-logo.png",
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 						),
 						Content.getHtml(
