@@ -83,7 +83,7 @@ object NavigationBarStyle:
 
 	val navigationBarHeight: String = "7%"
 
-	val subMenuWidth: String = "25%"
+	private val subMenuWidth: String = "25%"
 
 	val navigationBarStyle = Seq(
 		height := navigationBarHeight,

@@ -7,6 +7,7 @@ import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil
 
+import scala.annotation.targetName
 import scala.main
 
 object BubbleSortEntity_Test:
