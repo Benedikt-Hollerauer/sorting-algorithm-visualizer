@@ -30,7 +30,7 @@ object VisualizeEntity_Test:
 						res.head.list.head.barColor == BarStateModel.Swapped,
 						res.head.list.last.barColor == BarStateModel.Normal,
 						res.last.list.head.barColor == BarStateModel.Swapped,
-						res.last.list.last.barColor == BarStateModel.Normal,
+						res.last.list.last.barColor == BarStateModel.AlreadySorted,
 						res.head.list.length == res.head.list.length
 					)
 			)

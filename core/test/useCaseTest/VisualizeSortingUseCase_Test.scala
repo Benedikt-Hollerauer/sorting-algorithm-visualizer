@@ -29,7 +29,7 @@ object VisualizeSortingUseCase_Test:
 						res.head.list.head.barColor == BarStateModel.Swapped,
 						res.head.list.last.barColor == BarStateModel.Normal,
 						res.last.list.head.barColor == BarStateModel.Swapped,
-						res.last.list.last.barColor == BarStateModel.Normal,
+						res.last.list.last.barColor == BarStateModel.AlreadySorted,
 						headList.length == lastList.length
 					)
 			)
