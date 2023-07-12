@@ -1,6 +1,6 @@
 package test
 
-import core.model.{IndexModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.{IndexModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 import mock.modelMock.SortableModelMock
 
 object TestUtil:
@@ -20,12 +20,13 @@ object TestUtil:
 			case Right(actual) =>
 				throw new IllegalArgumentException(s"Right value received, but no function to check the Left value was provided: $actual")
 
-	def testCommonProperties(
+	def testCommonBubbleSortEntitySortProperties(
 		res: SortedModel,
 		focusedIndicesChangedHeadAndTail: (Boolean, Boolean),
 		focusedIndicesFirstValueWithIndex: (Int, Int),
 		focusedIndicesSecondValueWithIndex: (Int, Int),
-		alreadySorted: List[ValueWithIndexModel]
+		alreadySorted: List[ValueWithIndexModel],
+		sorted: SortableModel
 	): Unit =
 		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
@@ -35,6 +36,7 @@ object TestUtil:
 		assert(res.changes.last.focusedIndices._2.value == focusedIndicesSecondValueWithIndex._1)
 		assert(res.changes.last.focusedIndices._2.indexModel.index == focusedIndicesSecondValueWithIndex._2)
 		assert(res.changes.last.alreadySorted.map(_.value) == alreadySorted.map(_.value))
+		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value)) //TODO find solution for all occurrences of this pattern (refactor the mocks)
 
 	def testIfEmptyValueWithIndexModelExists(res: List[SortingModel]): Unit =
 		assert(

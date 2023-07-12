@@ -1,8 +1,9 @@
 package test.modelTest
 
 import core.Util.*
-import core.model.{IndexModel, NonEmptyListModel, SortableModel, ValueWithIndexModel}
+import core.model.{IndexModel, NonEmptyListModel, OrderModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortableModelError
+import mock.modelMock.SortableModelMock
 import test.TestUtil.*
 
 import scala.util.Random
@@ -42,3 +43,15 @@ object SortableModel_Test:
                 ).toOption.get
             )
             assertLeft(res)(SortableModelError.ToManyElements(501))
+
+    object getSorted_should_return:
+
+        def `SortableModel - ascending`: Unit =
+            val res = SortableModelMock.unsorted
+                .getSorted(OrderModel.Ascending)
+            assert(res.valuesWithIndices.list.map(_.value) == SortableModelMock.sortedAscending.valuesWithIndices.list.map(_.value))
+
+        def `SortableModel - descending`: Unit =
+            val res = SortableModelMock.unsorted
+                .getSorted(OrderModel.Descending)
+            assert(res.valuesWithIndices.list.map(_.value) == SortableModelMock.sortedDescending.valuesWithIndices.list.map(_.value))

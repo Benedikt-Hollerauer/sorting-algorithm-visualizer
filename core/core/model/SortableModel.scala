@@ -2,10 +2,19 @@ package core.model
 
 import core.model.ValueWithIndexModel
 import error.modelError.SortableModelError
+import core.model.ValueWithIndexModel.ordering
 
 case class SortableModel private(
     valuesWithIndices: NonEmptyListModel[ValueWithIndexModel]
-)
+):
+    def getSorted(ordering: OrderModel): SortableModel =
+        val sorted = valuesWithIndices.list.sortWith: (x, y) =>
+            ordering.getOrdering(x.value, y.value)
+        SortableModel.from(
+            NonEmptyListModel.from(
+                sorted
+            ).toOption.get
+        ).toOption.get
 
 object SortableModel:
 

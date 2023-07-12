@@ -8,5 +8,6 @@ object SortedModelMock:
 
 	val sortedModel: SortedModel = SortedModel(
 		toBeSorted = SortableModelMock.unsorted,
-		changes = changes
+		changes = changes,
+		sorted = SortableModelMock.sortedAscending
 	)

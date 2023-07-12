@@ -18,7 +18,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices.dropRight(2))
+			TestUtil.testCommonBubbleSortEntitySortProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedAscending)
 			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
 
@@ -28,7 +28,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortDescending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices.dropRight(2))
+			TestUtil.testCommonBubbleSortEntitySortProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedDescending)
 			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
 			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
 
