@@ -11,22 +11,19 @@ import scala.scalajs.js.timers.setTimeout
 
 object Content:
 
-	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 100)
+			getBarArray(sorted, 10)
 		)
 
-	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
-		val barArray = VisualizeSortingUseCase(
-			VisualizeSortingInput(sortedModel)
-		)
+	private def getBarArray(visualizeModel: VisualizeModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
 			children <-- EventStream.periodic(intervalMs).map: tick =>
-				barArray.changes.lift(tick) match
+				visualizeModel.changes.lift(tick) match
 					case Some(bar) => getBars(bar)
-					case None => getBars(barArray.finishedSorting)
+					case None => getBars(visualizeModel.finishedSorting)
 		)
 
 	private def getBars(toBeBars: NonEmptyListModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =

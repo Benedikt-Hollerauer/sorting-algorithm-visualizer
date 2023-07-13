@@ -5,12 +5,16 @@ import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement}
 
 object SideMenu:
 
+	val startStopButtonVar: Var[Boolean] = Var(false)
+	val startStopButtonSignal: Signal[Boolean] = startStopButtonVar.signal
+	
 	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
 			transform <-- NavigationBar.menuVisibleSignal
 				.map: visible =>
-					if(visible) "translateX(0)" else "translateX(100%)",
+					if(visible) "translateX(0)"
+					else "translateX(100%)",
 			getStartStopButton,
 			ul(
 				SideMenuStyle.menuItemsStyle,
@@ -23,8 +27,6 @@ object SideMenu:
 		)
 
 	private def getStartStopButton: ReactiveHtmlElement[HTMLButtonElement] =
-		val startStopButtonVar: Var[Boolean] = Var(false)
-		val startStopButtonSignal: Signal[Boolean] = startStopButtonVar.signal
 		button(
 			SideMenuStyle.startStopButtonStyle,
 			onClick --> (_ => startStopButtonVar.update(!_)),
