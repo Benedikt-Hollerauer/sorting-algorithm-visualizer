@@ -5,14 +5,14 @@ import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLLIElement, HTMLULi
 object NavigationBar:
 
 	val menuVisibleVar = Var(false)
-	private val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
+	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
 
-	def getHtml(logoSrc: String, sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(logoSrc: String): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
 			getSocialIcons,
 			getLogo(logoSrc),
-			getHamburgerMenu(sortingAlgorithms)
+			getHamburgerMenu
 		)
 
 	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
@@ -55,7 +55,7 @@ object NavigationBar:
 			)
 		)
 
-	private def getHamburgerMenu(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+	private def getHamburgerMenu: ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.hamburgerMenuStyle,
 			onClick --> (_ => menuVisibleVar.update(!_)),
@@ -63,28 +63,12 @@ object NavigationBar:
 				NavigationBarStyle.iconImageStyle,
 				src := "assets/hamburger-menu-icon.svg",
 				alt := "Hamburger Menu"
-			),
-			div(
-				NavigationBarStyle.slidingMenuStyle,
-				transform <-- menuVisibleSignal
-					.map: visible =>
-						if (visible) "translateX(0)" else "translateX(100%)",
-				ul(
-					NavigationBarStyle.menuItemsStyle,
-					sortingAlgorithms.map: sortingAlgorithm =>
-						li(
-							NavigationBarStyle.sortingAlgorithmMenuItemStyle,
-							sortingAlgorithm.toString
-						)
-				)
 			)
 		)
 
 object NavigationBarStyle:
 
 	val navigationBarHeight = height.percent := 7
-
-	private val subMenuWidth = width.percent := 25
 
 	val navigationBarStyle = Seq(
 		navigationBarHeight,
@@ -113,35 +97,6 @@ object NavigationBarStyle:
 	val hamburgerMenuStyle = Seq(
 		display.flex,
 		alignItems.center,
-		cursor.pointer
-	)
-
-	val slidingMenuStyle = Seq(
-		position.fixed,
-		top := navigationBarHeight.value,
-		right.px := 0,
-		height.percent := 100,
-		subMenuWidth,
-		backgroundColor := "#ffffff",
-		transform := "translateX(100%)",
-		transition := "transform 0.3s ease-in-out",
-		borderLeft := "thin solid black"
-	)
-
-	val menuItemsStyle = Seq(
-		listStyleType.none,
-		padding.px := 0,
-		margin.px := 0,
-		marginTop.px := 10
-	)
-
-	val sortingAlgorithmMenuItemStyle = Seq(
-		padding := "8px 12px",
-		borderRadius.px := 4,
-		backgroundColor := "#ffffff",
-		color := "#333333",
-		fontWeight.bold,
-		marginRight.px := 10,
 		cursor.pointer
 	)
 
