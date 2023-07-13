@@ -4,7 +4,7 @@ import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLLIElement, HTMLULi
 
 object NavigationBar:
 
-	val menuVisibleVar = Var(false)
+	val menuVisibleVar: Var[Boolean] = Var(false)
 	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
 
 	def getHtml(logoSrc: String): ReactiveHtmlElement[HTMLDivElement] =
