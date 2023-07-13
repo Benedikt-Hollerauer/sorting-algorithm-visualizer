@@ -18,7 +18,8 @@ object NavigationBar:
 	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
 		img(
 			NavigationBarStyle.logoStyle,
-			src := logoSrc
+			src := logoSrc,
+			alt := "Logo"
 		)
 
 	private def getSocialIcons: ReactiveHtmlElement[HTMLUListElement] =
@@ -88,7 +89,7 @@ object NavigationBarStyle:
 	val navigationBarStyle = Seq(
 		navigationBarHeight,
 		width.percent := 100,
-		backgroundColor := "#f5f5f5",
+		backgroundColor := "white",
 		display.flex,
 		alignItems.center,
 		justifyContent.spaceBetween,

@@ -14,7 +14,7 @@ object Content:
 	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: SortedModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 150)
+			getBarArray(sorted, 100)
 		)
 
 	private def getBarArray(sortedModel: SortedModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
@@ -67,5 +67,5 @@ object ContentStyle:
 	val barArrayStyle = Seq(
 		display.flex,
 		flexWrap.wrap,
-		alignItems.flexEnd,
+		alignItems.flexEnd
 	)
