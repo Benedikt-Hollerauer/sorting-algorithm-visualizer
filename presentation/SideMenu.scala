@@ -72,5 +72,5 @@ object SideMenuStyle:
 	)
 
 	val startStopButtonStyle = Seq(
-		width.percent := 80
+		width.percent := 90
 	)
