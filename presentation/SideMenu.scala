@@ -5,9 +5,12 @@ import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement}
 
 object SideMenu:
 
-	val startStopButtonVar: Var[Boolean] = Var(false)
+	private val startStopButtonVar: Var[Boolean] = Var(false)
 	val startStopButtonSignal: Signal[Boolean] = startStopButtonVar.signal
-	
+
+	private val newToBeSortedButtonVar: Var[Boolean] = Var(false)
+	val newToBeSortedButtonSignal: Signal[Boolean] = newToBeSortedButtonVar.signal
+
 	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
@@ -16,6 +19,7 @@ object SideMenu:
 					if(visible) "translateX(0)"
 					else "translateX(100%)",
 			getStartStopButton,
+			getCreateNewToBeSortedButton,
 			ul(
 				SideMenuStyle.menuItemsStyle,
 				sortingAlgorithms.map: sortingAlgorithm =>
@@ -34,7 +38,17 @@ object SideMenu:
 				src <-- startStopButtonSignal.map: started =>
 					if(started) "assets/github-icon.svg"
 					else "assets/linkedin-icon.svg",
-				alt := "Start / Stop Symbol"
+				alt := "start / stop"
+			)
+		)
+
+	private def getCreateNewToBeSortedButton: ReactiveHtmlElement[HTMLButtonElement] =
+		button(
+			SideMenuStyle.newToBeSortedButtonStyle,
+			onClick --> (_ => newToBeSortedButtonVar.update(!_)),
+			img(
+				src := "assets/hamburger-menu-icon.svg",
+				alt := "create new to be sorted"
 			)
 		)
 
@@ -72,5 +86,9 @@ object SideMenuStyle:
 	)
 
 	val startStopButtonStyle = Seq(
+		width.percent := 90
+	)
+
+	val newToBeSortedButtonStyle = Seq(
 		width.percent := 90
 	)
