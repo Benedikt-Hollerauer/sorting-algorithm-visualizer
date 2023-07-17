@@ -31,10 +31,19 @@ object Main:
 						SideMenu.getHtml(
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
 						),
-						Content.getHtml(
-							SortingAlgorithm.BubbleSort,
-							getVisualizeModel(sortable, OrderModel.Ascending)
-						),
+						child <-- SideMenu.newToBeSortedButtonSignal.map: clicked =>
+							if(clicked)
+								val sortable = GenerateSortableUseCase(
+									GenerateSortableInputMock.success
+								).toOption.get
+								Content.getHtml(
+									SortingAlgorithm.BubbleSort,
+									getVisualizeModel(sortable, OrderModel.Ascending)
+								)
+							else Content.getHtml(
+								SortingAlgorithm.BubbleSort,
+								getVisualizeModel(sortable, OrderModel.Ascending)
+							),
 						Legend.getHtml
 					)
 				)
