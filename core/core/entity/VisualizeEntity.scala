@@ -34,9 +34,9 @@ object VisualizeEntity:
 		if(change.alreadySorted.contains(valueWithIndex))
 			BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
 		else if (isCorrectValueWithIndex && change.focusedIndicesChanged)
-			BarModel(valueWithIndex.value, BarStateModel.Focused)
+			BarModel(valueWithIndex.value, BarStateModel.Swapped)
 		else if(isCorrectValueWithIndex)
-			BarModel( valueWithIndex.value, BarStateModel.Swapped)
+			BarModel( valueWithIndex.value, BarStateModel.Focused)
 		else BarModel(valueWithIndex.value, BarStateModel.Normal)
 
 	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] =
