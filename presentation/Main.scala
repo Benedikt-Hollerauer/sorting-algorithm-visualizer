@@ -1,6 +1,6 @@
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortByBubbleSortInput, VisualizeSortingInput}
-import core.model.OrderModel
+import core.model.{OrderModel, SortableModel}
 import core.useCase.{GenerateSortableUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock
 import org.scalajs.dom
@@ -20,15 +20,6 @@ object Main:
 					Error.getHtml(generateSortableError.toString)
 				)
 			case Right(sortable) =>
-				val sorted = SortByBubbleSortUseCase(
-					SortByBubbleSortInput(
-						sortable,
-						OrderModel.Ascending
-					)
-				)
-				val visualizeModel = VisualizeSortingUseCase(
-					VisualizeSortingInput(sorted)
-				)
 				render(
 					dom.document.body,
 					div(
@@ -42,8 +33,19 @@ object Main:
 						),
 						Content.getHtml(
 							SortingAlgorithm.BubbleSort,
-							visualizeModel
+							getVisualizeModel(sortable, OrderModel.Ascending)
 						),
 						Legend.getHtml
 					)
 				)
+
+	private def getVisualizeModel(toBeSorted: SortableModel, ordering: OrderModel) =
+		val sorted = SortByBubbleSortUseCase(
+			SortByBubbleSortInput(
+				toBeSorted,
+				ordering
+			)
+		)
+		VisualizeSortingUseCase(
+			VisualizeSortingInput(sorted)
+		)

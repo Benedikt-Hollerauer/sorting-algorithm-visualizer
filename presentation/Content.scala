@@ -14,7 +14,7 @@ object Content:
 	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 10)
+			getBarArray(sorted, 100)
 		)
 
 	private def getBarArray(visualizeModel: VisualizeModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
