@@ -41,8 +41,8 @@ object SideMenu:
 			onClick --> (_ => startStopButtonVar.update(!_)),
 			img(
 				src <-- startStopButtonSignal.map: started =>
-					if(started) "assets/github-icon.svg"
-					else "assets/linkedin-icon.svg",
+					if(started) "assets/stop-visualisation.svg"
+					else "assets/start-visualisation.svg",
 				alt := "start / stop"
 			)
 		)
@@ -62,14 +62,13 @@ object SideMenu:
 			input(
 				SideMenuStyle.sortingSpeedSliderStyle,
 				typ := "range",
-				minLength := 0,
-				maxLength := 100,
+				stepAttr := "5",
 				inContext: thisNode =>
 					thisNode.ref.addEventListener(
 						"input",
 						_ =>
 							val speed = thisNode.ref.value.toInt
-							sliderSpeedBus.writer.onNext(speed * 10)
+							sliderSpeedBus.writer.onNext(speed)
 					)
 					thisNode
 			),
@@ -89,7 +88,10 @@ object SideMenuStyle:
 		backgroundColor := "#ffffff",
 		transform := "translateX(100%)",
 		transition := "transform 0.3s ease-in-out",
-		borderLeft := "thin solid black"
+		borderLeft := "thin solid black",
+		display.flex,
+		flexDirection.column,
+		alignItems.center
 	)
 
 	val menuItemsStyle = Seq(

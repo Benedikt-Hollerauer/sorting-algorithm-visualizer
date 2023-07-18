@@ -26,7 +26,7 @@ object Main:
 						height.vh := 100,
 						width.vw := 100,
 						NavigationBar.getHtml(
-							"assets/sorting-visualizer-logo.png"
+							"assets/sorting-visualizer-logo.svg"
 						),
 						SideMenu.getHtml(
 							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
