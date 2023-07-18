@@ -1,7 +1,8 @@
 import NavigationBarStyle.navigationBarHeight
+import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement}
+import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
 
 object SideMenu:
 
@@ -10,6 +11,9 @@ object SideMenu:
 
 	private val newToBeSortedButtonVar: Var[Boolean] = Var(false)
 	val newToBeSortedButtonSignal: Signal[Boolean] = newToBeSortedButtonVar.signal
+
+	private val sliderSpeedBus: EventBus[Int] = new EventBus[Int]
+	val sliderSpeedSignal: Signal[Int] = sliderSpeedBus.events.startWith(50)
 
 	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
@@ -20,6 +24,7 @@ object SideMenu:
 					else "translateX(100%)",
 			getStartStopButton,
 			getCreateNewToBeSortedButton,
+			getSortingSpeedSlider,
 			ul(
 				SideMenuStyle.menuItemsStyle,
 				sortingAlgorithms.map: sortingAlgorithm =>
@@ -52,6 +57,25 @@ object SideMenu:
 			)
 		)
 
+	private def getSortingSpeedSlider: ReactiveHtmlElement[HTMLDivElement] =
+		div(
+			input(
+				SideMenuStyle.sortingSpeedSliderStyle,
+				typ := "range",
+				minLength := 0,
+				maxLength := 100,
+				inContext: thisNode =>
+					thisNode.ref.addEventListener(
+						"input",
+						_ =>
+							val speed = thisNode.ref.value.toInt
+							sliderSpeedBus.writer.onNext(speed * 10)
+					)
+					thisNode
+			),
+			child.text <-- sliderSpeedSignal
+		)
+
 object SideMenuStyle:
 
 	private val subMenuWidth = width.percent := 25
@@ -78,8 +102,7 @@ object SideMenuStyle:
 	val sortingAlgorithmMenuItemStyle = Seq(
 		padding := "8px 12px",
 		borderRadius.px := 4,
-		backgroundColor := "#ffffff",
-		color := "#333333",
+		backgroundColor := "#ffffff", color := "#333333",
 		fontWeight.bold,
 		marginRight.px := 10,
 		cursor.pointer
@@ -91,4 +114,9 @@ object SideMenuStyle:
 
 	val newToBeSortedButtonStyle = Seq(
 		width.percent := 90
+	)
+
+	val sortingSpeedSliderStyle = Seq(
+		width.percent := 90,
+		cursor.pointer
 	)

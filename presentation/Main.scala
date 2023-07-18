@@ -37,11 +37,9 @@ object Main:
 									GenerateSortableInputMock.success
 								).toOption.get
 								Content.getHtml(
-									SortingAlgorithm.BubbleSort,
 									getVisualizeModel(sortable, OrderModel.Ascending)
 								)
 							else Content.getHtml(
-								SortingAlgorithm.BubbleSort,
 								getVisualizeModel(sortable, OrderModel.Ascending)
 							),
 						Legend.getHtml

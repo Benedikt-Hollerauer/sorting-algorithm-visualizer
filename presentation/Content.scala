@@ -1,3 +1,5 @@
+import com.raquo.airstream.timing
+import com.raquo.airstream.timing.PeriodicStream
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
@@ -7,14 +9,17 @@ import core.model.*
 import core.useCase.VisualizeSortingUseCase
 import org.scalajs.dom.{HTMLDivElement, console}
 
-import scala.scalajs.js.timers.setTimeout
+import scala.scalajs.js.timers.{setInterval, setTimeout}
 
 object Content:
 
-	def getHtml(sortingAlgorithm: SortingAlgorithm, sorted: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
+	val visualisationStream = EventStream.periodic(1000)
+
+	def getHtml(sorted: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
-			getBarArray(sorted, 100)
+			child <-- SideMenu.sliderSpeedSignal.map: intervalMs =>
+				getBarArray(sorted, intervalMs)
 		)
 
 	private def getBarArray(visualizeModel: VisualizeModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
