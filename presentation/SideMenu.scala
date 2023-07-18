@@ -50,6 +50,7 @@ object SideMenu:
 	private def getCreateNewToBeSortedButton: ReactiveHtmlElement[HTMLButtonElement] =
 		button(
 			SideMenuStyle.newToBeSortedButtonStyle,
+			onClick --> (_ => startStopButtonVar.update(_ => false)),
 			onClick --> (_ => newToBeSortedButtonVar.update(!_)),
 			img(
 				src := "assets/create-new-to-be-sorted.svg",
