@@ -25,6 +25,7 @@ object VisualizeEntity:
 				)
 			._2
 		VisualizeModel(
+			notStartedSorting = getNotStartedSortingBars(sortedModel.toBeSorted),
 			changes = changes,
 			finishedSorting = getFinishedSortingBars(sortedModel.sorted)
 		)
@@ -39,13 +40,23 @@ object VisualizeEntity:
 			BarModel( valueWithIndex.value, BarStateModel.Focused)
 		else BarModel(valueWithIndex.value, BarStateModel.Normal)
 
-	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] =
+	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] = //TODO make the two similar methods to one
 		val sortedBars = finishedSorting.valuesWithIndices
 			.list
 			.map: valueWithIndex =>
 				BarModel(
 					value = valueWithIndex.value,
 					barState = BarStateModel.FinishedSorting
+				)
+		NonEmptyListModel.from(sortedBars).toOption.get
+
+	private def getNotStartedSortingBars(notStartedSorting: SortableModel): NonEmptyListModel[BarModel] =
+		val sortedBars = notStartedSorting.valuesWithIndices
+			.list
+			.map: valueWithIndex =>
+				BarModel(
+					value = valueWithIndex.value,
+					barState = BarStateModel.Normal
 				)
 		NonEmptyListModel.from(sortedBars).toOption.get
 

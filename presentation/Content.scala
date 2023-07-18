@@ -30,13 +30,15 @@ object Content:
 				.scanLeft((0, List.empty[ReactiveHtmlElement[HTMLDivElement]])):
 					case (acc, (tick, false)) => (
 						acc._1,
-						visualizeModel.changes.lift(acc._1) match
+						if(acc._1 == 0) getBars(visualizeModel.notStartedSorting)
+						else visualizeModel.changes.lift(acc._1) match
 							case Some(bar) => getBars(bar)
 							case None => getBars(visualizeModel.finishedSorting)
 					)
 					case (acc, (tick, true)) => (
 						acc._1 + 1,
-						visualizeModel.changes.lift(acc._1) match
+						if(acc._1 == 0) getBars(visualizeModel.notStartedSorting)
+						else visualizeModel.changes.lift(acc._1) match
 							case Some(bar) => getBars(bar)
 							case None => getBars(visualizeModel.finishedSorting)
 					)

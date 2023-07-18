@@ -29,6 +29,8 @@ object VisualizeSortingUseCase_Test:
 						res.changes.last.list.head.barState == BarStateModel.Focused,
 						res.changes.last.list.last.barState == BarStateModel.AlreadySorted,
 						res.changes.head.list.length == res.changes.head.list.length,
+						res.notStartedSorting.list.exists:
+							case BarModel(_, barState) => barState == BarStateModel.Normal,
 						res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
