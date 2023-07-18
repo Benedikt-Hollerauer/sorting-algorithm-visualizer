@@ -52,7 +52,7 @@ object SideMenu:
 			SideMenuStyle.newToBeSortedButtonStyle,
 			onClick --> (_ => newToBeSortedButtonVar.update(!_)),
 			img(
-				src := "assets/hamburger-menu-icon.svg",
+				src := "assets/create-new-to-be-sorted.svg",
 				alt := "create new to be sorted"
 			)
 		)
