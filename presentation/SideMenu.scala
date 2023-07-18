@@ -86,8 +86,6 @@ object SideMenuStyle:
 		height.percent := 100,
 		subMenuWidth,
 		backgroundColor := "#ffffff",
-		transform := "translateX(100%)",
-		transition := "transform 0.3s ease-in-out",
 		borderLeft := "thin solid black",
 		display.flex,
 		flexDirection.column,
