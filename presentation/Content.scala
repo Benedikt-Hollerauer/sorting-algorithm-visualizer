@@ -25,11 +25,23 @@ object Content:
 	private def getBarArray(visualizeModel: VisualizeModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.barArrayStyle,
-			children <-- EventStream.periodic(intervalMs).map: tick =>
-				visualizeModel.changes.lift(tick) match
-					case Some(bar) => getBars(bar)
-					case None => getBars(visualizeModel.finishedSorting)
-		)
+			children <-- EventStream.periodic(intervalMs)
+				.withCurrentValueOf(SideMenu.startStopButtonSignal)
+				.scanLeft((0, List.empty[ReactiveHtmlElement[HTMLDivElement]])):
+					case (acc, (tick, false)) => (
+						acc._1,
+						visualizeModel.changes.lift(acc._1) match
+							case Some(bar) => getBars(bar)
+							case None => getBars(visualizeModel.finishedSorting)
+					)
+					case (acc, (tick, true)) => (
+						acc._1 + 1,
+						visualizeModel.changes.lift(acc._1) match
+							case Some(bar) => getBars(bar)
+							case None => getBars(visualizeModel.finishedSorting)
+					)
+				.map(_._2)
+	)
 
 	private def getBars(toBeBars: NonEmptyListModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =
 		toBeBars.list
