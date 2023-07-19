@@ -2,7 +2,7 @@ package test.useCaseTest
 
 import core.model.SortedModel
 import core.useCase.SortByInsertionSortUseCase
-import mock.inputMock.SortByInsertionSortInputMock
+import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import test.TestUtil.assertRight
 
 object SortByInsertionSortUseCase_Test:
@@ -12,12 +12,12 @@ object SortByInsertionSortUseCase_Test:
 		def `SortedModel - ascending`: Unit =
 			val res = Right(
 				SortByInsertionSortUseCase(
-					input = SortByInsertionSortInputMock.ascendingOrder
+					input = SortingAlgorithmUseCaseInputMock.ascendingOrder
 				)
 			)
 			assertRight(res)(
 				(res: SortedModel) => Seq(
-					res.toBeSorted == SortByInsertionSortInputMock.ascendingOrder.toBeSorted,
+					res.toBeSorted == SortingAlgorithmUseCaseInputMock.ascendingOrder.toBeSorted,
 					res.changes.head.focusedIndices._1.value == 636,
 					res.changes.head.focusedIndices._2.value == 743,
 					res.changes.head.focusedIndicesChanged == false,
@@ -33,12 +33,12 @@ object SortByInsertionSortUseCase_Test:
 		def `SortedModel - descending`: Unit =
 			val res = Right(
 				SortByInsertionSortUseCase(
-					input = SortByInsertionSortInputMock.descendingOrder
+					input = SortingAlgorithmUseCaseInputMock.descendingOrder
 				)
 			)
 			assertRight(res)(
 				(res: SortedModel) => Seq(
-					res.toBeSorted == SortByInsertionSortInputMock.descendingOrder.toBeSorted,
+					res.toBeSorted == SortingAlgorithmUseCaseInputMock.descendingOrder.toBeSorted,
 					res.changes.head.focusedIndices._1.value == 743,
 					res.changes.head.focusedIndices._2.value == 636,
 					res.changes.head.focusedIndicesChanged == true,

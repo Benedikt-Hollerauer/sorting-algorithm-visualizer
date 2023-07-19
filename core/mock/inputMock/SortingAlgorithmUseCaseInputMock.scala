@@ -1,14 +1,14 @@
 package mock.inputMock
 
-import core.input.SortByInsertionSortInput
+import core.input.SortingAlgorithmUseCaseInput
 import core.model.OrderModel
 import mock.modelMock.SortableModelMock
 
-object SortByInsertionSortInputMock:
+object SortingAlgorithmUseCaseInputMock:
 
-	val ascendingOrder = SortByInsertionSortInput(
+	val ascendingOrder = SortingAlgorithmUseCaseInput(
 		toBeSorted = SortableModelMock.unsorted,
-		ordering = OrderModel.Ascending
+	ordering = OrderModel.Ascending
 	)
 
 	val descendingOrder = ascendingOrder.copy(

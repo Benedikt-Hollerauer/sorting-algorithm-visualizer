@@ -1,9 +1,10 @@
 package useCaseTest
 
+import core.input.SortingAlgorithmUseCaseInput
 import core.model.{SortedModel, ValueWithIndexModel}
 import error.modelError.{NonEmptyListModelError, SortableModelError}
 import mock.ToBeSortedMock
-import mock.inputMock.SortByBubbleSortInputMock
+import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import test.TestUtil.*
 import useCase.SortByBubbleSortUseCase
 
@@ -14,12 +15,12 @@ object SortByBubbleSortUseCase_Test:
         def `SortedModel - ascending`: Unit =
             val res = Right(
                 SortByBubbleSortUseCase(
-                    input = SortByBubbleSortInputMock.ascendingOrder
+                    input = SortingAlgorithmUseCaseInputMock.ascendingOrder
                 )
             )
             assertRight(res)(
                 (res: SortedModel) => Seq(
-                    res.toBeSorted == SortByBubbleSortInputMock.ascendingOrder.toBeSorted,
+                    res.toBeSorted == SortingAlgorithmUseCaseInputMock.ascendingOrder.toBeSorted,
                     res.changes.head.focusedIndices._1.value == 636,
                     res.changes.head.focusedIndices._2.value == 743,
                     res.changes.head.focusedIndicesChanged == false,
@@ -35,12 +36,12 @@ object SortByBubbleSortUseCase_Test:
         def `SortedModel - descending`: Unit =
             val res = Right(
                 SortByBubbleSortUseCase(
-                    input = SortByBubbleSortInputMock.descendingOrder
+                    input = SortingAlgorithmUseCaseInputMock.descendingOrder
                 )
             )
             assertRight(res)(
                 (res: SortedModel) => Seq(
-                    res.toBeSorted == SortByBubbleSortInputMock.descendingOrder.toBeSorted,
+                    res.toBeSorted == SortingAlgorithmUseCaseInputMock.descendingOrder.toBeSorted,
                     res.changes.head.focusedIndices._1.value == 743,
                     res.changes.head.focusedIndices._2.value == 636,
                     res.changes.head.focusedIndicesChanged == true,

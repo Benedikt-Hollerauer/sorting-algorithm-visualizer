@@ -2,7 +2,7 @@ package core.input
 
 import core.model.{OrderModel, SortableModel}
 
-case class SortByInsertionSortInput( //TODO abstract this for all sorting algorithms
+case class SortingAlgorithmUseCaseInput(
 	toBeSorted: SortableModel,
 	ordering: OrderModel
 )

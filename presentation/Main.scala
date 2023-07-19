@@ -1,5 +1,5 @@
 import com.raquo.laminar.api.L.{*, given}
-import core.input.{SortByBubbleSortInput, VisualizeSortingInput}
+import core.input.VisualizeSortingInput
 import core.model.{OrderModel, SortableModel}
 import core.useCase.{GenerateSortableUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock

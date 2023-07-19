@@ -1,11 +1,11 @@
 package core.useCase
 
 import core.SortingAlgorithm
-import core.input.SortByInsertionSortInput
+import core.input.SortingAlgorithmUseCaseInput
 import core.model.{SortableModel, SortedModel}
 
 object SortByInsertionSortUseCase:
 
 	def apply(
-		input: SortByInsertionSortInput
+		input: SortingAlgorithmUseCaseInput
 	): SortedModel = ???
