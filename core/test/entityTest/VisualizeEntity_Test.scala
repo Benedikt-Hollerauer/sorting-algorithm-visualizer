@@ -5,6 +5,7 @@ import core.model.{BarModel, *}
 import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil.assertRight
+import core.Util.toValuesWithIndices
 
 object VisualizeEntity_Test:
 
@@ -36,6 +37,55 @@ object VisualizeEntity_Test:
 						res.finishedSorting.list.last.value == ToBeSortedMock.biggest
 					)
 			)
+
+	object getBarModel_should_return:
+
+		val valuesWithIndices = SortedModelMock.sortedModel.toBeSorted.valuesWithIndices.list
+
+		def `BarModel - BarStateModel.Normal`: Unit =
+			val res = VisualizeEntity.getBarModel(
+				valuesWithIndices.head,
+				SortedModelMock.changes(1)
+			)
+
+		def `BarModel - BarStateModel.Focused`: Unit =
+			val res = VisualizeEntity.getBarModel(
+				valuesWithIndices.head,
+				SortedModelMock.changes.head
+			)
+
+		def `BarModel - BarStateModel.Swapped`: Unit =
+			val res = VisualizeEntity.getBarModel(
+				valuesWithIndices.head,
+				SortedModelMock.changes.head
+			)
+
+		def `BarModel - BarStateModel.AlreadySorted`: Unit =
+			val res = VisualizeEntity.getBarModel(
+				valuesWithIndices.head,
+				SortedModelMock.changes.head
+			)
+
+	object getSpecialBars_should_return:
+
+		def `NonEmptyListModel[BarModel] - BarStateModel.Normal`: Unit =
+			val res = VisualizeEntity.getSpecialBars(
+				SortableModelMock.unsorted,
+				BarStateModel.Normal
+			)
+			assert(res.list.exists:
+				case BarModel(_, barState) => barState == BarStateModel.Normal
+			)
+
+		def `NonEmptyListModel[BarModel] - BarStateModel.FinishedSorting`: Unit =
+			val res = VisualizeEntity.getSpecialBars(
+				SortableModelMock.unsorted,
+				BarStateModel.FinishedSorting
+			)
+			assert(res.list.exists:
+				case BarModel(_, barState) => barState == BarStateModel.FinishedSorting
+			)
+
 
 	object swapSortable_should_return:
 
