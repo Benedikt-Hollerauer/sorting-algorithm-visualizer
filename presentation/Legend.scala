@@ -43,7 +43,7 @@ object LegendStyle:
 	)
 
 	val legendStyle = Seq(
-		width.percent <-- NavigationBar.menuVisibleVar.signal.map: //TODO make public to fulfill dry principle
+		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
 			if(_) 75
 			else 100,
 		legendHeight,

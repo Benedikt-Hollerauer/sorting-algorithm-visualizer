@@ -18,7 +18,7 @@ object SideMenu:
 	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
-			transform <-- NavigationBar.menuVisibleSignal
+			transform <-- NavigationBar.extendCollapseSideMenuSignal
 				.map: visible =>
 					if(visible) "translateX(0)"
 					else "translateX(100%)",

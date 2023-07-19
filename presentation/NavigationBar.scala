@@ -4,15 +4,15 @@ import org.scalajs.dom.{HTMLDivElement, HTMLImageElement, HTMLLIElement, HTMLULi
 
 object NavigationBar:
 
-	val menuVisibleVar: Var[Boolean] = Var(false)
-	val menuVisibleSignal: Signal[Boolean] = menuVisibleVar.signal
+	val extendCollapseSideMenuVar: Var[Boolean] = Var(false)
+	val extendCollapseSideMenuSignal: Signal[Boolean] = extendCollapseSideMenuVar.signal
 
 	def getHtml(logoSrc: String): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
 			getSocialIcons,
 			getLogo(logoSrc),
-			getHamburgerMenu
+			getExtendCollapseSideMenuIcon
 		)
 
 	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
@@ -55,13 +55,13 @@ object NavigationBar:
 			)
 		)
 
-	private def getHamburgerMenu: ReactiveHtmlElement[HTMLDivElement] =
+	private def getExtendCollapseSideMenuIcon: ReactiveHtmlElement[HTMLDivElement] =
 		div(
-			NavigationBarStyle.hamburgerMenuStyle,
-			onClick --> (_ => menuVisibleVar.update(!_)),
+			NavigationBarStyle.extendCollapseSideMenuIconStyle,
+			onClick --> (_ => extendCollapseSideMenuVar.update(!_)),
 			img(
 				NavigationBarStyle.iconImageStyle,
-				src <-- menuVisibleSignal.map: extended =>
+				src <-- extendCollapseSideMenuSignal.map: extended =>
 					if(extended) "assets/collapse-side-menu.svg"
 					else "assets/extend-side-menu.svg",
 				alt := "Hamburger Menu"
@@ -96,7 +96,7 @@ object NavigationBarStyle:
 		margin.px := 0
 	)
 
-	val hamburgerMenuStyle = Seq(
+	val extendCollapseSideMenuIconStyle = Seq(
 		display.flex,
 		alignItems.center,
 		cursor.pointer
