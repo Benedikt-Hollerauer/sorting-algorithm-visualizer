@@ -37,7 +37,7 @@ object BubbleSortEntity_Test:
 			TestUtil.testCommonBubbleSortProperties(
 				res = res,
 				expectedLength = 45,
-				headFocusedValues = (636, 743),
+				headFocusedValues = (743, 636),
 				headFocusedIndicesChanged = true,
 				lastFocusedValues = (743, 662),
 				lastFocusedIndicesChanged = false,
@@ -57,7 +57,8 @@ object BubbleSortEntity_Test:
 				res,
 				(false, true),
 				(636, ToBeSortedMock.biggest),
-				alreadySorted
+				alreadySorted,
+				ToBeSortedMock.ascendingOrder.sortedOnce
 			)
 
 		def `List[SortingModel] - descending`: Unit =
@@ -71,7 +72,8 @@ object BubbleSortEntity_Test:
 				res,
 				(true, true),
 				(743, ToBeSortedMock.smallest),
-				alreadySorted
+				alreadySorted,
+				ToBeSortedMock.descendingOrder.sortedOnce
 			)
 
 		def `None`: Unit =

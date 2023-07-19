@@ -35,7 +35,7 @@ object SortByBubbleSortUseCase_Test:
             TestUtil.testCommonBubbleSortProperties(
                 res = res,
                 expectedLength = 45,
-                headFocusedValues = (636, 743),
+                headFocusedValues = (743, 636),
                 headFocusedIndicesChanged = true,
                 lastFocusedValues = (743, 662),
                 lastFocusedIndicesChanged = false,

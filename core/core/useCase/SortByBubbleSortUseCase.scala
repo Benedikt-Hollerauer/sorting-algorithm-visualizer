@@ -1,11 +1,11 @@
 package useCase
 
+import core.Contracts.SortingAlgorithmUseCase
 import core.Util.toValuesWithIndices
 import core.entity.BubbleSortEntity
 import core.input.SortingAlgorithmUseCaseInput
 import core.model.OrderModel.{Ascending, Descending}
 import core.model.{NonEmptyListModel, SortableModel, SortedModel}
-import core.Contracts.SortingAlgorithmUseCase
 
 object SortByBubbleSortUseCase extends SortingAlgorithmUseCase:
 

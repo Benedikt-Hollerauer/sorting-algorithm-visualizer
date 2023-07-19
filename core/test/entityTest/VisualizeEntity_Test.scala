@@ -1,11 +1,11 @@
 package test.entityTest
 
+import core.Util.toValuesWithIndices
 import core.entity.VisualizeEntity
-import core.model.{BarModel, *}
+import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil.assertRight
-import core.Util.toValuesWithIndices
 
 object VisualizeEntity_Test:
 
@@ -30,7 +30,8 @@ object VisualizeEntity_Test:
 						res.changes.last.list.last.barState == BarStateModel.AlreadySorted,
 						res.changes.head.list.length == res.changes.head.list.length,
 						res.notStartedSorting.list.exists:
-							case BarModel(_, barState) => barState == BarStateModel.Normal,
+							case BarModel(_, barState) => barState == BarStateModel.Normal
+						,
 						res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.head.value == ToBeSortedMock.smallest,

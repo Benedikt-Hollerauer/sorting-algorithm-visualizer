@@ -1,10 +1,10 @@
 package test.entityTest
 
+import core.Util.toValuesWithIndices
 import core.entity.{BubbleSortEntity, InsertionSortEntity}
 import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil
-import core.Util.toValuesWithIndices
 
 object InsertionSortEntity_Test:
 

@@ -1,7 +1,7 @@
 package test.modelTest
 
 import core.Util.*
-import core.model.{IndexModel, NonEmptyListModel, OrderModel, SortableModel, ValueWithIndexModel}
+import core.model.*
 import error.modelError.SortableModelError
 import mock.modelMock.SortableModelMock
 import test.TestUtil.*

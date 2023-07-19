@@ -1,8 +1,8 @@
 package core.model
 
 import core.model.ValueWithIndexModel
-import error.modelError.SortableModelError
 import core.model.ValueWithIndexModel.ordering
+import error.modelError.SortableModelError
 
 case class SortableModel private(
     valuesWithIndices: NonEmptyListModel[ValueWithIndexModel]

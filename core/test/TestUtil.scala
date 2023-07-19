@@ -1,6 +1,6 @@
 package test
 
-import core.model.{IndexModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 import mock.ToBeSortedMock
 import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import mock.modelMock.SortableModelMock
@@ -26,7 +26,8 @@ object TestUtil:
 		res: Option[List[SortingModel.BubbleSort]],
 		focusedIndicesChangedHeadAndTail: (Boolean, Boolean),
 		focusIndicesHeadAndTail: (Int, Int),
-		alreadySorted: List[ValueWithIndexModel]
+		alreadySorted: List[ValueWithIndexModel],
+		sortedOnce: List[Int]
 	): Unit =
 		val unwrappedRes = res.get
 		assert:
@@ -35,7 +36,7 @@ object TestUtil:
 			) :+ (
 				unwrappedRes.last match
 					case SortingModel.BubbleSort(focusedValues, _, _) => focusedValues._2.value
-			) == ToBeSortedMock.descendingOrder.sortedOnce
+			) == sortedOnce
 		assert(unwrappedRes.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
 		assert(unwrappedRes.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
 		assert(unwrappedRes.head.focusedValues._1.value == focusIndicesHeadAndTail._1)

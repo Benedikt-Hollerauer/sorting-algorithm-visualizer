@@ -1,6 +1,6 @@
 package test.useCaseTest
 
-import core.model.{BarModel, BarStateModel, NonEmptyListModel, SortableModel, VisualizeModel}
+import core.model.*
 import core.useCase.VisualizeSortingUseCase
 import mock.ToBeSortedMock
 import mock.inputMock.VisualizeSortingInputMock
@@ -30,7 +30,8 @@ object VisualizeSortingUseCase_Test:
 						res.changes.last.list.last.barState == BarStateModel.AlreadySorted,
 						res.changes.head.list.length == res.changes.head.list.length,
 						res.notStartedSorting.list.exists:
-							case BarModel(_, barState) => barState == BarStateModel.Normal,
+							case BarModel(_, barState) => barState == BarStateModel.Normal
+						,
 						res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
