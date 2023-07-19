@@ -61,7 +61,9 @@ object NavigationBar:
 			onClick --> (_ => menuVisibleVar.update(!_)),
 			img(
 				NavigationBarStyle.iconImageStyle,
-				src := "assets/hamburger-menu-icon.svg",
+				src <-- menuVisibleSignal.map: extended =>
+					if(extended) "assets/collapse-side-menu.svg"
+					else "assets/extend-side-menu.svg",
 				alt := "Hamburger Menu"
 			)
 		)
