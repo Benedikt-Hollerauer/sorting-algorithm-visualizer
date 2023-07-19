@@ -26,10 +26,20 @@ object Main:
 						height.vh := 100,
 						width.vw := 100,
 						NavigationBar.getHtml(
-							"assets/sorting-visualizer-logo.svg"
+							logo = VisualModel("assets/sorting-visualizer-logo.svg", "Site Logo"),
+							socialIcons = List(
+								VisualModel("assets/github-icon.svg", "GitHub", Some("https://github.com/Benedikt-Hollerauer")),
+								VisualModel("assets/linkedin-icon.svg", "LinkedIn", Some("https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/")),
+								VisualModel("assets/website-icon.svg", "Website", Some("https://benedikt-hollerauer.com/"))
+							),
+							retractedIcon = VisualModel("assets/retracted-side-menu.svg", "Retracted Side Menu"),
+							extendIcon = VisualModel("assets/extend-side-menu.svg", "Extended Side Menu")
 						),
 						SideMenu.getHtml(
-							List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort)
+							sortingAlgorithms = List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort),
+							startIcon = VisualModel("assets/start-visualisation.svg", "Start Visualisation"),
+							stopIcon = VisualModel("assets/stop-visualisation.svg", "Stop Visualisation"),
+							newToBeSortedIcon = VisualModel("assets/create-new-to-be-sorted.svg", "Create New ToBeSorted")
 						),
 						child <-- SideMenu.newToBeSortedButtonSignal.map: clicked =>
 							if(clicked)

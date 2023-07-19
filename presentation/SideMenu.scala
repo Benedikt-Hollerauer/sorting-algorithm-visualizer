@@ -15,11 +15,16 @@ object SideMenu:
 	private val sliderSpeedBus: EventBus[Int] = new EventBus[Int]
 	val sliderSpeedSignal: Signal[Int] = sliderSpeedBus.events.startWith(50)
 
-	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(
+		sortingAlgorithms: List[SortingAlgorithm],
+		startIcon: VisualModel,
+		stopIcon: VisualModel,
+		newToBeSortedIcon: VisualModel
+	): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
-			getStartStopButton,
-			getCreateNewToBeSortedButton,
+			getStartStopButton(startIcon, stopIcon),
+			getCreateNewToBeSortedButton(newToBeSortedIcon),
 			getSortingSpeedSlider,
 			ul(
 				SideMenuStyle.menuItemsStyle,
@@ -31,26 +36,31 @@ object SideMenu:
 			)
 		)
 
-	private def getStartStopButton: ReactiveHtmlElement[HTMLButtonElement] =
+	private def getStartStopButton(
+		startIcon: VisualModel,
+		stopIcon: VisualModel
+	): ReactiveHtmlElement[HTMLButtonElement] =
 		button(
 			SideMenuStyle.startStopButtonStyle,
 			onClick --> (_ => startStopButtonVar.update(!_)),
 			img(
 				src <-- startStopButtonSignal.map: started =>
-					if(started) "assets/stop-visualisation.svg"
-					else "assets/start-visualisation.svg",
-				alt := "start / stop"
+					if(started) stopIcon.src
+					else startIcon.src,
+				alt <-- startStopButtonSignal.map: started =>
+					if(started) startIcon.alt
+					else stopIcon.alt
 			)
 		)
 
-	private def getCreateNewToBeSortedButton: ReactiveHtmlElement[HTMLButtonElement] =
+	private def getCreateNewToBeSortedButton(newToBeSortedIcon: VisualModel): ReactiveHtmlElement[HTMLButtonElement] =
 		button(
 			SideMenuStyle.newToBeSortedButtonStyle,
 			onClick --> (_ => startStopButtonVar.update(_ => false)),
 			onClick --> (_ => newToBeSortedButtonVar.update(!_)),
 			img(
-				src := "assets/create-new-to-be-sorted.svg",
-				alt := "create new to be sorted"
+				src := newToBeSortedIcon.src,
+				alt := newToBeSortedIcon.alt
 			)
 		)
 

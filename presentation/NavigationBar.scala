@@ -7,64 +7,58 @@ object NavigationBar:
 	val extendCollapseSideMenuVar: Var[Boolean] = Var(false)
 	val extendCollapseSideMenuSignal: Signal[Boolean] = extendCollapseSideMenuVar.signal
 
-	def getHtml(logoSrc: String): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(
+		logo: VisualModel,
+		socialIcons: List[VisualModel],
+		retractedIcon: VisualModel,
+		extendIcon: VisualModel
+	): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.navigationBarStyle,
-			getSocialIcons,
-			getLogo(logoSrc),
-			getExtendCollapseSideMenuIcon
+			getSocialIcons(socialIcons),
+			getLogo(logo),
+			getExtendCollapseSideMenuIcon(extendIcon, retractedIcon)
 		)
 
-	private def getLogo(logoSrc: String): ReactiveHtmlElement[HTMLImageElement] =
+	private def getLogo(logo: VisualModel): ReactiveHtmlElement[HTMLImageElement] =
 		img(
 			NavigationBarStyle.logoStyle,
-			src := logoSrc,
-			alt := "Logo"
+			src := logo.src,
+			alt := logo.alt
 		)
 
-	private def getSocialIcons: ReactiveHtmlElement[HTMLUListElement] =
-		def getSocialIcon(pathToIcon: String, iconAlt: String, linkTo: String): ReactiveHtmlElement[HTMLLIElement] =
+	private def getSocialIcons(socialIcons: List[VisualModel]): ReactiveHtmlElement[HTMLUListElement] =
+		def getSocialIcon(socialIcon: VisualModel): ReactiveHtmlElement[HTMLLIElement] =
 			li(
 				NavigationBarStyle.socialIconStyle,
 				a(
-					href := linkTo,
+					href := socialIcon.link.getOrElse("https://benedikt-hollerauer.com"),
 					target := "_blank",
 					img(
 						NavigationBarStyle.iconImageStyle,
-						src := pathToIcon,
-						alt := iconAlt
+						src := socialIcon.src,
+						alt := socialIcon.alt
 					)
 				)
 			)
 		ul(
 			NavigationBarStyle.socialIconsStyle,
-			getSocialIcon(
-				pathToIcon = "assets/github-icon.svg",
-				iconAlt = "GitHub",
-				linkTo = "https://github.com/Benedikt-Hollerauer"
-			),
-			getSocialIcon(
-				pathToIcon = "assets/linkedin-icon.svg",
-				iconAlt = "LinkedIn",
-				linkTo = "https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/"
-			),
-			getSocialIcon(
-				pathToIcon = "assets/website-icon.svg",
-				iconAlt = "Website",
-				linkTo = "https://benedikt-hollerauer.com"
-			)
+			socialIcons.map: socialIcon =>
+				getSocialIcon(socialIcon)
 		)
 
-	private def getExtendCollapseSideMenuIcon: ReactiveHtmlElement[HTMLDivElement] =
+	private def getExtendCollapseSideMenuIcon(extendIcon: VisualModel, retractedIcon: VisualModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			NavigationBarStyle.extendCollapseSideMenuIconStyle,
 			onClick --> (_ => extendCollapseSideMenuVar.update(!_)),
 			img(
 				NavigationBarStyle.iconImageStyle,
 				src <-- extendCollapseSideMenuSignal.map: extended =>
-					if(extended) "assets/collapse-side-menu.svg"
-					else "assets/extend-side-menu.svg",
-				alt := "Hamburger Menu"
+					if(extended) retractedIcon.src
+					else extendIcon.src,
+				alt <-- extendCollapseSideMenuSignal.map: extended =>
+					if(extended) extendIcon.alt
+					else retractedIcon.alt
 			)
 		)
 
