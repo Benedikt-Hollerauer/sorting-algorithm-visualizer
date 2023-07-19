@@ -16,7 +16,6 @@ object SideMenu:
 	val sliderSpeedSignal: Signal[Int] = sliderSpeedBus.events.startWith(50)
 
 	def getHtml(
-		sortingAlgorithms: List[SortingAlgorithm],
 		startIcon: VisualModel,
 		stopIcon: VisualModel,
 		newToBeSortedIcon: VisualModel
@@ -26,14 +25,6 @@ object SideMenu:
 			getStartStopButton(startIcon, stopIcon),
 			getCreateNewToBeSortedButton(newToBeSortedIcon),
 			getSortingSpeedSlider,
-			ul(
-				SideMenuStyle.menuItemsStyle,
-				sortingAlgorithms.map: sortingAlgorithm =>
-					li(
-						SideMenuStyle.sortingAlgorithmMenuItemStyle,
-						sortingAlgorithm.toString
-					)
-			)
 		)
 
 	private def getStartStopButton(

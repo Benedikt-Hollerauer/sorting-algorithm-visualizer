@@ -36,7 +36,6 @@ object Main:
 							extendIcon = VisualModel("assets/extend-side-menu.svg", "Extended Side Menu")
 						),
 						SideMenu.getHtml(
-							sortingAlgorithms = List(SortingAlgorithm.BubbleSort, SortingAlgorithm.BubbleSort),
 							startIcon = VisualModel("assets/start-visualisation.svg", "Start Visualisation"),
 							stopIcon = VisualModel("assets/stop-visualisation.svg", "Stop Visualisation"),
 							newToBeSortedIcon = VisualModel("assets/create-new-to-be-sorted.svg", "Create New ToBeSorted")
