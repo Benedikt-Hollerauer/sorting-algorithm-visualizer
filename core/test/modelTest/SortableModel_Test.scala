@@ -28,14 +28,6 @@ object SortableModel_Test:
                     )
             )
 
-        def `ToFewElements`: Unit =
-            val res = SortableModel.from(
-                mayBeValuesWithIndices = NonEmptyListModel.from(
-                    List(1).toValuesWithIndices
-                ).toOption.get
-            )
-            assertLeft(res)(SortableModelError.ToFewElements(1))
-
         def `ToManyElements`: Unit =
             val res = SortableModel.from(
                 mayBeValuesWithIndices = NonEmptyListModel.from(

@@ -28,17 +28,7 @@ object GenerateSortableUseCase_Test:
 			)
 			assertLeft(res)(
 				GenerateSortableUseCaseError.NonEmptyListModelCreationFailed(
-					NonEmptyListModelError.EmptyList
-				)
-			)
-
-		def `SortableModelCreationFailed[ToFewElements]`: Unit =
-			val res = GenerateSortableUseCase(
-				input = GenerateSortableInputMock.toFewElementsFailure
-			)
-			assertLeft(res)(
-				GenerateSortableUseCaseError.SortableModelCreationFailed(
-					SortableModelError.ToFewElements(1)
+					NonEmptyListModelError.ToFewElements
 				)
 			)
 

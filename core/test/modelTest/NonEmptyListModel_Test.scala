@@ -18,10 +18,18 @@ object NonEmptyListModel_Test:
 				)
 			)
 
-		def `EmptyList`: Unit =
+		def `LessThan2Elements - 1 Element`: Unit =
+			val res = NonEmptyListModel.from(
+				mayBeList = List(1)
+			)
+			assertLeft(res)(
+				NonEmptyListModelError.ToFewElements
+			)
+
+		def `LessThan2Elements - EmptyList`: Unit =
 			val res = NonEmptyListModel.from(
 				mayBeList = List.empty
 			)
 			assertLeft(res)(
-				NonEmptyListModelError.EmptyList
+				NonEmptyListModelError.ToFewElements
 			)
