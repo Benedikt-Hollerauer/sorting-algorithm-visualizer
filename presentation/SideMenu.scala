@@ -18,10 +18,6 @@ object SideMenu:
 	def getHtml(sortingAlgorithms: List[SortingAlgorithm]): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
-			transform <-- NavigationBar.extendCollapseSideMenuSignal
-				.map: visible =>
-					if(visible) "translateX(0)"
-					else "translateX(100%)",
 			getStartStopButton,
 			getCreateNewToBeSortedButton,
 			getSortingSpeedSlider,
@@ -62,8 +58,6 @@ object SideMenu:
 		div(
 			input(
 				SideMenuStyle.sortingSpeedSliderStyle,
-				typ := "range",
-				stepAttr := "5",
 				inContext: thisNode =>
 					thisNode.ref.addEventListener(
 						"input",
@@ -81,6 +75,10 @@ object SideMenuStyle:
 	private val subMenuWidth = width.percent := 25
 
 	val slidingMenuStyle = Seq(
+		transform <-- NavigationBar.extendCollapseSideMenuSignal
+			.map: visible =>
+				if (visible) "translateX(0)"
+				else "translateX(100%)",
 		position.fixed,
 		top := navigationBarHeight.value,
 		right.px := 0,
@@ -118,6 +116,8 @@ object SideMenuStyle:
 	)
 
 	val sortingSpeedSliderStyle = Seq(
+		typ := "range",
+		stepAttr := "5",
 		width.percent := 90,
 		cursor.pointer
 	)
