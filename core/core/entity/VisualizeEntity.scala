@@ -20,17 +20,20 @@ object VisualizeEntity:
 						newSortable.valuesWithIndices
 							.list
 							.map: valueWithIndex =>
-								getBar(valueWithIndex, change)
+								getBarModel(valueWithIndex, change)
 					).toOption.get
 				)
 			._2
 		VisualizeModel(
-			notStartedSorting = getNotStartedSortingBars(sortedModel.toBeSorted),
+			notStartedSorting = getSpecialBars(sortedModel.toBeSorted, BarStateModel.Normal),
 			changes = changes,
-			finishedSorting = getFinishedSortingBars(sortedModel.sorted)
+			finishedSorting = getSpecialBars(sortedModel.sorted, BarStateModel.FinishedSorting)
 		)
 
-	private def getBar(valueWithIndex: ValueWithIndexModel, change: SortingModel): BarModel =
+	def getBarModel(
+		valueWithIndex: ValueWithIndexModel,
+		change: SortingModel
+	): BarModel =
 		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
 		if(change.alreadySorted.contains(valueWithIndex))
 			BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
@@ -40,23 +43,16 @@ object VisualizeEntity:
 			BarModel( valueWithIndex.value, BarStateModel.Focused)
 		else BarModel(valueWithIndex.value, BarStateModel.Normal)
 
-	private def getFinishedSortingBars(finishedSorting: SortableModel): NonEmptyListModel[BarModel] = //TODO make the two similar methods to one
-		val sortedBars = finishedSorting.valuesWithIndices
+	def getSpecialBars(
+		sortableModel: SortableModel,
+		barStateModel: BarStateModel
+	): NonEmptyListModel[BarModel] =
+		val sortedBars = sortableModel.valuesWithIndices
 			.list
 			.map: valueWithIndex =>
 				BarModel(
 					value = valueWithIndex.value,
-					barState = BarStateModel.FinishedSorting
-				)
-		NonEmptyListModel.from(sortedBars).toOption.get
-
-	private def getNotStartedSortingBars(notStartedSorting: SortableModel): NonEmptyListModel[BarModel] =
-		val sortedBars = notStartedSorting.valuesWithIndices
-			.list
-			.map: valueWithIndex =>
-				BarModel(
-					value = valueWithIndex.value,
-					barState = BarStateModel.Normal
+					barState = barStateModel
 				)
 		NonEmptyListModel.from(sortedBars).toOption.get
 

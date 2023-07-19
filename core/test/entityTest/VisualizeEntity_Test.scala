@@ -40,31 +40,35 @@ object VisualizeEntity_Test:
 
 	object getBarModel_should_return:
 
-		val valuesWithIndices = SortedModelMock.sortedModel.toBeSorted.valuesWithIndices.list
+		private val valuesWithIndices = SortedModelMock.sortedModel.toBeSorted.valuesWithIndices.list
 
 		def `BarModel - BarStateModel.Normal`: Unit =
 			val res = VisualizeEntity.getBarModel(
 				valuesWithIndices.head,
 				SortedModelMock.changes(1)
 			)
+			assert(res.barState == BarStateModel.Normal)
 
 		def `BarModel - BarStateModel.Focused`: Unit =
 			val res = VisualizeEntity.getBarModel(
-				valuesWithIndices.head,
-				SortedModelMock.changes.head
+				valuesWithIndices(0),
+				SortedModelMock.changes(13)
 			)
+			assert(res.barState == BarStateModel.Focused)
 
 		def `BarModel - BarStateModel.Swapped`: Unit =
 			val res = VisualizeEntity.getBarModel(
-				valuesWithIndices.head,
-				SortedModelMock.changes.head
+				valuesWithIndices(2),
+				SortedModelMock.changes(1)
 			)
+			assert(res.barState == BarStateModel.Swapped)
 
 		def `BarModel - BarStateModel.AlreadySorted`: Unit =
 			val res = VisualizeEntity.getBarModel(
-				valuesWithIndices.head,
-				SortedModelMock.changes.head
+				valuesWithIndices.last,
+				SortedModelMock.changes.last
 			)
+			assert(res.barState == BarStateModel.AlreadySorted)
 
 	object getSpecialBars_should_return:
 
