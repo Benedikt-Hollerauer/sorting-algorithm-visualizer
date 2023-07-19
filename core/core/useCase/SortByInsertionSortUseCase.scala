@@ -1,10 +1,10 @@
 package core.useCase
 
-import core.SortingAlgorithm
 import core.input.SortingAlgorithmUseCaseInput
 import core.model.{SortableModel, SortedModel}
+import core.Contracts.SortingAlgorithmUseCase
 
-object SortByInsertionSortUseCase:
+object SortByInsertionSortUseCase extends SortingAlgorithmUseCase:
 
 	def apply(
 		input: SortingAlgorithmUseCaseInput

@@ -1,9 +1,9 @@
 package core.entity
 
-import core.SortingAlgorithm
+import core.Contracts.SortingAlgorithmEntity
 import core.model.{SortableModel, SortedModel}
 
-object InsertionSortEntity extends SortingAlgorithm:
+object InsertionSortEntity extends SortingAlgorithmEntity:
 
 	override def sortAscending(sortable: SortableModel): SortedModel = ???
 

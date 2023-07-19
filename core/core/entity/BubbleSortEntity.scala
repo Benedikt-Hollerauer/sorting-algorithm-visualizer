@@ -1,6 +1,6 @@
 package core.entity
 
-import core.SortingAlgorithm
+import core.Contracts.SortingAlgorithmEntity
 import core.model.*
 import core.model.OrderModel.{Ascending, Descending}
 import mock.modelMock.SortableModelMock
@@ -8,7 +8,7 @@ import mock.modelMock.SortableModelMock
 import scala.annotation.tailrec
 import scala.util.Try
 
-object BubbleSortEntity extends SortingAlgorithm:
+object BubbleSortEntity extends SortingAlgorithmEntity:
 
 	override def sortAscending(sortable: SortableModel): SortedModel =
 		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Ascending)
