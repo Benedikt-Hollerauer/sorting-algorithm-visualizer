@@ -1,6 +1,8 @@
 package test
 
 import core.model.{IndexModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import mock.ToBeSortedMock
+import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import mock.modelMock.SortableModelMock
 
 object TestUtil:
@@ -20,46 +22,67 @@ object TestUtil:
 			case Right(actual) =>
 				throw new IllegalArgumentException(s"Right value received, but no function to check the Left value was provided: $actual")
 
-	def testCommonBubbleSortEntitySortProperties(
-		res: SortedModel,
-		focusedIndicesChangedHeadAndTail: (Boolean, Boolean),
-		focusedIndicesFirstValueWithIndex: (Int, Int),
-		focusedIndicesSecondValueWithIndex: (Int, Int),
-		alreadySorted: List[ValueWithIndexModel],
-		sorted: SortableModel
-	): Unit =
-		assert(res.toBeSorted == SortableModelMock.unsorted)
-		assert(res.changes.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
-		assert(res.changes.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
-		assert(res.changes.last.focusedIndices._1.value == focusedIndicesFirstValueWithIndex._1)
-		assert(res.changes.last.focusedIndices._1.indexModel.index == focusedIndicesFirstValueWithIndex._2)
-		assert(res.changes.last.focusedIndices._2.value == focusedIndicesSecondValueWithIndex._1)
-		assert(res.changes.last.focusedIndices._2.indexModel.index == focusedIndicesSecondValueWithIndex._2)
-		assert(res.changes.last.alreadySorted.map(_.value) == alreadySorted.map(_.value))
-		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value)) //TODO find solution for all occurrences of this pattern (refactor the mocks)
-
-	def testIfEmptyValueWithIndexModelExists(res: List[SortingModel]): Unit =
-		assert(
-			res.exists:
-				case SortingModel((ValueWithIndexModel(value0, _), ValueWithIndexModel(value1, _)), _, _) => value0 != 0 && value1 != 0
-		)
-
-	def testIfEmptyIndexModelExists(res: List[SortingModel]): Unit =
-		assert(
-			res.exists:
-				case SortingModel((ValueWithIndexModel(_, IndexModel(index0)), ValueWithIndexModel(_, IndexModel(index1))), _, _) => index0 != -1 && index1 != -1
-		)
-
-	def testCommonPropertiesSortOnce(
-		res: Option[List[SortingModel]],
+	def testCommonPropertiesSortOnceBubbleSort(
+		res: Option[List[SortingModel.BubbleSort]],
 		focusedIndicesChangedHeadAndTail: (Boolean, Boolean),
 		focusIndicesHeadAndTail: (Int, Int),
 		alreadySorted: List[ValueWithIndexModel]
 	): Unit =
 		val unwrappedRes = res.get
+		assert:
+			unwrappedRes.map(_ match
+				case SortingModel.BubbleSort(focusedValues, _, _) => focusedValues._1.value
+			) :+ (
+				unwrappedRes.last match
+					case SortingModel.BubbleSort(focusedValues, _, _) => focusedValues._2.value
+			) == ToBeSortedMock.descendingOrder.sortedOnce
 		assert(unwrappedRes.head.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._1)
 		assert(unwrappedRes.last.focusedIndicesChanged == focusedIndicesChangedHeadAndTail._2)
-		assert(unwrappedRes.head.focusedIndices._1.value == focusIndicesHeadAndTail._1)
-		assert(unwrappedRes.last.focusedIndices._2.value == focusIndicesHeadAndTail._2)
-		testIfEmptyValueWithIndexModelExists(unwrappedRes)
-		testIfEmptyIndexModelExists(unwrappedRes)
+		assert(unwrappedRes.head.focusedValues._1.value == focusIndicesHeadAndTail._1)
+		assert(unwrappedRes.last.focusedValues._2.value == focusIndicesHeadAndTail._2)
+
+	def testCommonBubbleSortProperties(
+		res: SortedModel,
+		expectedLength: Int,
+		headFocusedValues: (Int, Int),
+		headFocusedIndicesChanged: Boolean,
+		lastFocusedValues: (Int, Int),
+		lastFocusedIndicesChanged: Boolean,
+		sorted: SortableModel
+	): Unit =
+		assert(res.toBeSorted == SortableModelMock.unsorted)
+		assert(res.changes.length == expectedLength)
+		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value))
+		res.changes.head match
+			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+				assert(focusedValues._1.value == headFocusedValues._1)
+				assert(focusedValues._2.value == headFocusedValues._2)
+				assert(focusedIndicesChanged == headFocusedIndicesChanged)
+			case _ => assert(false)
+		res.changes.last match
+			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+				assert(focusedValues._1.value == lastFocusedValues._1)
+				assert(focusedValues._2.value == lastFocusedValues._2)
+				assert(focusedIndicesChanged == lastFocusedIndicesChanged)
+			case _ => assert(false)
+
+	def testCommonInsertionSortProperties(
+		res: SortedModel,
+		expectedLength: Int,
+		headFocusedValues: (Int, Int),
+		lastFocusedValues: (Int, Int),
+		sorted: SortableModel
+	): Unit =
+		assert(res.toBeSorted == SortableModelMock.unsorted)
+		assert(res.changes.length == expectedLength)
+		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value))
+		res.changes.head match
+			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+				assert(focusedValues._1.value == headFocusedValues._1)
+				assert(focusedValues._2.value == headFocusedValues._2)
+			case _ => assert(false)
+		res.changes.last match
+			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+				assert(focusedValues._1.value == lastFocusedValues._1)
+				assert(focusedValues._2.value == lastFocusedValues._2)
+			case _ => assert(false)

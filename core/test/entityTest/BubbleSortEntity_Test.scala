@@ -18,9 +18,15 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonBubbleSortEntitySortProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedAscending)
-			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
-			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
+			TestUtil.testCommonBubbleSortProperties(
+				res = res,
+				expectedLength = 45,
+				headFocusedValues = (636, 743),
+				headFocusedIndicesChanged = false,
+				lastFocusedValues = (5, 196),
+				lastFocusedIndicesChanged = false,
+				sorted = SortableModelMock.sortedAscending
+			)
 
 	object sortDescending_should_return:
 
@@ -28,9 +34,15 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortDescending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonBubbleSortEntitySortProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedDescending)
-			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
-			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
+			TestUtil.testCommonBubbleSortProperties(
+				res = res,
+				expectedLength = 45,
+				headFocusedValues = (636, 743),
+				headFocusedIndicesChanged = true,
+				lastFocusedValues = (743, 662),
+				lastFocusedIndicesChanged = false,
+				sorted = SortableModelMock.sortedDescending
+			)
 
 	object sortOnce_should_return:
 
@@ -41,8 +53,12 @@ object BubbleSortEntity_Test:
 				alreadySorted = alreadySorted,
 				comparator = OrderModel.Ascending
 			)
-			assert(res.get.map(_.focusedIndices._1.value) :+ res.get.last.focusedIndices._2.value == ToBeSortedMock.ascendingOrder.sortedOnce)
-			TestUtil.testCommonPropertiesSortOnce(res, (false, true), (636, ToBeSortedMock.biggest), alreadySorted)
+			TestUtil.testCommonPropertiesSortOnceBubbleSort(
+				res,
+				(false, true),
+				(636, ToBeSortedMock.biggest),
+				alreadySorted
+			)
 
 		def `List[SortingModel] - descending`: Unit =
 			val alreadySorted = List(ToBeSortedMock.smallest).toValuesWithIndices
@@ -51,8 +67,12 @@ object BubbleSortEntity_Test:
 				alreadySorted = alreadySorted,
 				comparator = OrderModel.Descending
 			)
-			assert(res.get.map(_.focusedIndices._1.value) :+ res.get.last.focusedIndices._2.value == ToBeSortedMock.descendingOrder.sortedOnce)
-			TestUtil.testCommonPropertiesSortOnce(res, (true, true), (743, ToBeSortedMock.smallest), alreadySorted)
+			TestUtil.testCommonPropertiesSortOnceBubbleSort(
+				res,
+				(true, true),
+				(743, ToBeSortedMock.smallest),
+				alreadySorted
+			)
 
 		def `None`: Unit =
 			val res = BubbleSortEntity.sortOnce(

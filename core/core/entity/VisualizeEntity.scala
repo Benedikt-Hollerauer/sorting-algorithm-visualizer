@@ -11,9 +11,11 @@ object VisualizeEntity:
 			.foldLeft(
 				(sortedModel.toBeSorted, LazyList.empty[NonEmptyListModel[BarModel]])
 			): (acc, change) =>
-				val newSortable =
-					if(change.focusedIndicesChanged) swapSortableValues(acc._1, (change.focusedIndices._1, change.focusedIndices._2))
-					else acc._1
+				val newSortable = change match
+					case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
+						if(focusedIndicesChanged) swapSortableValues(acc._1, (focusedValues._1, focusedValues._2))
+						else acc._1
+					case SortingModel.InsertionSort(focusedValues) => ???
 				(
 					newSortable,
 					acc._2 :+ NonEmptyListModel.from(
@@ -34,14 +36,17 @@ object VisualizeEntity:
 		valueWithIndex: ValueWithIndexModel,
 		change: SortingModel
 	): BarModel =
-		val isCorrectValueWithIndex = valueWithIndex == change.focusedIndices._1 | valueWithIndex == change.focusedIndices._2
-		if(change.alreadySorted.contains(valueWithIndex))
-			BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
-		else if (isCorrectValueWithIndex && change.focusedIndicesChanged)
-			BarModel(valueWithIndex.value, BarStateModel.Swapped)
-		else if(isCorrectValueWithIndex)
-			BarModel( valueWithIndex.value, BarStateModel.Focused)
-		else BarModel(valueWithIndex.value, BarStateModel.Normal)
+		change match
+			case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
+				val isCorrectValueWithIndex = valueWithIndex == focusedValues._1 | valueWithIndex == focusedValues._2
+				if(alreadySorted.contains(valueWithIndex))
+					BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
+				else if(isCorrectValueWithIndex && focusedIndicesChanged)
+					BarModel(valueWithIndex.value, BarStateModel.Swapped)
+				else if(isCorrectValueWithIndex)
+					BarModel(valueWithIndex.value, BarStateModel.Focused)
+				else BarModel(valueWithIndex.value, BarStateModel.Normal)
+			case SortingModel.InsertionSort(focusedValues) => ???
 
 	def getSpecialBars(
 		sortableModel: SortableModel,

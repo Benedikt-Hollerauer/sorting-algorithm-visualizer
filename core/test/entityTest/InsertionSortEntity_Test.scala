@@ -14,9 +14,13 @@ object InsertionSortEntity_Test:
 			val res = InsertionSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonBubbleSortEntitySortProperties(res, (false, false), (ToBeSortedMock.smallest, 2), (196, 7), ToBeSortedMock.descendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedAscending)
-			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
-			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
+			TestUtil.testCommonInsertionSortProperties(
+				res = res,
+				expectedLength = 45,
+				headFocusedValues = (636, 743),
+				lastFocusedValues = (5, 196),
+				sorted = SortableModelMock.sortedAscending
+			)
 
 	object sortDescending_should_return:
 
@@ -24,6 +28,10 @@ object InsertionSortEntity_Test:
 			val res = InsertionSortEntity.sortDescending(
 				SortableModelMock.unsorted
 			)
-			TestUtil.testCommonBubbleSortEntitySortProperties(res, (true, false), (ToBeSortedMock.biggest, 1), (662, 6), ToBeSortedMock.ascendingOrder.sorted.toValuesWithIndices.dropRight(2), SortableModelMock.sortedDescending)
-			TestUtil.testIfEmptyValueWithIndexModelExists(res.changes.toList)
-			TestUtil.testIfEmptyIndexModelExists(res.changes.toList)
+			TestUtil.testCommonInsertionSortProperties(
+				res = res,
+				expectedLength = 45,
+				headFocusedValues = (636, 743),
+				lastFocusedValues = (743, 662),
+				sorted = SortableModelMock.sortedDescending
+			)
