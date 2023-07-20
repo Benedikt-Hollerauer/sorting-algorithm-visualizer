@@ -15,7 +15,7 @@ object VisualizeEntity:
 					case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
 						if(focusedIndicesChanged) swapSortableValues(acc._1, (focusedValues._1, focusedValues._2))
 						else acc._1
-					case SortingModel.InsertionSort(focusedValues) => ???
+					case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
 				(
 					newSortable,
 					acc._2 :+ NonEmptyListModel.from(
@@ -46,7 +46,7 @@ object VisualizeEntity:
 				else if(isCorrectValueWithIndex)
 					BarModel(valueWithIndex.value, BarStateModel.Focused)
 				else BarModel(valueWithIndex.value, BarStateModel.Normal)
-			case SortingModel.InsertionSort(focusedValues) => ???
+			case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
 
 	def getSpecialBars(
 		sortableModel: SortableModel,

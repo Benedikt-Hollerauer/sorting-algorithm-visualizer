@@ -62,14 +62,14 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],
 		alreadySorted: List[ValueWithIndexModel],
-		comparator: OrderModel
+		ordering: OrderModel
 	): Option[List[SortingModel.BubbleSort]] =
 		Try(
 			toBeCompared.tail
 				.foldLeft(
 					(List.empty[SortingModel.BubbleSort], toBeCompared.head)
 				):
-					case ((acc, f), s) if comparator.getOrdering(f.value, s.value) =>
+					case ((acc, f), s) if ordering.getOrdering(f.value, s.value) =>
 						(acc :+ SortingModel.BubbleSort((f, s), alreadySorted, false), s)
 					case ((acc, f), s) =>
 						(acc :+ SortingModel.BubbleSort((s, f), alreadySorted, true), f)

@@ -45,10 +45,10 @@ object InsertionSortEntity_Test:
 				subList = subList.toValuesWithIndices,
 				ordering = OrderModel.Ascending
 			)
-			assert((res.map(_.focusedIndices._1)) :+ res.last.focusedIndices._2 == subList.sorted)
+			assert(res.map(_.focusedValues._1) :+ res.last.focusedValues._2 == subList.sorted)
 			assert(res.length == 3)
 			assert(res.exists:
-				case SortingModel.InsertionSort(_, currentPivot) => currentPivot == 6
+				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 6
 			)
 
 
@@ -58,8 +58,8 @@ object InsertionSortEntity_Test:
 				subList = subList.toValuesWithIndices,
 				ordering = OrderModel.Descending
 			)
-			assert((res.map(_.focusedIndices._1)) :+ res.last.focusedIndices._2 == subList.sorted(Ordering[Int].reverse)) // TODO this is repetitive I think also in other files
+			assert(res.map(_.focusedValues._1) :+ res.last.focusedValues._2 == subList.sorted(Ordering[Int].reverse)) // TODO this is repetitive I think also in other files
 			assert(res.length == 1)
 			assert(res.exists:
-				case SortingModel.InsertionSort(_, currentPivot) => currentPivot == 1
+				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 1
 			)

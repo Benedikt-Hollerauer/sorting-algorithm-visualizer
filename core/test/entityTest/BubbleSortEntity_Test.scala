@@ -51,7 +51,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
 				alreadySorted = alreadySorted,
-				comparator = OrderModel.Ascending
+				ordering = OrderModel.Ascending
 			)
 			TestUtil.testCommonPropertiesSortOnceBubbleSort(
 				res,
@@ -66,7 +66,7 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
 				alreadySorted = alreadySorted,
-				comparator = OrderModel.Descending
+				ordering = OrderModel.Descending
 			)
 			TestUtil.testCommonPropertiesSortOnceBubbleSort(
 				res,
@@ -80,6 +80,6 @@ object BubbleSortEntity_Test:
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = List.empty[ValueWithIndexModel],
 				alreadySorted = List.empty[ValueWithIndexModel],
-				comparator = OrderModel.Ascending
+				ordering = OrderModel.Ascending
 			)
 			assert(res.isEmpty)

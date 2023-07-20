@@ -1,7 +1,7 @@
 package core.entity
 
 import core.Contracts.SortingAlgorithmEntity
-import core.model.{OrderModel, SortableModel, SortedModel}
+import core.model.{OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
@@ -12,3 +12,9 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 	private def sort(
 		ordering: OrderModel
 	): SortedModel = ???
+
+	def sortSubListOnce(
+		subList: List[ValueWithIndexModel],
+		acc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
+		ordering: OrderModel
+	): List[SortingModel.InsertionSort] = ???
