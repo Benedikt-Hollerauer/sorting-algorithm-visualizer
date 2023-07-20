@@ -12,4 +12,5 @@ object SortingModel:
 	
 	case class InsertionSort(
 		focusedValues: (ValueWithIndexModel, ValueWithIndexModel),
+		currentPivot: ValueWithIndexModel
 	) extends SortingModel

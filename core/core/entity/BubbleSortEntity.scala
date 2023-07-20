@@ -20,7 +20,7 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 	private def sort(
 		valuesWithIndices: List[ValueWithIndexModel],
 		sortable: SortableModel,
-		comparator: OrderModel,
+		ordering: OrderModel,
 		changes: LazyList[SortingModel.BubbleSort] = LazyList.empty[SortingModel.BubbleSort],
 		alreadySorted: List[ValueWithIndexModel] = List.empty[ValueWithIndexModel],
 		firstIteration: Boolean = true
@@ -29,10 +29,10 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 			case Nil => SortedModel(
 				sortable,
 				changes,
-				sortable.getSorted(comparator)
+				sortable.getSorted(ordering)
 			)
 			case valuesWithIndices =>
-				val sortedOnce = sortOnce(valuesWithIndices, alreadySorted, comparator)
+				val sortedOnce = sortOnce(valuesWithIndices, alreadySorted, ordering)
 				val newAcc = sortedOnce match
 					case Some(it) => changes ++ it
 					case None => changes
@@ -41,19 +41,19 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 						if(it.isEmpty) Nil
 						else
 							val newIt = it.map(_.focusedValues._1) :+ it.last.focusedValues._2
-							comparator match
+							ordering match
 								case OrderModel.Ascending => newIt.filterNot(_ == valuesWithIndices.max)
 								case OrderModel.Descending => newIt.filterNot(_ == valuesWithIndices.min)
 					case None => Nil
 				val newAlreadySorted = alreadySorted :+ (
-					comparator match
+					ordering match
 						case OrderModel.Ascending => valuesWithIndices.max
 						case OrderModel.Descending => valuesWithIndices.min
 				)
 				sort(
 					newValuesWithIndices,
 					sortable,
-					comparator,
+					ordering,
 					newAcc,
 					newAlreadySorted,
 					false

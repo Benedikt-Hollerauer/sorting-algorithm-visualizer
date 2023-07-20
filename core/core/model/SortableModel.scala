@@ -19,7 +19,7 @@ case class SortableModel private(
 object SortableModel:
 
     def from(mayBeValuesWithIndices: NonEmptyListModel[ValueWithIndexModel]): Either[SortableModelError, SortableModel] =
-        if(mayBeValuesWithIndices.list.length > 500) Left(SortableModelError.ToManyElements(mayBeValuesWithIndices.list.length))
+        if(mayBeValuesWithIndices.list.length > 500) Left(SortableModelError.ToManyElements(mayBeValuesWithIndices.list.length)) //TODO think about removing NonEmptyListModel and adding the rules of NonEmptyListModel to SortableModel
         else Right(
             SortableModel(
                 valuesWithIndices = mayBeValuesWithIndices
