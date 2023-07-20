@@ -1,7 +1,7 @@
 package core.entity
 
 import core.Contracts.SortingAlgorithmEntity
-import core.model.{OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.{NonEmptyListModel, OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
 
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
@@ -14,7 +14,23 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 	): SortedModel = ???
 
 	def sortSubListOnce(
-		subList: List[ValueWithIndexModel],
-		acc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
+		subList: NonEmptyListModel[ValueWithIndexModel],
+		currentPivot: ValueWithIndexModel,
+		focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
 		ordering: OrderModel
-	): List[SortingModel.InsertionSort] = ???
+	): List[SortingModel.InsertionSort] =
+		val test = List(6, 3, 1, 2)
+		val test3 = List(2, 1, 3, 6)
+		subList.list match
+			case f :: s :: t if !ordering.getOrdering(f.value, s.value) =>
+				sortSubListOnce(
+					NonEmptyListModel.from(f +: t).toOption.get, // TODO maybe add from Unsafe to NonEmptyListModel (or if combined SortableModel)
+					currentPivot,
+					focusedValuesAcc :+ (f, s),
+					ordering
+				)
+			case _ => focusedValuesAcc.map: focusedValues =>
+				SortingModel.InsertionSort(
+					focusedValues = focusedValues,
+					currentPivot = currentPivot
+				)
