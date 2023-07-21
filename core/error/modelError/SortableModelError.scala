@@ -2,4 +2,5 @@ package error.modelError
 
 enum SortableModelError:
 
-    case ToManyElements(amount: Int)
+	case LessThanTwoElements
+	case ToManyElements(amount: Int)

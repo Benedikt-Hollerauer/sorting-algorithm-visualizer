@@ -1,7 +1,7 @@
 package core.model
 
 case class SortedModel(
-	toBeSorted: SortableModel,
+	toBeSorted: SortableModel[ValueWithIndexModel],
 	changes: LazyList[SortingModel],
-	sorted: SortableModel
+	sorted: SortableModel[ValueWithIndexModel]
 )

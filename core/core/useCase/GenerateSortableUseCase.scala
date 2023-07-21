@@ -9,15 +9,15 @@ import scala.util.Random
 
 object GenerateSortableUseCase:
 
-	def apply(input: GenerateSortableInput): Either[GenerateSortableUseCaseError, SortableModel] =
+	def apply(input: GenerateSortableInput): Either[GenerateSortableUseCaseError, SortableModelOld] =
 		val toBeSorted = List.fill((input.from to input.to).length - 1)(Random.between(input.minSize, input.maxSize))
 		for
-			mayBeNonEmptyList <- NonEmptyListModel.from(
+			mayBeNonEmptyList <- SortableModel.from(
 				toBeSorted.toValuesWithIndices
 			).left
 				.map: nonEmptyListModelError =>
 					GenerateSortableUseCaseError.NonEmptyListModelCreationFailed(nonEmptyListModelError)
-			sortable <- SortableModel.from(
+			sortable <- SortableModelOld.from(
 				mayBeNonEmptyList
 			).left
 				.map: sortableModelError =>

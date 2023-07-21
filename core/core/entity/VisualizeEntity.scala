@@ -9,7 +9,7 @@ object VisualizeEntity:
 	): VisualizeModel =
 		val changes = sortedModel.changes
 			.foldLeft(
-				(sortedModel.toBeSorted, LazyList.empty[NonEmptyListModel[BarModel]])
+				(sortedModel.toBeSorted, LazyList.empty[SortableModel[BarModel]])
 			): (acc, change) =>
 				val newSortable = change match
 					case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
@@ -18,9 +18,8 @@ object VisualizeEntity:
 					case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
 				(
 					newSortable,
-					acc._2 :+ NonEmptyListModel.fromUnsafe(
-						newSortable.valuesWithIndices
-							.list
+					acc._2 :+ SortableModel.fromUnsafe(
+						newSortable.list
 							.map: valueWithIndex =>
 								getBarModel(valueWithIndex, change)
 					)
@@ -49,30 +48,27 @@ object VisualizeEntity:
 			case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
 
 	def getSpecialBars(
-		sortableModel: SortableModel,
+		sortableModel: SortableModel[ValueWithIndexModel],
 		barStateModel: BarStateModel
-	): NonEmptyListModel[BarModel] =
-		val sortedBars = sortableModel.valuesWithIndices
-			.list
+	): SortableModel[BarModel] =
+		val sortedBars = sortableModel.list
 			.map: valueWithIndex =>
 				BarModel(
 					value = valueWithIndex.value,
 					barState = barStateModel
 				)
-		NonEmptyListModel.fromUnsafe(sortedBars)
+		SortableModel.fromUnsafe(sortedBars)
 
 	def swapSortableValues(
-		toBeUpdated: SortableModel,
+		toBeUpdated: SortableModel[ValueWithIndexModel],
 		swappedValues: (ValueWithIndexModel, ValueWithIndexModel)
-	): SortableModel =
-		val list = toBeUpdated.valuesWithIndices.list
+	): SortableModel[ValueWithIndexModel] =
+		val list = toBeUpdated.list
 		val swapped = list.updated(
 			list.indexWhere(_ == swappedValues._1), swappedValues._2
 		).updated(
 			list.indexWhere(_ == swappedValues._2), swappedValues._1
 		)
-		SortableModel.from(
-			NonEmptyListModel.fromUnsafe(
-				swapped
-			)
-		).toOption.get
+		SortableModel.fromUnsafe(
+			swapped
+		)

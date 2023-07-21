@@ -2,7 +2,7 @@ package core.useCase
 
 import core.Contracts.SortingAlgorithmUseCase
 import core.input.SortingAlgorithmUseCaseInput
-import core.model.{SortableModel, SortedModel}
+import core.model.{SortableModelOld, SortedModel}
 
 object SortByInsertionSortUseCase extends SortingAlgorithmUseCase:
 

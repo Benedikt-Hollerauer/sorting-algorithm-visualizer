@@ -2,7 +2,7 @@ package useCaseTest
 
 import core.input.SortingAlgorithmUseCaseInput
 import core.model.{SortedModel, SortingModel, ValueWithIndexModel}
-import error.modelError.{NonEmptyListModelError, SortableModelError}
+import error.modelError.SortableModelError
 import mock.ToBeSortedMock
 import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import mock.modelMock.SortableModelMock

@@ -1,8 +1,8 @@
 package core.input
 
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortableModel, ValueWithIndexModel}
 
 case class SortingAlgorithmUseCaseInput(
-	toBeSorted: SortableModel,
+	toBeSorted: SortableModel[ValueWithIndexModel],
 	ordering: OrderModel
 )

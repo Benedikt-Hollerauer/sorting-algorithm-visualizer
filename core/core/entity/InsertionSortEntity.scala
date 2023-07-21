@@ -1,20 +1,20 @@
 package core.entity
 
 import core.Contracts.SortingAlgorithmEntity
-import core.model.{NonEmptyListModel, OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
-	override def sortAscending(sortable: SortableModel): SortedModel = ???
+	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel = ???
 
-	override def sortDescending(sortable: SortableModel): SortedModel = ???
+	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel = ???
 	
 	private def sort(
 		ordering: OrderModel
 	): SortedModel = ???
 
 	def sortSubListOnce(
-		subList: NonEmptyListModel[ValueWithIndexModel],
+		subList: SortableModel[ValueWithIndexModel],
 		currentPivot: ValueWithIndexModel,
 		focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
 		ordering: OrderModel
@@ -24,7 +24,7 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 		subList.list match
 			case f :: s :: t if !ordering.getOrdering(f.value, s.value) =>
 				sortSubListOnce(
-					NonEmptyListModel.fromUnsafe(f +: t),
+					SortableModel.fromUnsafe(f +: t),
 					currentPivot,
 					focusedValuesAcc :+ (f, s),
 					ordering

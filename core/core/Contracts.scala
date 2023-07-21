@@ -1,15 +1,15 @@
 package core
 
 import core.input.SortingAlgorithmUseCaseInput
-import core.model.{SortableModel, SortedModel}
+import core.model.{SortableModel, SortedModel, ValueWithIndexModel}
 
 object Contracts:
 	
 	trait SortingAlgorithmEntity:
 		
-		def sortAscending(sortable: SortableModel): SortedModel
+		def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel
 		
-		def sortDescending(sortable: SortableModel): SortedModel
+		def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel
 		
 	trait SortingAlgorithmUseCase:
 

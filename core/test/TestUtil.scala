@@ -49,7 +49,7 @@ object TestUtil:
 		headFocusedIndicesChanged: Boolean,
 		lastFocusedValues: (Int, Int),
 		lastFocusedIndicesChanged: Boolean,
-		sorted: SortableModel
+		sorted: SortableModelOld
 	): Unit =
 		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.length == expectedLength)
@@ -72,7 +72,7 @@ object TestUtil:
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: (Int, Int),
-		sorted: SortableModel
+		sorted: SortableModelOld
 	): Unit =
 		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.length == expectedLength)

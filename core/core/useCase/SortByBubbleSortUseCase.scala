@@ -5,7 +5,7 @@ import core.Util.toValuesWithIndices
 import core.entity.BubbleSortEntity
 import core.input.SortingAlgorithmUseCaseInput
 import core.model.OrderModel.{Ascending, Descending}
-import core.model.{NonEmptyListModel, SortableModel, SortedModel}
+import core.model.{SortableModel, SortableModelOld, SortedModel}
 
 object SortByBubbleSortUseCase extends SortingAlgorithmUseCase:
 

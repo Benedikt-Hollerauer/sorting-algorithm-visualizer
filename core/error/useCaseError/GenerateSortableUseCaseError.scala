@@ -1,8 +1,8 @@
 package error.useCaseError
 
-import error.modelError.{NonEmptyListModelError, SortableModelError}
+import error.modelError.SortableModelError
 
 enum GenerateSortableUseCaseError:
 
 	case SortableModelCreationFailed(sortableModelError: SortableModelError)
-	case NonEmptyListModelCreationFailed(nonEmptyListModelError: NonEmptyListModelError)
+	case NonEmptyListModelCreationFailed(nonEmptyListModelError: SortableModelError)

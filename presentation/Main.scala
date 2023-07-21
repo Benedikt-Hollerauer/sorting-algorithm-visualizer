@@ -1,6 +1,6 @@
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortingAlgorithmUseCaseInput, VisualizeSortingInput}
-import core.model.{OrderModel, SortableModel}
+import core.model.{OrderModel, SortableModelOld}
 import core.useCase.{GenerateSortableUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock
 import org.scalajs.dom
@@ -55,7 +55,7 @@ object Main:
 					)
 				)
 
-	private def getVisualizeModel(toBeSorted: SortableModel, ordering: OrderModel) =
+	private def getVisualizeModel(toBeSorted: SortableModelOld, ordering: OrderModel) =
 		val sorted = SortByBubbleSortUseCase(
 			SortingAlgorithmUseCaseInput(
 				toBeSorted,

@@ -1,28 +1,28 @@
 package mock.modelMock
 
 import core.Util.toValuesWithIndices
-import core.model.{NonEmptyListModel, SortableModel}
+import core.model.{SortableModel, SortableModelOld}
 import mock.ToBeSortedMock
 
 	object SortableModelMock:
 	
-	val unsorted = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
+	val unsorted = SortableModelOld.from(
+		mayBeValuesWithIndices = SortableModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.unsorted
 				.toValuesWithIndices
 		)
 	).toOption.get
 
-	val sortedAscending = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
+	val sortedAscending = SortableModelOld.from(
+		mayBeValuesWithIndices = SortableModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.ascendingOrder
 				.sorted
 				.toValuesWithIndices
 		)
 	).toOption.get
 
-	val sortedDescending = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
+	val sortedDescending = SortableModelOld.from(
+		mayBeValuesWithIndices = SortableModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.descendingOrder
 				.sorted
 				.toValuesWithIndices

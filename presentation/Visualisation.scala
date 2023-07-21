@@ -45,7 +45,7 @@ object Content:
 				.map(_._2)
 	)
 
-	private def getBars(toBeBars: NonEmptyListModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =
+	private def getBars(toBeBars: SortableModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =
 		toBeBars.list
 			.map: bar =>
 				div(

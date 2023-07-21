@@ -2,7 +2,7 @@ package core.useCase
 
 import core.entity.VisualizeEntity
 import core.input.VisualizeSortingInput
-import core.model.{BarModel, NonEmptyListModel, SortableModel, VisualizeModel}
+import core.model.{BarModel, SortableModel, SortableModelOld, VisualizeModel}
 
 object VisualizeSortingUseCase:
 

@@ -2,7 +2,7 @@ package test.entityTest
 
 import core.Util.toValuesWithIndices
 import core.entity.{BubbleSortEntity, InsertionSortEntity}
-import core.model.{IndexModel, NonEmptyListModel, OrderModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil
@@ -45,7 +45,7 @@ object InsertionSortEntity_Test:
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = NonEmptyListModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices.reverse),
 				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Ascending
 			)
@@ -63,7 +63,7 @@ object InsertionSortEntity_Test:
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
 			val subList = List(6, 3, 1, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = NonEmptyListModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices.reverse),
 				currentPivot = ValueWithIndexModel(1, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Descending
 			)

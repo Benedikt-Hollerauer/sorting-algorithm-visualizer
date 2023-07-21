@@ -10,16 +10,16 @@ import scala.util.Try
 
 object BubbleSortEntity extends SortingAlgorithmEntity:
 
-	override def sortAscending(sortable: SortableModel): SortedModel =
-		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Ascending)
+	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+		sort(sortable.list, sortable, OrderModel.Ascending)
 
-	override def sortDescending(sortable: SortableModel): SortedModel =
-		sort(sortable.valuesWithIndices.list, sortable, OrderModel.Descending)
+	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+		sort(sortable.list, sortable, OrderModel.Descending)
 
 	@tailrec
 	private def sort(
 		valuesWithIndices: List[ValueWithIndexModel],
-		sortable: SortableModel,
+		sortable: SortableModel[ValueWithIndexModel],
 		ordering: OrderModel,
 		changes: LazyList[SortingModel.BubbleSort] = LazyList.empty[SortingModel.BubbleSort],
 		alreadySorted: List[ValueWithIndexModel] = List.empty[ValueWithIndexModel],
