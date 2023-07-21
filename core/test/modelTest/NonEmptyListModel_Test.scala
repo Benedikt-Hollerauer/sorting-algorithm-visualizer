@@ -25,7 +25,7 @@ object NonEmptyListModel_Test:
 				mayBeList = List(1)
 			)
 			assertLeft(res)(
-				NonEmptyListModelError.ToFewElements
+				NonEmptyListModelError.LessThanTwoElements
 			)
 
 		def `LessThan2Elements - EmptyList`: Unit =
@@ -33,7 +33,7 @@ object NonEmptyListModel_Test:
 				mayBeList = List.empty
 			)
 			assertLeft(res)(
-				NonEmptyListModelError.ToFewElements
+				NonEmptyListModelError.LessThanTwoElements
 			)
 
 	object fromUnsafe_should_return:
@@ -45,8 +45,9 @@ object NonEmptyListModel_Test:
 			assert(res.list == List(1, 2, 3))
 
 		def `RuntimeException`: Unit =
-			Try(
+			val res = Try(
 				NonEmptyListModel.fromUnsafe(
 					mayBeList = List.empty
 				)
 			).isFailure
+			assert(res)

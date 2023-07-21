@@ -2,4 +2,4 @@ package error.modelError
 
 enum NonEmptyListModelError:
 
-	case ToFewElements
+	case LessThanTwoElements

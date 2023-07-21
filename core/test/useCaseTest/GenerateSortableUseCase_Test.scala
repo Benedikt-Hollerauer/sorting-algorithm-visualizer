@@ -28,7 +28,7 @@ object GenerateSortableUseCase_Test:
 			)
 			assertLeft(res)(
 				GenerateSortableUseCaseError.NonEmptyListModelCreationFailed(
-					NonEmptyListModelError.ToFewElements
+					NonEmptyListModelError.LessThanTwoElements
 				)
 			)
 
