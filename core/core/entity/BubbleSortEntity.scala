@@ -1,6 +1,6 @@
 package core.entity
 
-import core.Contracts.SortingAlgorithmEntity
+import core.Contract.SortingAlgorithmEntity
 import core.model.*
 import core.model.OrderModel.{Ascending, Descending}
 import mock.modelMock.SortableModelMock

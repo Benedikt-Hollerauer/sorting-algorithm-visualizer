@@ -1,6 +1,6 @@
 package test.modelTest
 
-import core.model.{OrderModel, SortableModel, SortableModelOld}
+import core.model.{OrderModel, SortableModel, ValueWithIndexModel}
 import error.modelError.SortableModelError
 import mock.modelMock.SortableModelMock
 import test.TestUtil.*
@@ -11,7 +11,7 @@ object SortableModel_Test:
 
 	object from_should_return:
 
-		def `NonEmptyListModel - List(1, 2, 3)`: Unit =
+		def `SortableModel - List(1, 2, 3)`: Unit =
 			val res = SortableModel.from(
 				mayBeList = List(1, 2, 3)
 			)
@@ -21,7 +21,7 @@ object SortableModel_Test:
 				)
 			)
 
-		def `LessThan2Elements - one element`: Unit =
+		def `LessThan2Elements - List(1)`: Unit =
 			val res = SortableModel.from(
 				mayBeList = List(1)
 			)
@@ -37,7 +37,7 @@ object SortableModel_Test:
 				SortableModelError.LessThanTwoElements
 			)
 
-		def `ToManyElements`: Unit =
+		def `ToManyElements - 501`: Unit =
 			val res = SortableModel.from(
 				List.fill(501)(Random.nextInt(200))
 			)
@@ -45,7 +45,7 @@ object SortableModel_Test:
 
 	object fromUnsafe_should_return:
 
-		def `NonEmptyListModel - List(1, 2, 3)`: Unit =
+		def `SortableModel - List(1, 2, 3)`: Unit =
 			val mayBeListMock = List(1, 2, 3)
 			val res = SortableModel.fromUnsafe(
 				mayBeList = mayBeListMock
@@ -70,12 +70,12 @@ object SortableModel_Test:
 
 	object getSorted_should_return:
 
-		private def isCorrectlySorted(mayBeCorrectlySorted: SortableModelOld, ordering: OrderModel): Boolean =
+		private def isCorrectlySorted(mayBeCorrectlySorted: SortableModel[ValueWithIndexModel], ordering: OrderModel): Boolean =
 			mayBeCorrectlySorted.list.map(_.value) == (
 				ordering match
 					case OrderModel.Ascending => SortableModelMock.sortedAscending
 					case OrderModel.Descending => SortableModelMock.sortedDescending
-				).valuesWithIndices.list.map(_.value)
+				).list.map(_.value)
 
 		def `SortableModel - ascending`: Unit =
 			val res = SortableModelMock.unsorted

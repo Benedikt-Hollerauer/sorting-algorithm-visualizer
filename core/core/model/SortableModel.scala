@@ -5,18 +5,21 @@ import error.modelError.SortableModelError
 case class SortableModel[T] private(
 	list: List[T]
 ):
-	def getSorted(ordering: OrderModel): SortableModel[T] = // TODO mayBe here type classes
-		val sorted = list.sortWith: (x, y) =>
-			ordering.getOrdering(x.value, y.value)
-		SortableModel.fromUnsafe(
-			sorted
+	import core.TypeClass.GetSorted
+
+	def getSorted(ordering: OrderModel)(implicit getSorted: GetSorted[T]): SortableModel[T] =
+		getSorted.getSorted(
+			list,
+			ordering
 		)
 
 object SortableModel:
 
+	val maxAllowedElements: Int = 500
+
 	private def hasLessThanTwoElements[T](mayBeList: List[T]): Boolean = mayBeList.length < 2
 
-	private def hasToManyElements[T](mayBeList: List[T]): Boolean = mayBeList.length > 500
+	private def hasToManyElements[T](mayBeList: List[T]): Boolean = mayBeList.length > maxAllowedElements
 
 	def from[T](mayBeList: List[T]): Either[SortableModelError, SortableModel[T]] =
 		if(hasLessThanTwoElements(mayBeList)) Left(SortableModelError.LessThanTwoElements)

@@ -3,7 +3,7 @@ package core
 import core.input.SortingAlgorithmUseCaseInput
 import core.model.{SortableModel, SortedModel, ValueWithIndexModel}
 
-object Contracts:
+object Contract:
 	
 	trait SortingAlgorithmEntity:
 		

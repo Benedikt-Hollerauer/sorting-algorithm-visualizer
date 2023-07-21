@@ -49,11 +49,11 @@ object TestUtil:
 		headFocusedIndicesChanged: Boolean,
 		lastFocusedValues: (Int, Int),
 		lastFocusedIndicesChanged: Boolean,
-		sorted: SortableModelOld
+		sorted: SortableModel[ValueWithIndexModel]
 	): Unit =
 		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.length == expectedLength)
-		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value))
+		assert(res.sorted.list.map(_.value) == sorted.list.map(_.value))
 		res.changes.head match
 			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
 				assert(focusedValues._1.value == headFocusedValues._1)
@@ -72,11 +72,11 @@ object TestUtil:
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: (Int, Int),
-		sorted: SortableModelOld
+		sorted: SortableModel[ValueWithIndexModel]
 	): Unit =
 		assert(res.toBeSorted == SortableModelMock.unsorted)
 		assert(res.changes.length == expectedLength)
-		assert(res.sorted.valuesWithIndices.list.map(_.value) == sorted.valuesWithIndices.list.map(_.value))
+		assert(res.sorted.list.map(_.value) == sorted.list.map(_.value))
 		res.changes.head match
 			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
 				assert(focusedValues._1.value == headFocusedValues._1)

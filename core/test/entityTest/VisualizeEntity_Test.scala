@@ -41,7 +41,7 @@ object VisualizeEntity_Test:
 
 	object getBarModel_should_return:
 
-		private val valuesWithIndices = SortedModelMock.sortedModel.toBeSorted.valuesWithIndices.list
+		private val valuesWithIndices = SortedModelMock.sortedModel.toBeSorted.list
 
 		def `BarModel - BarStateModel.Normal`: Unit =
 			val res = VisualizeEntity.getBarModel(
@@ -95,8 +95,8 @@ object VisualizeEntity_Test:
 	object swapSortable_should_return:
 
 		def `SortableModel`: Unit =
-			val firstValueWithIndex = SortableModelMock.unsorted.valuesWithIndices.list(0)
-			val secondValueWithIndex = SortableModelMock.unsorted.valuesWithIndices.list(1)
+			val firstValueWithIndex = SortableModelMock.unsorted.list(0)
+			val secondValueWithIndex = SortableModelMock.unsorted.list(1)
 			val res = VisualizeEntity.swapSortableValues(
 				toBeUpdated = SortableModelMock.unsorted,
 				swappedValues = (
@@ -104,7 +104,7 @@ object VisualizeEntity_Test:
 					secondValueWithIndex
 				)
 			)
-			val resList = res.valuesWithIndices.list
+			val resList = res.list
 			assert(resList(0) == secondValueWithIndex)
 			assert(resList(1) == firstValueWithIndex)
-			assert(resList.length == SortableModelMock.unsorted.valuesWithIndices.list.length)
+			assert(resList.length == SortableModelMock.unsorted.list.length)

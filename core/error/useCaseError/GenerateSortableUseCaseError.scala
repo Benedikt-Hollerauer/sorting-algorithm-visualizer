@@ -5,4 +5,3 @@ import error.modelError.SortableModelError
 enum GenerateSortableUseCaseError:
 
 	case SortableModelCreationFailed(sortableModelError: SortableModelError)
-	case NonEmptyListModelCreationFailed(nonEmptyListModelError: SortableModelError)

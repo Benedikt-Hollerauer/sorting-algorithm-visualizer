@@ -1,6 +1,6 @@
 package test.useCaseTest
 
-import core.model.SortableModelOld
+import core.model.{SortableModel, ValueWithIndexModel}
 import core.useCase.GenerateSortableUseCase
 import error.modelError.SortableModelError
 import error.useCaseError.GenerateSortableUseCaseError
@@ -16,19 +16,9 @@ object GenerateSortableUseCase_Test:
 				input = GenerateSortableInputMock.success
 			)
 			assertRight(res)(
-				(res: SortableModelOld) => Seq(
-					res.valuesWithIndices.list.head.indexModel.index == 0,
-					res.valuesWithIndices.list.last.indexModel.index == 49
-				)
-			)
-
-		def `NonEmptyListModelCreationFailed[EmptyList]`: Unit =
-			val res = GenerateSortableUseCase(
-				input = GenerateSortableInputMock.emptyListFailure
-			)
-			assertLeft(res)(
-				GenerateSortableUseCaseError.NonEmptyListModelCreationFailed(
-					SortableModelError.LessThanTwoElements
+				(res: SortableModel[ValueWithIndexModel]) => Seq(
+					res.list.head.indexModel.index == 0,
+					res.list.last.indexModel.index == 49
 				)
 			)
 
