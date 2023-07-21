@@ -20,7 +20,7 @@ object NonEmptyListModel:
 
 	@throws(classOf[RuntimeException])
 	def fromUnsafe[T](mayBeList: List[T]): NonEmptyListModel[T] =
-		if(hasLessThanTwoElements(mayBeList)) throw new RuntimeException("less than 2 elements")
+		if(hasLessThanTwoElements(mayBeList)) throw new RuntimeException("less than two elements")
 		else NonEmptyListModel(
 			list = mayBeList
 		)

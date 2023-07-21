@@ -1,10 +1,11 @@
 package test.modelTest
 
-import core.model.NonEmptyListModel
-import error.modelError.NonEmptyListModelError
+import core.model.{NonEmptyListModel, OrderModel, SortableModel}
+import error.modelError.{NonEmptyListModelError, SortableModelError}
 import test.TestUtil.*
+import mock.modelMock.SortableModelMock
 
-import scala.util.Try
+import scala.util.{Random, Try}
 
 object NonEmptyListModel_Test:
 
@@ -20,7 +21,7 @@ object NonEmptyListModel_Test:
 				)
 			)
 
-		def `LessThan2Elements - 1 Element`: Unit =
+		def `LessThan2Elements - one element`: Unit =
 			val res = NonEmptyListModel.from(
 				mayBeList = List(1)
 			)
@@ -28,13 +29,19 @@ object NonEmptyListModel_Test:
 				NonEmptyListModelError.LessThanTwoElements
 			)
 
-		def `LessThan2Elements - EmptyList`: Unit =
+		def `LessThan2Elements - empty list`: Unit =
 			val res = NonEmptyListModel.from(
 				mayBeList = List.empty
 			)
 			assertLeft(res)(
 				NonEmptyListModelError.LessThanTwoElements
 			)
+
+		def `ToManyElements`: Unit =
+			val res = NonEmptyListModel.from(
+				List.fill(501)(Random.nextInt(200))
+			)
+			assertLeft(res)(NonEmptyListModelError.ToManyElements(501))
 
 	object fromUnsafe_should_return:
 
@@ -45,10 +52,37 @@ object NonEmptyListModel_Test:
 			)
 			assert(res.list == mayBeListMock)
 
-		def `RuntimeException`: Unit =
+		def `RuntimeException - less than two elements`: Unit =
 			val res = Try(
 				NonEmptyListModel.fromUnsafe(
 					mayBeList = List.empty
 				)
 			)
 			assert(res.isFailure)
+
+		def `RuntimeException - to many elements`: Unit =
+			val res = Try(
+				NonEmptyListModel.fromUnsafe(
+					mayBeList = List.fill(501)(Random.nextInt(200))
+				)
+			)
+			assert(res.isFailure)
+
+	object getSorted_should_return:
+
+		private def isCorrectlySorted(mayBeCorrectlySorted: SortableModel, ordering: OrderModel): Boolean =
+			mayBeCorrectlySorted.list.map(_.value) == (
+				ordering match
+					case OrderModel.Ascending => SortableModelMock.sortedAscending
+					case OrderModel.Descending => SortableModelMock.sortedDescending
+				).valuesWithIndices.list.map(_.value)
+
+		def `SortableModel - ascending`: Unit =
+			val res = SortableModelMock.unsorted
+				.getSorted(OrderModel.Ascending)
+			assert(isCorrectlySorted(res, OrderModel.Ascending))
+
+		def `SortableModel - descending`: Unit =
+			val res = SortableModelMock.unsorted
+				.getSorted(OrderModel.Descending)
+			assert(isCorrectlySorted(res, OrderModel.Descending))
