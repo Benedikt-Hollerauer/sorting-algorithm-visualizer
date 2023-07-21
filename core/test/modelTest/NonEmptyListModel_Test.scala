@@ -4,6 +4,8 @@ import core.model.NonEmptyListModel
 import error.modelError.NonEmptyListModelError
 import test.TestUtil.*
 
+import scala.util.Try
+
 object NonEmptyListModel_Test:
 
 	object from_should_return:
@@ -33,3 +35,18 @@ object NonEmptyListModel_Test:
 			assertLeft(res)(
 				NonEmptyListModelError.ToFewElements
 			)
+
+	object fromUnsafe_should_return:
+
+		def `NonEmptyListModel - List(1, 2, 3)`: Unit =
+			val res = NonEmptyListModel.fromUnsafe(
+				mayBeList = List(1, 2, 3)
+			)
+			assert(res.list == List(1, 2, 3))
+
+		def `RuntimeException`: Unit =
+			Try(
+				NonEmptyListModel.fromUnsafe(
+					mayBeList = List.empty
+				)
+			).isFailure
