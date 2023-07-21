@@ -39,15 +39,16 @@ object NonEmptyListModel_Test:
 	object fromUnsafe_should_return:
 
 		def `NonEmptyListModel - List(1, 2, 3)`: Unit =
+			val mayBeListMock = List(1, 2, 3)
 			val res = NonEmptyListModel.fromUnsafe(
-				mayBeList = List(1, 2, 3)
+				mayBeList = mayBeListMock
 			)
-			assert(res.list == List(1, 2, 3))
+			assert(res.list == mayBeListMock)
 
 		def `RuntimeException`: Unit =
 			val res = Try(
 				NonEmptyListModel.fromUnsafe(
 					mayBeList = List.empty
 				)
-			).isFailure
-			assert(res)
+			)
+			assert(res.isFailure)
