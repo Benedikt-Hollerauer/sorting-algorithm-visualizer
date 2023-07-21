@@ -24,7 +24,7 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 		subList.list match
 			case f :: s :: t if !ordering.getOrdering(f.value, s.value) =>
 				sortSubListOnce(
-					NonEmptyListModel.from(f +: t).toOption.get, // TODO maybe add from Unsafe to NonEmptyListModel (or if combined SortableModel)
+					NonEmptyListModel.fromUnsafe(f +: t),
 					currentPivot,
 					focusedValuesAcc :+ (f, s),
 					ordering

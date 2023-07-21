@@ -45,8 +45,8 @@ object InsertionSortEntity_Test:
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = NonEmptyListModel.from(subList.toValuesWithIndices.reverse).toOption.get,
-				currentPivot = ValueWithIndexModel(6, IndexModel.from(2).toOption.get),
+				subList = NonEmptyListModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Ascending
 			)
 			res.foreach(x => println(x.focusedValues))
@@ -63,8 +63,8 @@ object InsertionSortEntity_Test:
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
 			val subList = List(6, 3, 1, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = NonEmptyListModel.from(subList.toValuesWithIndices.reverse).toOption.get,
-				currentPivot = ValueWithIndexModel(1, IndexModel.from(2).toOption.get),
+				subList = NonEmptyListModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				currentPivot = ValueWithIndexModel(1, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Descending
 			)
 			assert(res.head.focusedValues._1.value == 2)

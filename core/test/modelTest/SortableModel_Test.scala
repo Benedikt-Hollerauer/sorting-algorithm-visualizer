@@ -14,9 +14,9 @@ object SortableModel_Test:
 
         def `SortableModel - List(1, 4, 7)`: Unit =
             val res = SortableModel.from(
-                mayBeValuesWithIndices = NonEmptyListModel.from(
+                mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
                     List(1, 4, 7).toValuesWithIndices
-                ).toOption.get
+                )
             )
             assertRight(res)(
                 (res: SortableModel) =>
@@ -30,9 +30,9 @@ object SortableModel_Test:
 
         def `ToManyElements`: Unit =
             val res = SortableModel.from(
-                mayBeValuesWithIndices = NonEmptyListModel.from(
+                mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
                     List.fill(501)(Random.nextInt(200)).toValuesWithIndices
-                ).toOption.get
+                )
             )
             assertLeft(res)(SortableModelError.ToManyElements(501))
 

@@ -7,24 +7,24 @@ import mock.ToBeSortedMock
 	object SortableModelMock:
 	
 	val unsorted = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.from(
+		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.unsorted
 				.toValuesWithIndices
-		).toOption.get
+		)
 	).toOption.get
 
 	val sortedAscending = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.from(
+		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.ascendingOrder
 				.sorted
 				.toValuesWithIndices
-		).toOption.get
+		)
 	).toOption.get
 
 	val sortedDescending = SortableModel.from(
-		mayBeValuesWithIndices = NonEmptyListModel.from(
+		mayBeValuesWithIndices = NonEmptyListModel.fromUnsafe(
 			mayBeList = ToBeSortedMock.descendingOrder
 				.sorted
 				.toValuesWithIndices
-		).toOption.get
+		)
 	).toOption.get

@@ -18,12 +18,12 @@ object VisualizeEntity:
 					case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
 				(
 					newSortable,
-					acc._2 :+ NonEmptyListModel.from(
+					acc._2 :+ NonEmptyListModel.fromUnsafe(
 						newSortable.valuesWithIndices
 							.list
 							.map: valueWithIndex =>
 								getBarModel(valueWithIndex, change)
-					).toOption.get
+					)
 				)
 			._2
 		VisualizeModel(
@@ -59,7 +59,7 @@ object VisualizeEntity:
 					value = valueWithIndex.value,
 					barState = barStateModel
 				)
-		NonEmptyListModel.from(sortedBars).toOption.get
+		NonEmptyListModel.fromUnsafe(sortedBars)
 
 	def swapSortableValues(
 		toBeUpdated: SortableModel,
@@ -72,7 +72,7 @@ object VisualizeEntity:
 			list.indexWhere(_ == swappedValues._2), swappedValues._1
 		)
 		SortableModel.from(
-			NonEmptyListModel.from(
+			NonEmptyListModel.fromUnsafe(
 				swapped
-			).toOption.get
+			)
 		).toOption.get

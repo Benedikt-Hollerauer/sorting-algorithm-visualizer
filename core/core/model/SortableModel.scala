@@ -11,9 +11,9 @@ case class SortableModel private(
         val sorted = valuesWithIndices.list.sortWith: (x, y) =>
             ordering.getOrdering(x.value, y.value)
         SortableModel.from(
-            NonEmptyListModel.from(
+            NonEmptyListModel.fromUnsafe(
                 sorted
-            ).toOption.get
+            )
         ).toOption.get
 
 object SortableModel:

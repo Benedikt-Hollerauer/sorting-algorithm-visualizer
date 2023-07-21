@@ -10,7 +10,7 @@ object Util:
 			.map: (value, index) =>
 				ValueWithIndexModel(
 					value = value,
-					indexModel = IndexModel.from(
+					indexModel = IndexModel.fromUnsafe(
 						mayBeIndex = index
-					).toOption.get
+					)
 				)
