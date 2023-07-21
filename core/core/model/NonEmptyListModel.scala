@@ -8,8 +8,10 @@ case class NonEmptyListModel[T] private(
 
 object NonEmptyListModel:
 
+	private def hasLessThanTwoElements[T](mayBeList: List[T]): Boolean = mayBeList.length < 2
+
 	def from[T](mayBeList: List[T]): Either[NonEmptyListModelError, NonEmptyListModel[T]] =
-		if(mayBeList.length < 2) Left(NonEmptyListModelError.LessThanTwoElements)
+		if(hasLessThanTwoElements(mayBeList)) Left(NonEmptyListModelError.LessThanTwoElements)
 		else Right(
 			NonEmptyListModel(
 				list = mayBeList
@@ -18,7 +20,7 @@ object NonEmptyListModel:
 
 	@throws(classOf[RuntimeException])
 	def fromUnsafe[T](mayBeList: List[T]): NonEmptyListModel[T] =
-		if(mayBeList.length < 2) throw new RuntimeException("less than 2 elements")
+		if(hasLessThanTwoElements(mayBeList)) throw new RuntimeException("less than 2 elements")
 		else NonEmptyListModel(
 			list = mayBeList
 		)

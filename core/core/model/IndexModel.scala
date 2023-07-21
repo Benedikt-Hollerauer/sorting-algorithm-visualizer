@@ -7,12 +7,20 @@ case class IndexModel private(
 )
 
 object IndexModel:
+	
+	private def isNegativeIndex(mayBeIndex: Int): Boolean = mayBeIndex < 0
 		
 	def from(mayBeIndex: Int): Either[IndexModelError, IndexModel] =
-		if(mayBeIndex < 0)
-			Left(
-				IndexModelError.NegativeIndex(mayBeIndex)
-			)
+		if(isNegativeIndex(mayBeIndex)) Left(
+			IndexModelError.NegativeIndex(mayBeIndex)
+		)
 		else Right(
 			IndexModel(mayBeIndex)
+		)
+
+	@throws(classOf[RuntimeException])
+	def fromUnsafe(mayBeIndex: Int): IndexModel =
+		if(isNegativeIndex(mayBeIndex)) throw new RuntimeException("negative index")
+		else IndexModel(
+			index = mayBeIndex
 		)
