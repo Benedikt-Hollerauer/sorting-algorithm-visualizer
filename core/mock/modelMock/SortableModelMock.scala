@@ -6,19 +6,19 @@ import mock.ToBeSortedMock
 
 	object SortableModelMock:
 	
-	val unsorted = SortableModel.fromUnsafe(
-		mayBeList = ToBeSortedMock.unsorted
-			.toValuesWithIndices
-	)
+		val unsorted = SortableModel.fromUnsafe(
+			mayBeList = ToBeSortedMock.unsorted
+				.toValuesWithIndices
+		)
 
-	val sortedAscending = SortableModel.fromUnsafe(
-		mayBeList = ToBeSortedMock.ascendingOrder
-			.sorted
-			.toValuesWithIndices
-	)
+		val sortedAscending = SortableModel.fromUnsafe(
+			mayBeList = ToBeSortedMock.ascendingOrder
+				.sorted
+				.toValuesWithIndices
+		)
 
-	val sortedDescending = SortableModel.fromUnsafe(
-		mayBeList = ToBeSortedMock.descendingOrder
-			.sorted
-			.toValuesWithIndices
-	)
+		val sortedDescending = SortableModel.fromUnsafe(
+			mayBeList = ToBeSortedMock.descendingOrder
+				.sorted
+				.toValuesWithIndices
+		)

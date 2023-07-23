@@ -59,7 +59,6 @@ object InsertionSortEntity_Test:
 				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 6
 			)
 
-
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
 			val subList = List(6, 3, 1, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
