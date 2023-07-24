@@ -67,11 +67,23 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 		Try(
 			toBeCompared.tail
 				.foldLeft(
-					(List.empty[SortingModel.BubbleSort], toBeCompared.head)
+					List.empty[SortingModel.BubbleSort], toBeCompared.head
 				):
-					case ((acc, f), s) if ordering.getOrdering(f.value, s.value) =>
-						(acc :+ SortingModel.BubbleSort((f, s), alreadySorted, false), s)
-					case ((acc, f), s) =>
-						(acc :+ SortingModel.BubbleSort((s, f), alreadySorted, true), f)
+					case ((acc, f), s) if ordering.getOrdering(f.value, s.value) => (
+						acc :+ SortingModel.BubbleSort(
+							focusedValues = (f, s),
+							alreadySorted = alreadySorted,
+							focusedIndicesChanged = false
+						),
+						s
+					)
+					case ((acc, f), s) => (
+						acc :+ SortingModel.BubbleSort(
+							focusedValues = (s, f),
+							alreadySorted = alreadySorted,
+							focusedIndicesChanged = true
+						),
+						f
+					)
 				._1
 		).toOption

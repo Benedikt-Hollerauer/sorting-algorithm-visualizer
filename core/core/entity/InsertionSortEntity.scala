@@ -21,16 +21,24 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 	): List[SortingModel.InsertionSort] =
 		val test = List(6, 3, 1, 2)
 		val test3 = List(2, 1, 3, 6)
-		subList.list match
-			case f :: s :: t if !ordering.getOrdering(f.value, s.value) =>
-				sortSubListOnce(
-					SortableModel.fromUnsafe(f +: t),
-					currentPivot,
-					focusedValuesAcc :+ (f, s),
-					ordering
+		subList.list
+			.reverse
+			.tail
+			.foldLeft(
+				List.empty[SortingModel.InsertionSort], subList.list.head
+			):
+				case ((acc, f), s) if ordering.getOrdering(f.value, s.value) => (
+					acc :+ SortingModel.InsertionSort(
+						focusedValues = (f, s),
+						currentPivot = s
+					),
+					s
 				)
-			case _ => focusedValuesAcc.map: focusedValues =>
-				SortingModel.InsertionSort(
-					focusedValues = focusedValues,
-					currentPivot = currentPivot
+				case ((acc, f), s) => (
+					acc :+ SortingModel.InsertionSort(
+						focusedValues = (f, s),
+						currentPivot = f
+					),
+					f
 				)
+			._1
