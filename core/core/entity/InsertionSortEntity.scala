@@ -19,8 +19,7 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 		focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
 		ordering: OrderModel
 	): List[SortingModel.InsertionSort] =
-		val test = List(6, 3, 1, 2)
-		val test3 = List(2, 1, 3, 6)
+		val test = List(1, 3, 6, 2)
 		subList.list
 			.reverse
 			.tail
