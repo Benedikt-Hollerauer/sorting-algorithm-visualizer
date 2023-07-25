@@ -39,6 +39,9 @@ object InsertionSortEntity_Test:
 
 	object sortSubListOnce_should_return:
 
+		@main
+		def it = `List[SortingModel.InsertionSort] - ascending`
+
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
@@ -46,6 +49,7 @@ object InsertionSortEntity_Test:
 				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Ascending
 			)
+			res.foreach(println)
 			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
 				res = res,
 				expectedLength = 3,
@@ -67,4 +71,19 @@ object InsertionSortEntity_Test:
 				headFocusedValues = (2, 1),
 				lastFocusedValues = (1, 2),
 				currentPivotValue = 1
+			)
+
+		def `List[SortingModel.InsertionSort] - two elements`: Unit =
+			val subList = List(3, 1)
+			val res = InsertionSortEntity.sortSubListOnce(
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
+				currentPivot = ValueWithIndexModel(3, IndexModel.fromUnsafe(0)),
+				ordering = OrderModel.Descending
+			)
+			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
+				res = res,
+				expectedLength = 2,
+				headFocusedValues = (1, 3),
+				lastFocusedValues = (3, 1),
+				currentPivotValue = 3
 			)

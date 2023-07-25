@@ -26,9 +26,16 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 			subList: List[ValueWithIndexModel],
 			ordering: OrderModel,
 			focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)]
-		): List[(ValueWithIndexModel, ValueWithIndexModel)] = //TODO I think this can throw with an empty input
+		): List[(ValueWithIndexModel, ValueWithIndexModel)] =
+			val notReversedSubList = List(1, 3, 6, 2)
+			val reversedSublist = List(2, 6, 3, 1)
 			subList match
 				case f :: s :: t if ordering.getOrdering(f.value, s.value) => helper(
+					subList = f :: t,
+					ordering = ordering,
+					focusedValuesAcc = focusedValuesAcc :+ (f, s)
+				)
+				case f :: s :: t => helper(
 					subList = f :: t,
 					ordering = ordering,
 					focusedValuesAcc = focusedValuesAcc :+ (f, s)

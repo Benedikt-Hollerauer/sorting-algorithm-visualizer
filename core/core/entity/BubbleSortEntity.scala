@@ -27,9 +27,9 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 	): SortedModel =
 		valuesWithIndices match
 			case Nil => SortedModel(
-				sortable,
-				changes,
-				sortable.getSorted(ordering)
+				toBeSorted = sortable,
+				changes = changes,
+				sorted = sortable.getSorted(ordering)
 			)
 			case valuesWithIndices =>
 				val sortedOnce = sortOnce(valuesWithIndices, alreadySorted, ordering)
