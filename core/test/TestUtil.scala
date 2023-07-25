@@ -87,3 +87,20 @@ object TestUtil:
 				assert(focusedValues._1.value == lastFocusedValues._1)
 				assert(focusedValues._2.value == lastFocusedValues._2)
 			case _ => assert(false)
+			
+	def testCommonInsertionSortSortSublistOnceProperties(
+		res: List[SortingModel.InsertionSort],
+		expectedLength: Int,
+		headFocusedValues: (Int, Int),
+		lastFocusedValues: (Int, Int),
+		currentPivotValue: Int
+	): Unit =
+		assert(res.head.focusedValues._1.value == headFocusedValues._1)
+		assert(res.head.focusedValues._2.value == headFocusedValues._2)
+		assert(res.last.focusedValues._1.value == lastFocusedValues._1)
+		assert(res.last.focusedValues._2.value == lastFocusedValues._2)
+		assert(res.length == expectedLength)
+		assert(
+			res.exists:
+				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == currentPivotValue
+		)

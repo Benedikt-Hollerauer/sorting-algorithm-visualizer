@@ -46,13 +46,12 @@ object InsertionSortEntity_Test:
 				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Ascending
 			)
-			assert(res.head.focusedValues._1.value == 2)
-			assert(res.head.focusedValues._2.value == 6)
-			assert(res.last.focusedValues._1.value == 3)
-			assert(res.last.focusedValues._2.value == 2)
-			assert(res.length == 3)
-			assert(res.exists:
-				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 6
+			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
+				res = res,
+				expectedLength = 3,
+				headFocusedValues = (2, 6),
+				lastFocusedValues = (3, 2),
+				currentPivotValue = 6
 			)
 
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
@@ -62,11 +61,10 @@ object InsertionSortEntity_Test:
 				currentPivot = ValueWithIndexModel(1, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Descending
 			)
-			assert(res.head.focusedValues._1.value == 2)
-			assert(res.head.focusedValues._2.value == 1)
-			assert(res.last.focusedValues._1.value == 1)
-			assert(res.last.focusedValues._2.value == 2)
-			assert(res.length == 2)
-			assert(res.exists:
-				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 1
+			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
+				res = res,
+				expectedLength = 2,
+				headFocusedValues = (2, 1),
+				lastFocusedValues = (1, 2),
+				currentPivotValue = 1
 			)
