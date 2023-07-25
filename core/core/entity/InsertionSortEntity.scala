@@ -3,6 +3,8 @@ package core.entity
 import core.Contract.SortingAlgorithmEntity
 import core.model.*
 
+import scala.annotation.tailrec
+
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
 	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel = ???
@@ -16,28 +18,33 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 	def sortSubListOnce(
 		subList: SortableModel[ValueWithIndexModel],
 		currentPivot: ValueWithIndexModel,
+		ordering: OrderModel,
 		focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
-		ordering: OrderModel
 	): List[SortingModel.InsertionSort] =
-		val test = List(1, 3, 6, 2)
-		subList.list
-			.reverse
-			.tail
-			.foldLeft(
-				List.empty[SortingModel.InsertionSort], subList.list.head
-			):
-				case ((acc, f), s) if ordering.getOrdering(f.value, s.value) => (
-					acc :+ SortingModel.InsertionSort(
-						focusedValues = (f, s),
-						currentPivot = s
-					),
-					s
+		@tailrec
+		def helper(
+			subList: List[ValueWithIndexModel],
+			ordering: OrderModel,
+			focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)]
+		): List[(ValueWithIndexModel, ValueWithIndexModel)] = //TODO I think this can throw with an empty input
+			subList match
+				case f :: s :: t if ordering.getOrdering(f.value, s.value) => helper(
+					subList = f :: t,
+					ordering = ordering,
+					focusedValuesAcc = focusedValuesAcc :+ (f, s)
 				)
-				case ((acc, f), s) => (
-					acc :+ SortingModel.InsertionSort(
-						focusedValues = (f, s),
-						currentPivot = f
-					),
-					f
+				case f :: t => helper(
+					subList = Nil,
+					ordering = ordering,
+					focusedValuesAcc = focusedValuesAcc :+ (focusedValuesAcc.last._2, f)
 				)
-			._1
+				case _ => focusedValuesAcc
+
+		helper(
+			subList = subList.list.reverse,
+			ordering = ordering
+		).map: focusedValues =>
+			SortingModel.InsertionSort(
+				focusedValues = focusedValues,
+				currentPivot = currentPivot
+			)

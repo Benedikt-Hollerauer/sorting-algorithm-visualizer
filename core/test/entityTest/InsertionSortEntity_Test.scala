@@ -39,17 +39,13 @@ object InsertionSortEntity_Test:
 
 	object sortSubListOnce_should_return:
 
-		@main
-		def it = `List[SortingModel.InsertionSort] - ascending`
-
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
 				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Ascending
 			)
-			res.foreach(x => println(x.focusedValues))
 			assert(res.head.focusedValues._1.value == 2)
 			assert(res.head.focusedValues._2.value == 6)
 			assert(res.last.focusedValues._1.value == 3)
@@ -62,7 +58,7 @@ object InsertionSortEntity_Test:
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
 			val subList = List(6, 3, 1, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
-				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices.reverse),
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
 				currentPivot = ValueWithIndexModel(1, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Descending
 			)
@@ -70,7 +66,7 @@ object InsertionSortEntity_Test:
 			assert(res.head.focusedValues._2.value == 1)
 			assert(res.last.focusedValues._1.value == 1)
 			assert(res.last.focusedValues._2.value == 2)
-			assert(res.length == 1)
+			assert(res.length == 2)
 			assert(res.exists:
 				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == 1
 			)
