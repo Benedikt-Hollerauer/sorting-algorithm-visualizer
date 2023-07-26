@@ -7,7 +7,9 @@ case class SortableModel[T] private(
 ):
 	import core.TypeClass.GetSorted
 
-	def getSorted(ordering: OrderModel)(implicit getSorted: GetSorted[T]): SortableModel[T] =
+	def getSorted(ordering: OrderModel)
+		(implicit getSorted: GetSorted[T])
+	: SortableModel[T] =
 		getSorted.getSorted(
 			list,
 			ordering

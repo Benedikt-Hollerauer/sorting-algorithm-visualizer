@@ -7,7 +7,12 @@ import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil
 
+import scala.main
+
 object InsertionSortEntity_Test:
+
+	@main
+	def it = sortAscending_should_return.`SortedModel - ascending`
 
 	object sortAscending_should_return:
 

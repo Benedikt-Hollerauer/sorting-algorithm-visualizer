@@ -7,13 +7,45 @@ import scala.annotation.tailrec
 
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
-	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel = ???
+	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+		sort(sortable, OrderModel.Descending)
 
-	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel = ???
-	
+	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+		sort(sortable, OrderModel.Descending)
+
 	private def sort(
-		ordering: OrderModel
-	): SortedModel = ???
+		sortable: SortableModel[ValueWithIndexModel],
+		ordering: OrderModel,
+		subListLength: Int = 2,
+		sortedAcc: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort],
+		firstIteration: Boolean = true
+	): SortedModel =
+		if(sortable.list.length == subListLength)
+			SortedModel(
+				toBeSorted = sortable,
+				changes = sortedAcc,
+				sorted = sortable.getSorted(ordering)
+			)
+		else
+			val newBaseForSortingOnce =
+				if (firstIteration) sortable.list.take(subListLength)
+				else (sortedAcc.map(_.focusedValues._1)
+					:+ sortedAcc.last.focusedValues._2)
+					++ sortable.list
+					.takeRight(sortable.list.length - subListLength)
+			val newSubList = newBaseForSortingOnce.take(subListLength)
+			val sortedSubListOnce = sortSubListOnce(
+				subList = SortableModel.fromUnsafe(newSubList.toList), // TODO here needs to be some error handling probably
+				currentPivot = newSubList.takeRight(2).head,
+				ordering = ordering
+			)
+			sort(
+				sortable = sortable,
+				ordering = ordering,
+				subListLength = subListLength + 1,
+				sortedAcc = sortedAcc ++ sortedSubListOnce,
+				firstIteration = false
+			)
 
 	def sortSubListOnce(
 		subList: SortableModel[ValueWithIndexModel],
