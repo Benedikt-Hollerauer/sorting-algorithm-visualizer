@@ -8,7 +8,7 @@ import scala.annotation.tailrec
 object InsertionSortEntity extends SortingAlgorithmEntity:
 
 	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
-		sort(sortable, OrderModel.Descending)
+		sort(sortable, OrderModel.Ascending)
 
 	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
 		sort(sortable, OrderModel.Descending)

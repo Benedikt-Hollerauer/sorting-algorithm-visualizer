@@ -20,6 +20,7 @@ object InsertionSortEntity_Test:
 			val res = InsertionSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
+			res.changes.foreach(println)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
 				expectedLength = 45,

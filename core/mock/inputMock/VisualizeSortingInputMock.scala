@@ -7,5 +7,5 @@ import mock.modelMock.SortedModelMock
 object VisualizeSortingInputMock:
 
 	val input: VisualizeSortingInput = VisualizeSortingInput(
-		sortedModel = SortedModelMock.sortedModel
+		sortedModel = SortedModelMock.sortedModelBubbleSort
 	)
