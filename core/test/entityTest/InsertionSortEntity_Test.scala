@@ -39,9 +39,6 @@ object InsertionSortEntity_Test:
 
 	object sortSubListOnce_should_return:
 
-		@main
-		def it = `List[SortingModel.InsertionSort] - descending`
-
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
@@ -53,7 +50,7 @@ object InsertionSortEntity_Test:
 				res = res,
 				expectedLength = 3,
 				headFocusedValues = (2, 6),
-				lastFocusedValues = (2, 1),
+				lastFocusedValues = Some((2, 1)),
 				currentPivotValue = 6
 			)
 
@@ -64,16 +61,30 @@ object InsertionSortEntity_Test:
 				currentPivot = ValueWithIndexModel(1, IndexModel.fromUnsafe(2)),
 				ordering = OrderModel.Descending
 			)
-			res.foreach(println)
 			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
 				res = res,
 				expectedLength = 2,
 				headFocusedValues = (2, 1),
-				lastFocusedValues = (1, 2),
+				lastFocusedValues = Some((2, 3)),
 				currentPivotValue = 1
 			)
 
-		def `List[SortingModel.InsertionSort] - two elements`: Unit =
+		def `List[SortingModel.InsertionSort] - two elements ascending`: Unit =
+			val subList = List(3, 1)
+			val res = InsertionSortEntity.sortSubListOnce(
+				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
+				currentPivot = ValueWithIndexModel(3, IndexModel.fromUnsafe(0)),
+				ordering = OrderModel.Ascending
+			)
+			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
+				res = res,
+				expectedLength = 1,
+				headFocusedValues = (1, 3),
+				lastFocusedValues = None,
+				currentPivotValue = 3
+			)
+
+		def `List[SortingModel.InsertionSort] - two elements descending`: Unit =
 			val subList = List(3, 1)
 			val res = InsertionSortEntity.sortSubListOnce(
 				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
@@ -82,8 +93,8 @@ object InsertionSortEntity_Test:
 			)
 			TestUtil.testCommonInsertionSortSortSublistOnceProperties(
 				res = res,
-				expectedLength = 2,
+				expectedLength = 1,
 				headFocusedValues = (1, 3),
-				lastFocusedValues = (3, 1),
+				lastFocusedValues = None,
 				currentPivotValue = 3
 			)

@@ -92,13 +92,14 @@ object TestUtil:
 		res: List[SortingModel.InsertionSort],
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
-		lastFocusedValues: (Int, Int),
+		lastFocusedValues: Option[(Int, Int)],
 		currentPivotValue: Int
 	): Unit =
 		assert(res.head.focusedValues._1.value == headFocusedValues._1)
 		assert(res.head.focusedValues._2.value == headFocusedValues._2)
-		assert(res.last.focusedValues._1.value == lastFocusedValues._1)
-		assert(res.last.focusedValues._2.value == lastFocusedValues._2)
+		if(lastFocusedValues.isDefined)
+			assert(res.last.focusedValues._1.value == lastFocusedValues.get._1)
+			assert(res.last.focusedValues._2.value == lastFocusedValues.get._2)
 		assert(res.length == expectedLength)
 		assert(
 			res.exists:
