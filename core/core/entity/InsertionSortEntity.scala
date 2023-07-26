@@ -22,32 +22,32 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 		focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)],
 	): List[SortingModel.InsertionSort] =
 		@tailrec
-		def helper(
+		def getFocusedValues(
 			subList: List[ValueWithIndexModel],
 			ordering: OrderModel,
 			focusedValuesAcc: List[(ValueWithIndexModel, ValueWithIndexModel)] = List.empty[(ValueWithIndexModel, ValueWithIndexModel)]
 		): List[(ValueWithIndexModel, ValueWithIndexModel)] =
-			val notReversedSubList = List(1, 3, 6, 2)
-			val reversedSublist = List(2, 6, 3, 1)
+			val notReversedSubList = List(6, 3, 1, 2)
+			val reversedSublist = List(2, 1, 3, 6)
 			subList match
-				case f :: s :: t if ordering.getOrdering(f.value, s.value) => helper(
+				case f :: s :: t if ordering.getOrdering(f.value, s.value) => getFocusedValues(
 					subList = f :: t,
 					ordering = ordering,
 					focusedValuesAcc = focusedValuesAcc :+ (f, s)
 				)
-				case f :: s :: t => helper(
-					subList = f :: t,
-					ordering = ordering,
-					focusedValuesAcc = focusedValuesAcc :+ (f, s)
-				)
-				case f :: t => helper(
+				case f :: s :: t => getFocusedValues(
 					subList = Nil,
 					ordering = ordering,
-					focusedValuesAcc = focusedValuesAcc :+ (focusedValuesAcc.last._2, f)
+					focusedValuesAcc = focusedValuesAcc :+ (f, s)
+				)
+				case f :: t => getFocusedValues(
+					subList = Nil,
+					ordering = ordering,
+					focusedValuesAcc = focusedValuesAcc :+ (focusedValuesAcc.last._1, f)
 				)
 				case _ => focusedValuesAcc
 
-		helper(
+		getFocusedValues(
 			subList = subList.list.reverse,
 			ordering = ordering
 		).map: focusedValues =>
