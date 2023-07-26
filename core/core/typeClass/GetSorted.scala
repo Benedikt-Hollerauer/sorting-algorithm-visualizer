@@ -1,15 +1,15 @@
-package core
+package core.typeClass
 
 import core.model.{OrderModel, SortableModel, ValueWithIndexModel}
 
-object TypeClass:
+trait GetSorted[T]:
 
-	trait GetSorted[T]:
+	def getSorted(
+		toBeSorted: List[T],
+		ordering: OrderModel
+	): SortableModel[T]
 
-		def getSorted(
-			toBeSorted: List[T],
-			ordering: OrderModel
-		): SortableModel[T]
+object GetSorted:
 
 	implicit object ValueWithIndexGetSorted extends GetSorted[ValueWithIndexModel]:
 

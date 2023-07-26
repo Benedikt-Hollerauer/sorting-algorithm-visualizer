@@ -5,7 +5,7 @@ import error.modelError.SortableModelError
 case class SortableModel[T] private(
 	list: List[T]
 ):
-	import core.TypeClass.GetSorted
+	import core.typeClass.GetSorted
 
 	def getSorted(ordering: OrderModel)
 		(implicit getSorted: GetSorted[T])
