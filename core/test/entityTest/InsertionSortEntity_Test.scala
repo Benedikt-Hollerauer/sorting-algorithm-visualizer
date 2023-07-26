@@ -24,7 +24,7 @@ object InsertionSortEntity_Test:
 				res = res,
 				expectedLength = 45,
 				headFocusedValues = (636, 743),
-				lastFocusedValues = (5, 196),
+				lastFocusedValues = (5, ToBeSortedMock.biggest),
 				sorted = SortableModelMock.sortedAscending
 			)
 
@@ -38,7 +38,7 @@ object InsertionSortEntity_Test:
 				res = res,
 				expectedLength = 45,
 				headFocusedValues = (636, 743),
-				lastFocusedValues = (743, 662),
+				lastFocusedValues = (743, ToBeSortedMock.smallest),
 				sorted = SortableModelMock.sortedDescending
 			)
 
