@@ -1,29 +1,26 @@
 package core.entity
 
 import core.model.*
-import core.typeClass.GetBarModel
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeEntity:
 
 	def getBarVisualisation(
 		sortedModel: SortedModel
+	)(
+		using getBarVisualisation: GetBarVisualisation[SortingModel]
+	)(
+		using getBarModel: GetBarModel[SortingModel]
 	): VisualizeModel =
 		val changes = sortedModel.changes
 			.foldLeft(
 				(sortedModel.toBeSorted, LazyList.empty[SortableModel[BarModel]])
 			): (acc, change) =>
-				val newSortable = change match
-					case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
-						if(focusedIndicesChanged) swapSortableValues(acc._1, (focusedValues._1, focusedValues._2))
-						else acc._1
-					case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
-				(
-					newSortable,
-					acc._2 :+ SortableModel.fromUnsafe(
-						newSortable.list
-							.map: valueWithIndex =>
-								getBarModel(valueWithIndex, change)
-					)
+				getBarVisualisation.getBarVisualisation(
+					acc,
+					change,
+					swapSortableValues,
+					getBarModel.getBarModel
 				)
 			._2
 		VisualizeModel(
