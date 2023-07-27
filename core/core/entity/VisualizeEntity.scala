@@ -1,6 +1,7 @@
 package core.entity
 
 import core.model.*
+import core.typeClass.GetBarModel
 
 object VisualizeEntity:
 
@@ -34,18 +35,11 @@ object VisualizeEntity:
 	def getBarModel(
 		valueWithIndex: ValueWithIndexModel,
 		change: SortingModel
-	): BarModel =
-		change match
-			case SortingModel.BubbleSort(focusedValues, alreadySorted, focusedIndicesChanged) =>
-				val isCorrectValueWithIndex = valueWithIndex == focusedValues._1 | valueWithIndex == focusedValues._2
-				if(alreadySorted.contains(valueWithIndex))
-					BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
-				else if(isCorrectValueWithIndex && focusedIndicesChanged)
-					BarModel(valueWithIndex.value, BarStateModel.Swapped)
-				else if(isCorrectValueWithIndex)
-					BarModel(valueWithIndex.value, BarStateModel.Focused)
-				else BarModel(valueWithIndex.value, BarStateModel.Normal)
-			case SortingModel.InsertionSort(focusedValues, currentPivot) => ???
+	)(using getBarModel: GetBarModel[SortingModel]): BarModel =
+		getBarModel.getBarModel(
+			valueWithIndex = valueWithIndex,
+			change = change
+		)
 
 	def getSpecialBars(
 		sortableModel: SortableModel[ValueWithIndexModel],

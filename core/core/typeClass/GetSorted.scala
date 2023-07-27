@@ -11,8 +11,7 @@ trait GetSorted[T]:
 
 object GetSorted:
 
-	implicit object ValueWithIndexGetSorted extends GetSorted[ValueWithIndexModel]:
-
+	given GetSorted[ValueWithIndexModel] with
 		override def getSorted(
 			toBeSorted: List[ValueWithIndexModel],
 			ordering: OrderModel

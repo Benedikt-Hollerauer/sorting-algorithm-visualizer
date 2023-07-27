@@ -1,14 +1,13 @@
 package core.model
 
 import error.modelError.SortableModelError
+import core.typeClass.GetSorted
 
 case class SortableModel[T] private(
 	list: List[T]
 ):
-	import core.typeClass.GetSorted
-
 	def getSorted(ordering: OrderModel)
-		(implicit getSorted: GetSorted[T])
+		(using getSorted: GetSorted[T])
 	: SortableModel[T] =
 		getSorted.getSorted(
 			list,
