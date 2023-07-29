@@ -9,7 +9,7 @@ trait GetBarVisualisation[T <: SortingModel]:
 		acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
 		change: T,
 		swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
-		getBarModel: (ValueWithIndexModel, SortingModel.BubbleSort) => BarModel
+		getBarModel: (ValueWithIndexModel, T) => BarModel
 	): (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]])
 	
 object GetBarVisualisation:

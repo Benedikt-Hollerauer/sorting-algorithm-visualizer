@@ -9,4 +9,6 @@ object VisualizeSortingUseCase:
 	def apply(
 		input: VisualizeSortingInput
 	): VisualizeModel =
-		VisualizeEntity.getBarVisualisation(input.sortedModel)
+		VisualizeEntity.getBarVisualisation(
+			sortedModel = input.sortedModel
+		)
