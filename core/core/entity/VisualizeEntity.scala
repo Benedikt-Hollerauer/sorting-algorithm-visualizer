@@ -2,13 +2,15 @@ package core.entity
 
 import core.model.*
 import core.typeClass.{GetBarModel, GetBarVisualisation}
+import core.typeClass.GetBarVisualisation.{given, *}
+import core.typeClass.GetBarModel.{given, *}
 
 object VisualizeEntity:
 
 	def getBarVisualisation(
 		sortedModel: SortedModel
 	)(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
+		using getBarVisualisation: GetBarVisualisation[SortingModel] //TODO here lies the error: if i make something like this: using getBarVisualisation: GetBarVisualisation[SortingModel.BubbleSort], it works
 	)(
 		using getBarModel: GetBarModel[SortingModel]
 	): VisualizeModel =

@@ -7,4 +7,4 @@ case class ValueWithIndexModel(
 
 object ValueWithIndexModel:
 
-	implicit val ordering: Ordering[ValueWithIndexModel] = Ordering.by(_.value)
+	implicit val ordering: Ordering[ValueWithIndexModel] = Ordering.by(_.value) // TODO change to given and using
