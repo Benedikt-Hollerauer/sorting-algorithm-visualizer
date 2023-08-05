@@ -32,3 +32,11 @@ object GetBarVisualisation:
 							getBarModel(valueWithIndex, change)
 				)
 			)
+
+	given GetBarVisualisation[SortingModel.InsertionSort] with
+		override def getBarVisualisation(
+			acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
+			change: SortingModel.InsertionSort,
+			swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
+			getBarModel: (ValueWithIndexModel, SortingModel.InsertionSort) => BarModel
+		): (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]) = ???
