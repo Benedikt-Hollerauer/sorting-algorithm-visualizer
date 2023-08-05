@@ -7,12 +7,12 @@ import core.typeClass.GetBarModel.{given, *}
 
 object VisualizeEntity:
 
-	def getBarVisualisation(
+	def getBarVisualisation[T <: SortingModel](
 		sortedModel: SortedModel
 	)(
-		using getBarVisualisation: GetBarVisualisation[SortingModel] //TODO here lies the error: if i make something like this: using getBarVisualisation: GetBarVisualisation[SortingModel.BubbleSort], it works
+		using getBarVisualisation: GetBarVisualisation[T]
 	)(
-		using getBarModel: GetBarModel[SortingModel]
+		using getBarModel: GetBarModel[T]
 	): VisualizeModel =
 		val changes = sortedModel.changes
 			.foldLeft(
@@ -20,7 +20,7 @@ object VisualizeEntity:
 			): (acc, change) =>
 				getBarVisualisation.getBarVisualisation(
 					acc,
-					change,
+					change.asInstanceOf[T], //TODO this has to be different
 					swapSortableValues,
 					getBarModel.getBarModel
 				)
@@ -31,10 +31,10 @@ object VisualizeEntity:
 			finishedSorting = getSpecialBars(sortedModel.sorted, BarStateModel.FinishedSorting)
 		)
 
-	def getBarModel(
+	def getBarModel[T <: SortingModel](
 		valueWithIndex: ValueWithIndexModel,
-		change: SortingModel
-	)(using getBarModel: GetBarModel[SortingModel]): BarModel =
+		change: T
+	)(using getBarModel: GetBarModel[T]): BarModel =
 		getBarModel.getBarModel(
 			valueWithIndex = valueWithIndex,
 			change = change
