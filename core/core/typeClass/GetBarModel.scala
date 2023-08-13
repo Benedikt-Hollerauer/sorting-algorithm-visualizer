@@ -3,7 +3,7 @@ package core.typeClass
 import core.model.{BarModel, BarStateModel, OrderModel, SortableModel, SortingModel, ValueWithIndexModel}
 import core.typeClass
 
-trait GetBarModel[T <: SortingModel]:
+trait GetBarModel[T]:
 
 	def getBarModel(
 		valueWithIndex: ValueWithIndexModel,

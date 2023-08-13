@@ -1,6 +1,6 @@
 package core.model
 
-sealed trait SortingModel
+sealed class SortingModel
 
 object SortingModel:
 

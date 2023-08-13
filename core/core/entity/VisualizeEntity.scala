@@ -7,12 +7,12 @@ import core.typeClass.GetBarModel.{given, *}
 
 object VisualizeEntity:
 
-	def getBarVisualisation[T <: SortingModel](
+	def getBarVisualisation(
 		sortedModel: SortedModel
 	)(
-		using getBarVisualisation: GetBarVisualisation[T]
+		using getBarVisualisation: GetBarVisualisation[SortingModel]
 	)(
-		using getBarModel: GetBarModel[T]
+		using getBarModel: GetBarModel[SortingModel]
 	): VisualizeModel =
 		val changes = sortedModel.changes
 			.foldLeft(
@@ -20,7 +20,7 @@ object VisualizeEntity:
 			): (acc, change) =>
 				getBarVisualisation.getBarVisualisation(
 					acc,
-					change.asInstanceOf[T], //TODO this has to be different
+					change,
 					swapSortableValues,
 					getBarModel.getBarModel
 				)

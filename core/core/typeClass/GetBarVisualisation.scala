@@ -3,7 +3,7 @@ package core.typeClass
 import core.entity.VisualizeEntity
 import core.model.{BarModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel, VisualizeModel}
 
-trait GetBarVisualisation[T <: SortingModel]:
+trait GetBarVisualisation[T]:
 
 	def getBarVisualisation(
 		acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
