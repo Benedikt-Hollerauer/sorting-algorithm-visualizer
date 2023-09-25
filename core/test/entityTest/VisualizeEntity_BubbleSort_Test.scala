@@ -7,12 +7,19 @@ import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil
 import test.TestUtil.assertRight
+import core.typeClass.GetBarVisualisation.{*, given}
+import core.typeClass.GetBarModel.{*, given}
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeEntity_BubbleSort_Test:
 
 	object getBarVisualisation_should_return:
 
-		def `VisualizeModel`: Unit =
+		def `VisualizeModel`(
+			using getBarVisualisation: GetBarVisualisation[SortingModel]
+		)(
+			using getBarModel: GetBarModel[SortingModel]
+		): Unit =
 			val res = VisualizeEntity.getBarVisualisation(
 				sortedModel = SortedModelMock.sortedModelBubbleSort
 			)
