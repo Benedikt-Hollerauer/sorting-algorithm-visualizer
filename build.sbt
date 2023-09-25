@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "3.3.0"
+ThisBuild / scalaVersion := "3.3.1"
 ThisBuild / scalacOptions += "-Xfatal-warnings"
 
 lazy val sortingAlgorithmVisualizer: Project = project
@@ -23,7 +23,7 @@ lazy val testImpl: Project = project
     .settings(
         Test / scalaSource := baseDirectory.value,
         libraryDependencies ++= Seq(
-            "org.scalatest" %% "scalatest-freespec" % "3.2.16" % "test"
+            "org.scalatest" %% "scalatest-freespec" % "3.2.17" % "test"
         )
     )
 
@@ -36,6 +36,6 @@ lazy val presentation: Project = project
         scalaJSUseMainModuleInitializer := true,
         libraryDependencies ++= Seq(
             "org.scala-js" %%% "scalajs-dom" % "2.2.0",
-            "com.raquo" %%% "laminar" % "15.0.0"
+            "com.raquo" %%% "laminar" % "16.0.0"
         )
     )
