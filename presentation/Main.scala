@@ -1,16 +1,23 @@
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortingAlgorithmUseCaseInput, VisualizeSortingInput}
-import core.model.{OrderModel, SortableModel, ValueWithIndexModel}
+import core.model.{OrderModel, SortableModel, SortingModel, ValueWithIndexModel}
 import core.useCase.{GenerateSortableUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock
 import org.scalajs.dom
 import useCase.SortByBubbleSortUseCase
+import core.typeClass.GetBarVisualisation.{*, given}
+import core.typeClass.GetBarModel.{*, given}
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 import scala.scalajs.js.timers.setTimeout
 
 object Main:
 
-	def main(args: Array[String]): Unit =
+	def main(args: Array[String])(
+		using getBarVisualisation: GetBarVisualisation[SortingModel]
+	)(
+		using getBarModel: GetBarModel[SortingModel]
+	): Unit =
 		val res = GenerateSortableUseCase(
 			GenerateSortableInputMock.success
 		) match
@@ -55,7 +62,11 @@ object Main:
 					)
 				)
 
-	private def getVisualizeModel(toBeSorted: SortableModel[ValueWithIndexModel], ordering: OrderModel) =
+	private def getVisualizeModel(toBeSorted: SortableModel[ValueWithIndexModel], ordering: OrderModel)(
+		using getBarVisualisation: GetBarVisualisation[SortingModel]
+	)(
+		using getBarModel: GetBarModel[SortingModel]
+	) =
 		val sorted = SortByBubbleSortUseCase(
 			SortingAlgorithmUseCaseInput(
 				toBeSorted,

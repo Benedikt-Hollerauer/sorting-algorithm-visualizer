@@ -6,12 +6,19 @@ import mock.ToBeSortedMock
 import mock.inputMock.VisualizeSortingInputMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil.assertRight
+import core.typeClass.GetBarVisualisation.{*, given}
+import core.typeClass.GetBarModel.{*, given}
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeSortingUseCase_Test:
 
 	object apply_should_return:
 
-		def `VisualizeModel`: Unit =
+		def `VisualizeModel`(
+			using getBarVisualisation: GetBarVisualisation[SortingModel]
+		)(
+			using getBarModel: GetBarModel[SortingModel]
+		): Unit =
 			val res = Right(
 				VisualizeSortingUseCase(
 					input = VisualizeSortingInputMock.input

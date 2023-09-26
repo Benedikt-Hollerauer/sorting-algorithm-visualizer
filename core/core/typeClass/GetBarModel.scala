@@ -25,3 +25,9 @@ object GetBarModel:
 			else if (isCorrectValueWithIndex)
 				BarModel(valueWithIndex.value, BarStateModel.Focused)
 			else BarModel(valueWithIndex.value, BarStateModel.Normal)
+
+	given GetBarModel[SortingModel.InsertionSort] with
+		override def getBarModel(
+			valueWithIndex: ValueWithIndexModel,
+			change: SortingModel.InsertionSort
+		): BarModel = ???
