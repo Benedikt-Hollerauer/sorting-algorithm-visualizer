@@ -33,36 +33,28 @@ object VisualizeEntity_InsertionSort_Test:
 
 		private val valuesWithIndices = SortedModelMock.sortedModelInsertionSort.toBeSorted.list
 
-		def `BarModel - BarStateModel.Normal`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
+		def `BarModel - BarStateModel.Normal`: Unit =
 			val res = VisualizeEntity.getBarModel(
 				valuesWithIndices.head,
 				SortedModelMock.changesInsertionSort(1)
 			)
 			assert(res.barState == BarStateModel.Normal)
 
-		def `BarModel - BarStateModel.Focused`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
+		def `BarModel - BarStateModel.Focused`: Unit =
 			val res = VisualizeEntity.getBarModel(
 				valuesWithIndices(0),
 				SortedModelMock.changesInsertionSort(13)
 			)
 			assert(res.barState == BarStateModel.Focused)
 
-		def `BarModel - BarStateModel.Swapped`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
+		def `BarModel - BarStateModel.Swapped`: Unit =
 			val res = VisualizeEntity.getBarModel(
 				valuesWithIndices(2),
 				SortedModelMock.changesInsertionSort(1)
 			)
 			assert(res.barState == BarStateModel.Swapped)
 
-		def `BarModel - BarStateModel.AlreadySorted`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
+		def `BarModel - BarStateModel.AlreadySorted`: Unit =
 			val res = VisualizeEntity.getBarModel(
 				valuesWithIndices.last,
 				SortedModelMock.changesInsertionSort.last

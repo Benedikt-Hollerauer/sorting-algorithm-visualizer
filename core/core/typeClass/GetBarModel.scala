@@ -5,7 +5,7 @@ import core.typeClass
 
 trait GetBarModel[T]:
 
-	def getBarModel(
+	def apply(
 		valueWithIndex: ValueWithIndexModel,
 		change: T
 	): BarModel
@@ -13,7 +13,7 @@ trait GetBarModel[T]:
 object GetBarModel:
 
 	given GetBarModel[SortingModel.BubbleSort] with
-		override def getBarModel(
+		override def apply(
 			valueWithIndex: ValueWithIndexModel,
 			change: SortingModel.BubbleSort
 		): BarModel =
@@ -27,7 +27,7 @@ object GetBarModel:
 			else BarModel(valueWithIndex.value, BarStateModel.Normal)
 
 	given GetBarModel[SortingModel.InsertionSort] with
-		override def getBarModel(
+		override def apply(
 			valueWithIndex: ValueWithIndexModel,
 			change: SortingModel.InsertionSort
 		): BarModel = ???

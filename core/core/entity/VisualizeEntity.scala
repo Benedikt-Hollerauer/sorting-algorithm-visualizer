@@ -18,11 +18,11 @@ object VisualizeEntity:
 			.foldLeft(
 				(sortedModel.toBeSorted, LazyList.empty[SortableModel[BarModel]])
 			): (acc, change) =>
-				getBarVisualisation.getBarVisualisation(
+				getBarVisualisation(
 					acc,
 					change,
 					swapSortableValues,
-					getBarModel.getBarModel
+					getBarModel.apply
 				)
 			._2
 		VisualizeModel(
@@ -35,7 +35,7 @@ object VisualizeEntity:
 		valueWithIndex: ValueWithIndexModel,
 		change: T
 	)(using getBarModel: GetBarModel[T]): BarModel =
-		getBarModel.getBarModel(
+		getBarModel(
 			valueWithIndex = valueWithIndex,
 			change = change
 		)

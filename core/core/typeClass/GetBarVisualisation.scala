@@ -5,7 +5,7 @@ import core.model.{BarModel, SortableModel, SortedModel, SortingModel, ValueWith
 
 trait GetBarVisualisation[T]:
 
-	def getBarVisualisation(
+	def apply(
 		acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
 		change: T,
 		swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
@@ -15,7 +15,7 @@ trait GetBarVisualisation[T]:
 object GetBarVisualisation:
 
 	given GetBarVisualisation[SortingModel.BubbleSort] with
-		override def getBarVisualisation(
+		override def apply(
 			acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
 			change: SortingModel.BubbleSort,
 			swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
@@ -34,7 +34,7 @@ object GetBarVisualisation:
 			)
 
 	given GetBarVisualisation[SortingModel.InsertionSort] with
-		override def getBarVisualisation(
+		override def apply(
 			acc: (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]),
 			change: SortingModel.InsertionSort,
 			swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
