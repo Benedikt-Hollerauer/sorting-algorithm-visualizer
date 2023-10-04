@@ -1,6 +1,6 @@
 package core.typeClass
 
-import core.model.{BarModel, BarStateModel, OrderModel, SortableModel, SortingModel, ValueWithIndexModel}
+import core.model.*
 import core.typeClass
 
 trait GetBarModel[T]:

@@ -1,7 +1,7 @@
 package core.model
 
-import error.modelError.SortableModelError
 import core.typeClass.GetSorted
+import error.modelError.SortableModelError
 
 case class SortableModel[T] private(
 	list: List[T]

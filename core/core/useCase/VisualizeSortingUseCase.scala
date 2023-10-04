@@ -2,11 +2,10 @@ package core.useCase
 
 import core.entity.VisualizeEntity
 import core.input.VisualizeSortingInput
-import core.model.{BarModel, SortableModel, VisualizeModel}
-import core.typeClass.GetBarVisualisation.{given, *}
-import core.typeClass.GetBarModel.{given, *}
+import core.model.{SortingModel, VisualizeModel}
+import core.typeClass.GetBarModel.given
+import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
-import core.model.SortingModel
 
 object VisualizeSortingUseCase:
 

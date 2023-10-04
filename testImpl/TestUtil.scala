@@ -1,12 +1,16 @@
+import core.model.SortingModel
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 import org.scalatest.freespec.AnyFreeSpec
-import test.entityTest.BubbleSortEntity_Test
 
-import java.lang.reflect.{InvocationTargetException, Method}
 import scala.util.{Failure, Success, Try}
 
 class TestUtil extends AnyFreeSpec:
 
-    def implementTest(test: Object): Unit =
+    def implementTest(test: Object)(
+        using getBarVisualisation: GetBarVisualisation[SortingModel]
+    )(
+        using getBarModel: GetBarModel[SortingModel]
+    ): Unit =
         test.getClass.getSimpleName -
             test.getClass
                 .getDeclaredFields

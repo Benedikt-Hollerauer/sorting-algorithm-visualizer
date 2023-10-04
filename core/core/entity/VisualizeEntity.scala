@@ -1,9 +1,9 @@
 package core.entity
 
 import core.model.*
+import core.typeClass.GetBarModel.given
+import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
-import core.typeClass.GetBarVisualisation.{given, *}
-import core.typeClass.GetBarModel.{given, *}
 
 object VisualizeEntity:
 

@@ -2,12 +2,12 @@ package test.entityTest
 
 import core.entity.VisualizeEntity
 import core.model.{BarModel, BarStateModel, SortingModel, VisualizeModel}
+import core.typeClass.GetBarModel.{*, given}
+import core.typeClass.GetBarVisualisation.{*, given}
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 import mock.ToBeSortedMock
 import mock.modelMock.{SortableModelMock, SortedModelMock}
 import test.TestUtil
-import core.typeClass.GetBarVisualisation.{*, given}
-import core.typeClass.GetBarModel.{*, given}
-import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 import scala.collection.immutable.Seq
 

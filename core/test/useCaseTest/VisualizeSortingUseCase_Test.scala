@@ -1,14 +1,14 @@
 package test.useCaseTest
 
 import core.model.*
+import core.typeClass.GetBarModel.{*, given}
+import core.typeClass.GetBarVisualisation.{*, given}
+import core.typeClass.{GetBarModel, GetBarVisualisation}
 import core.useCase.VisualizeSortingUseCase
 import mock.ToBeSortedMock
 import mock.inputMock.VisualizeSortingInputMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil.assertRight
-import core.typeClass.GetBarVisualisation.{*, given}
-import core.typeClass.GetBarModel.{*, given}
-import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeSortingUseCase_Test:
 

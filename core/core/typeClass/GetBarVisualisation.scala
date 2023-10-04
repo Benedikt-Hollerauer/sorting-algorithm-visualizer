@@ -1,7 +1,7 @@
 package core.typeClass
 
 import core.entity.VisualizeEntity
-import core.model.{BarModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel, VisualizeModel}
+import core.model.*
 
 trait GetBarVisualisation[T]:
 
