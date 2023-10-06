@@ -1,6 +1,6 @@
 package core.input
 
-import core.model.{OrderModel, SortedModel, SortingModel}
+import core.model.{SortedModel, SortingModel}
 
 case class VisualizeSortingInput[T <: SortingModel](
 	sortedModel: SortedModel[T]

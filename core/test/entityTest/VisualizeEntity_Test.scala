@@ -9,7 +9,7 @@ object VisualizeEntity_Test:
 	object getSpecialBars_should_return:
 
 		def `NonEmptyListModel[BarModel] - BarStateModel.Normal`: Unit =
-			val res = VisualizeEntity.getSpecialBars(
+			val res = VisualizeEntity().getSpecialBars(
 				SortableModelMock.unsorted,
 				BarStateModel.Normal
 			)
@@ -19,7 +19,7 @@ object VisualizeEntity_Test:
 			)
 
 		def `NonEmptyListModel[BarModel] - BarStateModel.FinishedSorting`: Unit =
-			val res = VisualizeEntity.getSpecialBars(
+			val res = VisualizeEntity().getSpecialBars(
 				SortableModelMock.unsorted,
 				BarStateModel.FinishedSorting
 			)
@@ -34,7 +34,7 @@ object VisualizeEntity_Test:
 		def `SortableModel`: Unit =
 			val firstValueWithIndex = SortableModelMock.unsorted.list(0)
 			val secondValueWithIndex = SortableModelMock.unsorted.list(1)
-			val res = VisualizeEntity.swapSortableValues(
+			val res = VisualizeEntity().swapSortableValues(
 				toBeUpdated = SortableModelMock.unsorted,
 				swappedValues = (
 					firstValueWithIndex,

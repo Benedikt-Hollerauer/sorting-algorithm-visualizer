@@ -1,22 +1,19 @@
 package test.entityTest
 
 import core.entity.VisualizeEntity
-import core.model.{BarModel, BarStateModel, SortingModel, VisualizeModel}
+import core.model.BarStateModel
 import core.typeClass.GetBarModel.{*, given}
 import core.typeClass.GetBarVisualisation.{*, given}
 import core.typeClass.{GetBarModel, GetBarVisualisation}
-import mock.ToBeSortedMock
-import mock.modelMock.{SortableModelMock, SortedModelMock}
+import mock.modelMock.SortedModelMock
 import test.TestUtil
-
-import scala.collection.immutable.Seq
 
 object VisualizeEntity_InsertionSort_Test:
 
 	object getBarVisualisation_should_return:
 
 		def `VisualizeModel`: Unit =
-			val res = summon[VisualizeEntity[SortingModel.InsertionSort]].getBarVisualisation(
+			val res = VisualizeEntity().getBarVisualisation(
 				sortedModel = SortedModelMock.sortedModelInsertionSort
 			)
 			TestUtil.testCommonVisualizeEntityProperties(
@@ -30,28 +27,28 @@ object VisualizeEntity_InsertionSort_Test:
 		private val valuesWithIndices = SortedModelMock.sortedModelInsertionSort.toBeSorted.list
 
 		def `BarModel - BarStateModel.Normal`: Unit =
-			val res = VisualizeEntity.getBarModel(
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices.head,
 				SortedModelMock.changesInsertionSort(1)
 			)
 			assert(res.barState == BarStateModel.Normal)
 
 		def `BarModel - BarStateModel.Focused`: Unit =
-			val res = VisualizeEntity.getBarModel(
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices(0),
 				SortedModelMock.changesInsertionSort(13)
 			)
 			assert(res.barState == BarStateModel.Focused)
 
 		def `BarModel - BarStateModel.Swapped`: Unit =
-			val res = VisualizeEntity.getBarModel(
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices(2),
 				SortedModelMock.changesInsertionSort(1)
 			)
 			assert(res.barState == BarStateModel.Swapped)
 
 		def `BarModel - BarStateModel.AlreadySorted`: Unit =
-			val res = VisualizeEntity.getBarModel(
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices.last,
 				SortedModelMock.changesInsertionSort.last
 			)

@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.Util.toValuesWithIndices
-import core.entity.{BubbleSortEntity, InsertionSortEntity}
+import core.entity.InsertionSortEntity
 import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock

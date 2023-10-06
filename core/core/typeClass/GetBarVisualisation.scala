@@ -1,6 +1,5 @@
 package core.typeClass
 
-import core.entity.VisualizeEntity
 import core.model.*
 
 trait GetBarVisualisation[T]:

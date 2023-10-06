@@ -1,41 +1,39 @@
 package core.entity
 
 import core.model.*
-import core.typeClass.GetBarModel.given
-import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
 
-trait VisualizeEntity[T <: SortingModel]:
+case class VisualizeEntity[T <: SortingModel]():
 
-	def getBarVisualisation(sortedModel: SortedModel[T]): VisualizeModel
-
-object VisualizeEntity:
-
-	given VisualizeEntity[SortingModel.BubbleSort] with
-		override def getBarVisualisation(
-			sortedModel: SortedModel[SortingModel.BubbleSort]
-		): VisualizeModel =
-			val changes = sortedModel.changes
-				.foldLeft(
-					(sortedModel.toBeSorted, LazyList.empty[SortableModel[BarModel]])
-				): (acc, change) =>
-					summon[GetBarVisualisation[SortingModel.BubbleSort]](
-						acc,
-						change,
-						swapSortableValues,
-						summon[GetBarModel[SortingModel.BubbleSort]].apply
-					)
-				._2
-			VisualizeModel(
-				notStartedSorting = getSpecialBars(sortedModel.toBeSorted, BarStateModel.Normal),
-				changes = changes,
-				finishedSorting = getSpecialBars(sortedModel.sorted, BarStateModel.FinishedSorting)
+	def getBarVisualisation(
+		sortedModel: SortedModel[T]
+	)(
+		using getBarVisualisation: GetBarVisualisation[T]
+	)(
+		using getBarModel: GetBarModel[T]
+	): VisualizeModel =
+		val changes = sortedModel.changes
+			.foldLeft(
+				(sortedModel.toBeSorted, LazyList.empty[SortableModel[BarModel]])
+			): (acc, change) =>
+				getBarVisualisation(
+					acc,
+					change,
+					swapSortableValues,
+					getBarModel.apply
+				)
+			._2
+		VisualizeModel(
+			notStartedSorting = getSpecialBars(
+				sortedModel.toBeSorted,
+				BarStateModel.Normal
+			),
+			changes = changes,
+			finishedSorting = getSpecialBars(
+				sortedModel.sorted,
+				BarStateModel.FinishedSorting
 			)
-
-	given VisualizeEntity[SortingModel.InsertionSort] with
-		override def getBarVisualisation(
-			sortedModel: SortedModel[SortingModel.InsertionSort]
-		): VisualizeModel = ???
+		)
 
 	def getBarModel[T <: SortingModel](
 		valueWithIndex: ValueWithIndexModel,

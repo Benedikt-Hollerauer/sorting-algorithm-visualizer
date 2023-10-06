@@ -1,8 +1,7 @@
 package test
 
-import core.model.{SortingModel, *}
+import core.model.*
 import mock.ToBeSortedMock
-import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import mock.modelMock.SortableModelMock
 
 object TestUtil:

@@ -13,7 +13,7 @@ object VisualizeEntity_BubbleSort_Test:
 	object getBarVisualisation_should_return:
 
 		def `VisualizeModel`: Unit =
-			val res = summon[VisualizeEntity[SortingModel.BubbleSort]].getBarVisualisation(
+			val res = VisualizeEntity().getBarVisualisation(
 				sortedModel = SortedModelMock.sortedModelBubbleSort
 			)
 			TestUtil.testCommonVisualizeEntityProperties(
@@ -26,37 +26,29 @@ object VisualizeEntity_BubbleSort_Test:
 
 		private val valuesWithIndices = SortedModelMock.sortedModelBubbleSort.toBeSorted.list
 
-		def `BarModel - BarStateModel.Normal`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
-			val res = VisualizeEntity.getBarModel(
+		def `BarModel - BarStateModel.Normal`: Unit =
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices.head,
 				SortedModelMock.changesBubbleSort(1)
 			)
 			assert(res.barState == BarStateModel.Normal)
 
-		def `BarModel - BarStateModel.Focused`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
-			val res = VisualizeEntity.getBarModel(
+		def `BarModel - BarStateModel.Focused`: Unit =
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices(0),
 				SortedModelMock.changesBubbleSort(13)
 			)
 			assert(res.barState == BarStateModel.Focused)
 
-		def `BarModel - BarStateModel.Swapped`(
-		  	using getBarModel: GetBarModel[SortingModel]
-		): Unit =
-			val res = VisualizeEntity.getBarModel(
+		def `BarModel - BarStateModel.Swapped`: Unit =
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices(2),
 				SortedModelMock.changesBubbleSort(1)
 			)
 			assert(res.barState == BarStateModel.Swapped)
 
-		def `BarModel - BarStateModel.AlreadySorted`(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
-			val res = VisualizeEntity.getBarModel(
+		def `BarModel - BarStateModel.AlreadySorted`: Unit =
+			val res = VisualizeEntity().getBarModel(
 				valuesWithIndices.last,
 				SortedModelMock.changesBubbleSort.last
 			)

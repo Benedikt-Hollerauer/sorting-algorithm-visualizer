@@ -3,7 +3,6 @@ package core.entity
 import core.Contract.SortingAlgorithmEntity
 import core.model.*
 import core.model.OrderModel.{Ascending, Descending}
-import mock.modelMock.SortableModelMock
 
 import scala.annotation.tailrec
 import scala.util.Try
