@@ -35,6 +35,9 @@ project/boot/
 project/plugins/project/
 .lib/
 
+# scala.js
+presentation/presentation-fastopt
+
 # bloop and metals
 .bloop
 .bsp

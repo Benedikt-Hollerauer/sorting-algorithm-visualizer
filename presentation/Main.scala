@@ -13,11 +13,8 @@ import scala.scalajs.js.timers.setTimeout
 
 object Main:
 
-	def main(args: Array[String])(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
-	)(
-		using getBarModel: GetBarModel[SortingModel]
-	): Unit =
+	@main
+	def run: Unit =
 		val res = GenerateSortableUseCase(
 			GenerateSortableInputMock.success
 		) match

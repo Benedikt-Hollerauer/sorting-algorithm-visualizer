@@ -33,6 +33,7 @@ lazy val presentation: Project = project
     .dependsOn(core)
     .settings(
         Compile / scalaSource := baseDirectory.value,
+        Compile / fastLinkJS / crossTarget := baseDirectory.value,
         scalaJSUseMainModuleInitializer := true,
         libraryDependencies ++= Seq(
             "org.scala-js" %%% "scalajs-dom" % "2.2.0",
