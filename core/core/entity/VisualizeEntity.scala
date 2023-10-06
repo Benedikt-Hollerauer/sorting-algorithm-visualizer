@@ -7,8 +7,8 @@ import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeEntity:
 
-	def getBarVisualisation(
-		sortedModel: SortedModel
+	def getBarVisualisation[T <: SortingModel](
+		sortedModel: SortedModel[T]
 	)(
 		using getBarVisualisation: GetBarVisualisation[SortingModel]
 	)(

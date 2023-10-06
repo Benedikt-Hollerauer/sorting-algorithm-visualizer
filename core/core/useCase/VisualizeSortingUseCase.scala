@@ -9,8 +9,8 @@ import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeSortingUseCase:
 
-	def apply(
-		input: VisualizeSortingInput
+	def apply[T <: SortingModel](
+		input: VisualizeSortingInput[T]
 	)(
 		using getBarVisualisation: GetBarVisualisation[SortingModel]
 	) (

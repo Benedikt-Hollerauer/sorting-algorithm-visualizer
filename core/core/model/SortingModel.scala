@@ -1,6 +1,6 @@
 package core.model
 
-sealed class SortingModel
+sealed class SortingModel private()
 
 object SortingModel:
 

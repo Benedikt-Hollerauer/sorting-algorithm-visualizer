@@ -1,6 +1,6 @@
 package test
 
-import core.model.*
+import core.model.{SortingModel, *}
 import mock.ToBeSortedMock
 import mock.inputMock.SortingAlgorithmUseCaseInputMock
 import mock.modelMock.SortableModelMock
@@ -42,8 +42,8 @@ object TestUtil:
 		assert(unwrappedRes.head.focusedValues._1.value == focusIndicesHeadAndTail._1)
 		assert(unwrappedRes.last.focusedValues._2.value == focusIndicesHeadAndTail._2)
 
-	def testCommonBubbleSortProperties(
-		res: SortedModel,
+	def testCommonBubbleSortProperties[T <: SortingModel](
+		res: SortedModel[T],
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		headFocusedIndicesChanged: Boolean,
@@ -67,8 +67,8 @@ object TestUtil:
 				assert(focusedIndicesChanged == lastFocusedIndicesChanged)
 			case _ => assert(false)
 
-	def testCommonInsertionSortProperties(
-		res: SortedModel,
+	def testCommonInsertionSortProperties[T <: SortingModel](
+		res: SortedModel[T],
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: (Int, Int),

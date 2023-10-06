@@ -8,12 +8,12 @@ import mock.modelMock.SortableModelMock
 import scala.annotation.tailrec
 import scala.util.Try
 
-object BubbleSortEntity extends SortingAlgorithmEntity:
+object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 
-	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
 		sort(sortable.list, sortable, OrderModel.Ascending)
 
-	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
 		sort(sortable.list, sortable, OrderModel.Descending)
 
 	@tailrec
@@ -24,7 +24,7 @@ object BubbleSortEntity extends SortingAlgorithmEntity:
 		changes: LazyList[SortingModel.BubbleSort] = LazyList.empty[SortingModel.BubbleSort],
 		alreadySorted: List[ValueWithIndexModel] = List.empty[ValueWithIndexModel],
 		firstIteration: Boolean = true
-	): SortedModel =
+	): SortedModel[SortingModel.BubbleSort]=
 		valuesWithIndices match
 			case Nil => SortedModel(
 				toBeSorted = sortable,

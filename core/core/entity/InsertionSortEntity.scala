@@ -5,12 +5,12 @@ import core.model.*
 
 import scala.annotation.tailrec
 
-object InsertionSortEntity extends SortingAlgorithmEntity:
+object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.InsertionSort]:
 
-	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
 		sort(sortable, OrderModel.Ascending)
 
-	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel =
+	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
 		sort(sortable, OrderModel.Descending)
 
 	private def sort(
@@ -19,7 +19,7 @@ object InsertionSortEntity extends SortingAlgorithmEntity:
 		subListLength: Int = 2,
 		sortedAcc: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort],
 		firstIteration: Boolean = true
-	): SortedModel =
+	): SortedModel[SortingModel.InsertionSort] =
 		if(sortable.list.length == subListLength)
 			SortedModel(
 				toBeSorted = sortable,

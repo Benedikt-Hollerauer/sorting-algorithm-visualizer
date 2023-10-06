@@ -8,13 +8,13 @@ object SortedModelMock:
 	
 	val changesInsertionSort: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort]
 
-	val sortedModelBubbleSort: SortedModel = SortedModel(
+	val sortedModelBubbleSort: SortedModel[SortingModel.BubbleSort] = SortedModel(
 		toBeSorted = SortableModelMock.unsorted,
 		changes = changesBubbleSort,
 		sorted = SortableModelMock.sortedAscending
 	)
 
-	val sortedModelInsertionSort: SortedModel = SortedModel(
+	val sortedModelInsertionSort: SortedModel[SortingModel.InsertionSort] = SortedModel(
 		toBeSorted = SortableModelMock.unsorted,
 		changes = changesInsertionSort,
 		sorted = SortableModelMock.sortedAscending
