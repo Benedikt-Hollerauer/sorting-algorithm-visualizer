@@ -7,15 +7,16 @@ import core.typeClass.GetBarModel.given
 import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
 
+trait VisualizeSortingUseCase[T <: SortingModel]:
+
+	def apply(input: VisualizeSortingInput[T]): VisualizeModel
+
 object VisualizeSortingUseCase:
 
-	def apply[T <: SortingModel](
-		input: VisualizeSortingInput[T]
-	)(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
-	) (
-		using getBarModel: GetBarModel[SortingModel]
-	): VisualizeModel =
-		VisualizeEntity.getBarVisualisation(
-			sortedModel = input.sortedModel
-		)
+	given VisualizeSortingUseCase[SortingModel.BubbleSort] with
+		override def apply(
+			input: VisualizeSortingInput[SortingModel.BubbleSort]
+		): VisualizeModel =
+			summon[VisualizeEntity[SortingModel.BubbleSort]].getBarVisualisation(
+				sortedModel = input.sortedModel
+			)

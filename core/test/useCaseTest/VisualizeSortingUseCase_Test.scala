@@ -14,13 +14,9 @@ object VisualizeSortingUseCase_Test:
 
 	object apply_should_return:
 
-		def `VisualizeModel`(
-			using getBarVisualisation: GetBarVisualisation[SortingModel]
-		)(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
+		def `VisualizeModel`: Unit =
 			val res = Right(
-				VisualizeSortingUseCase(
+				summon[VisualizeSortingUseCase[SortingModel.BubbleSort]](
 					input = VisualizeSortingInputMock.input
 				)
 			)

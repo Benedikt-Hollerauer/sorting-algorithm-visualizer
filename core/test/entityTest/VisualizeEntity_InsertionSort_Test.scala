@@ -15,12 +15,8 @@ object VisualizeEntity_InsertionSort_Test:
 
 	object getBarVisualisation_should_return:
 
-		def `VisualizeModel`(
-			using getBarVisualisation: GetBarVisualisation[SortingModel]
-		)(
-			using getBarModel: GetBarModel[SortingModel]
-		): Unit =
-			val res = VisualizeEntity.getBarVisualisation(
+		def `VisualizeModel`: Unit =
+			val res = summon[VisualizeEntity[SortingModel.InsertionSort]].getBarVisualisation(
 				sortedModel = SortedModelMock.sortedModelInsertionSort
 			)
 			TestUtil.testCommonVisualizeEntityProperties(

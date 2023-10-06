@@ -62,17 +62,13 @@ object Main:
 					)
 				)
 
-	private def getVisualizeModel(toBeSorted: SortableModel[ValueWithIndexModel], ordering: OrderModel)(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
-	)(
-		using getBarModel: GetBarModel[SortingModel]
-	) =
+	private def getVisualizeModel(toBeSorted: SortableModel[ValueWithIndexModel], ordering: OrderModel) =
 		val sorted = SortByBubbleSortUseCase(
 			SortingAlgorithmUseCaseInput(
 				toBeSorted,
 				ordering
 			)
 		)
-		VisualizeSortingUseCase(
+		summon[VisualizeSortingUseCase[SortingModel.BubbleSort]](
 			VisualizeSortingInput(sorted)
 		)
