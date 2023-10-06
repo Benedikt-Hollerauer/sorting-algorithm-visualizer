@@ -6,11 +6,7 @@ import scala.util.{Failure, Success, Try}
 
 class TestUtil extends AnyFreeSpec:
 
-    def implementTest(test: Object)(
-        using getBarVisualisation: GetBarVisualisation[SortingModel]
-    )(
-        using getBarModel: GetBarModel[SortingModel]
-    ): Unit =
+    def implementTest(test: Object): Unit =
         test.getClass.getSimpleName -
             test.getClass
                 .getDeclaredFields

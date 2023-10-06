@@ -6,12 +6,7 @@ import test.modelTest.*
 
 class Model_TestImpl extends TestUtil:
 
-    def testModels(
-        using getBarVisualisation: GetBarVisualisation[SortingModel]
-    )(
-        using getBarModel: GetBarModel[SortingModel]
-    ): Unit =
-        Set(
-            SortableModel_Test,
-            IndexModel_Test
-        ).foreach(implementTest)
+    Set(
+        SortableModel_Test,
+        IndexModel_Test
+    ).foreach(implementTest)

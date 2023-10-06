@@ -6,15 +6,10 @@ import test.entityTest.*
 
 class Entity_TestImpl extends TestUtil:
 
-	def testEntities(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
-	)(
-		using getBarModel: GetBarModel[SortingModel]
-	): Unit =
-		Set(
-			BubbleSortEntity_Test,
-			VisualizeEntity_Test,
-			VisualizeEntity_BubbleSort_Test,
-			VisualizeEntity_InsertionSort_Test,
-			InsertionSortEntity_Test
-		).foreach(implementTest)
+	Set(
+		BubbleSortEntity_Test,
+		VisualizeEntity_Test,
+		VisualizeEntity_BubbleSort_Test,
+		VisualizeEntity_InsertionSort_Test,
+		InsertionSortEntity_Test
+	).foreach(implementTest)

@@ -6,11 +6,6 @@ import test.Util_Test
 
 class Util_TestImpl extends TestUtil:
 
-	def testUtils(
-		using getBarVisualisation: GetBarVisualisation[SortingModel]
-	)(
-		using getBarModel: GetBarModel[SortingModel]
-	): Unit =
-		Set(
-			Util_Test
-		).foreach(implementTest)
+	Set(
+		Util_Test
+	).foreach(implementTest)
