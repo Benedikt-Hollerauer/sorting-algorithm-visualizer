@@ -66,8 +66,8 @@ object TestUtil:
 				assert(focusedIndicesChanged == lastFocusedIndicesChanged)
 			case _ => assert(false)
 
-	def testCommonInsertionSortProperties[T <: SortingModel](
-		res: SortedModel[T],
+	def testCommonInsertionSortProperties(
+		res: SortedModel[SortingModel.InsertionSort], // TODO add a typeclass for the two methods
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: (Int, Int),
@@ -77,15 +77,15 @@ object TestUtil:
 		assert(res.changes.length == expectedLength)
 		assert(res.sorted.list.map(_.value) == sorted.list.map(_.value))
 		res.changes.head match
-			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+			case SortingModel.InsertionSort(focusedValues, currentPivot) =>
 				assert(focusedValues._1.value == headFocusedValues._1)
 				assert(focusedValues._2.value == headFocusedValues._2)
-			case _ => assert(false)
+			case null => assert(false)
 		res.changes.last match
-			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
+			case SortingModel.InsertionSort(focusedValues, currentPivot) =>
 				assert(focusedValues._1.value == lastFocusedValues._1)
 				assert(focusedValues._2.value == lastFocusedValues._2)
-			case _ => assert(false)
+			case null => assert(false)
 			
 	def testCommonInsertionSortSortSublistOnceProperties(
 		res: List[SortingModel.InsertionSort],
