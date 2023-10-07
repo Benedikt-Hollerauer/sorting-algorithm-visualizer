@@ -41,8 +41,8 @@ object TestUtil:
 		assert(unwrappedRes.head.focusedValues._1.value == focusIndicesHeadAndTail._1)
 		assert(unwrappedRes.last.focusedValues._2.value == focusIndicesHeadAndTail._2)
 
-	def testCommonBubbleSortProperties[T <: SortingModel](
-		res: SortedModel[T],
+	def testCommonBubbleSortProperties(
+		res: SortedModel[SortingModel.BubbleSort],
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		headFocusedIndicesChanged: Boolean,
@@ -58,13 +58,13 @@ object TestUtil:
 				assert(focusedValues._1.value == headFocusedValues._1)
 				assert(focusedValues._2.value == headFocusedValues._2)
 				assert(focusedIndicesChanged == headFocusedIndicesChanged)
-			case _ => assert(false)
+			case null => assert(false)
 		res.changes.last match
 			case SortingModel.BubbleSort(focusedValues, _, focusedIndicesChanged) =>
 				assert(focusedValues._1.value == lastFocusedValues._1)
 				assert(focusedValues._2.value == lastFocusedValues._2)
 				assert(focusedIndicesChanged == lastFocusedIndicesChanged)
-			case _ => assert(false)
+			case null => assert(false)
 
 	def testCommonInsertionSortProperties(
 		res: SortedModel[SortingModel.InsertionSort], // TODO add a typeclass for the two methods
