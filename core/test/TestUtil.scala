@@ -109,22 +109,21 @@ object TestUtil:
 		res: VisualizeModel,
 		headFirstLastBarState: (BarStateModel, BarStateModel),
 		lastFirstLastBarState: (BarStateModel, BarStateModel)
-	): Unit =
-		Seq(
-			res.changes.head.list.head.value == ToBeSortedMock.unsorted.head,
-			res.changes.head.list.last.value == ToBeSortedMock.unsorted.last,
-			res.changes.last.list.head.value == ToBeSortedMock.smallest,
-			res.changes.last.list.last.value == ToBeSortedMock.biggest,
-			res.changes.head.list.head.barState == headFirstLastBarState._1,
-			res.changes.head.list.last.barState == headFirstLastBarState._2,
-			res.changes.last.list.head.barState == lastFirstLastBarState._1,
-			res.changes.last.list.last.barState == lastFirstLastBarState._2,
-			res.changes.head.list.length == res.changes.head.list.length,
-			res.notStartedSorting.list.exists:
-				case BarModel(_, barState) => barState == BarStateModel.Normal
-			,
-			res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
-			res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
-			res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
-			res.finishedSorting.list.last.value == ToBeSortedMock.biggest
-		).foreach(assert(_))
+	): Unit = Seq(
+		res.changes.head.list.head.value == ToBeSortedMock.unsorted.head,
+		res.changes.head.list.last.value == ToBeSortedMock.unsorted.last,
+		res.changes.last.list.head.value == ToBeSortedMock.smallest,
+		res.changes.last.list.last.value == ToBeSortedMock.biggest,
+		res.changes.head.list.head.barState == headFirstLastBarState._1,
+		res.changes.head.list.last.barState == headFirstLastBarState._2,
+		res.changes.last.list.head.barState == lastFirstLastBarState._1,
+		res.changes.last.list.last.barState == lastFirstLastBarState._2,
+		res.changes.head.list.length == res.changes.head.list.length,
+		res.notStartedSorting.list.exists:
+			case BarModel(_, barState) => barState == BarStateModel.Normal
+		,
+		res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
+		res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
+		res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
+		res.finishedSorting.list.last.value == ToBeSortedMock.biggest
+	).foreach(assert(_))
