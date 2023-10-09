@@ -4,6 +4,10 @@ case class VisualModel(
 	link: Option[String] = None
 )
 
-enum SortingAlgorithm:
+enum SortingAlgorithm(name: String):
 	
-	case BubbleSort
+	case BubbleSort extends SortingAlgorithm(name = "Bubble Sort")
+	case InsertionSort extends SortingAlgorithm(name = "Insertion Sort")
+	
+	def getName: String =
+		this.name

@@ -1,7 +1,9 @@
 import NavigationBarStyle.navigationBarHeight
+import SortingAlgorithm.BubbleSort
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.ReactiveHtmlElement
+import org.scalajs.dom.KeyFormat.raw
 import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
 
 object SideMenu:
@@ -15,6 +17,8 @@ object SideMenu:
 	private val sliderSpeedBus: EventBus[Int] = new EventBus[Int]
 	val sliderSpeedSignal: Signal[Int] = sliderSpeedBus.events.startWith(50)
 
+	private val sortingAlgorithmRadioButtonsVar: Var[SortingAlgorithm] = Var(SortingAlgorithm.BubbleSort)
+
 	def getHtml(
 		startIcon: VisualModel,
 		stopIcon: VisualModel,
@@ -25,6 +29,9 @@ object SideMenu:
 			getStartStopButton(startIcon, stopIcon),
 			getCreateNewToBeSortedButton(newToBeSortedIcon),
 			getSortingSpeedSlider,
+			getSortingAlgorithmSelectionRadioButtons(
+				SortingAlgorithm.values.toList
+			)
 		)
 
 	private def getStartStopButton(
@@ -69,6 +76,31 @@ object SideMenu:
 					thisNode
 			),
 			child.text <-- sliderSpeedSignal
+		)
+
+	private def getSortingAlgorithmSelectionRadioButtons(sortingAlgorithms: List[SortingAlgorithm]) =
+		div(
+			SideMenuStyle.sortingAlgorithmRadioButtonsStyle,
+			label(
+				SideMenuStyle.sortingAlgorithmLabelStyle,
+				"Choose a Sorting Algorithm"
+			),
+			form(
+				SideMenuStyle.sortingAlgorithmFormStyle,
+				sortingAlgorithms.flatMap: sortingAlgorithm =>
+					List(
+						input(
+							nameAttr := "sortingAlgorithmSelection",
+							idAttr := sortingAlgorithm.toString,
+							value := sortingAlgorithm.getName,
+							typ := "radio"
+						),
+						label(
+							forId := sortingAlgorithm.toString,
+							sortingAlgorithm.getName
+						)
+					)
+			)
 		)
 
 object SideMenuStyle:
@@ -121,4 +153,16 @@ object SideMenuStyle:
 		stepAttr := "5",
 		width.percent := 90,
 		cursor.pointer
+	)
+
+	val sortingAlgorithmRadioButtonsStyle = Seq(
+		width.percent := 90
+	)
+
+	val sortingAlgorithmLabelStyle = Seq(
+		fontSize.larger
+	)
+
+	val sortingAlgorithmFormStyle = Seq(
+		height.percent := 100
 	)
