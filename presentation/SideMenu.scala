@@ -6,6 +6,8 @@ import com.raquo.laminar.nodes.ReactiveHtmlElement
 import org.scalajs.dom.KeyFormat.raw
 import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
 
+import javax.management.Query.attr
+
 object SideMenu:
 
 	private val startStopButtonVar: Var[Boolean] = Var(false)
@@ -30,7 +32,8 @@ object SideMenu:
 			getCreateNewToBeSortedButton(newToBeSortedIcon),
 			getSortingSpeedSlider,
 			getSortingAlgorithmSelectionRadioButtons(
-				SortingAlgorithm.values.toList
+				SortingAlgorithm.values.toList,
+				SortingAlgorithm.BubbleSort
 			)
 		)
 
@@ -78,7 +81,7 @@ object SideMenu:
 			child.text <-- sliderSpeedSignal
 		)
 
-	private def getSortingAlgorithmSelectionRadioButtons(sortingAlgorithms: List[SortingAlgorithm]) =
+	private def getSortingAlgorithmSelectionRadioButtons(sortingAlgorithms: List[SortingAlgorithm], standartSortingAlgorithm: SortingAlgorithm) =
 		div(
 			SideMenuStyle.sortingAlgorithmRadioButtonsStyle,
 			label(
@@ -88,12 +91,16 @@ object SideMenu:
 			form(
 				SideMenuStyle.sortingAlgorithmFormStyle,
 				sortingAlgorithms.flatMap: sortingAlgorithm =>
+					val checkedAttr =
+						if(sortingAlgorithm == standartSortingAlgorithm) checked := true
+						else emptyNode
 					List(
 						input(
 							nameAttr := "sortingAlgorithmSelection",
 							idAttr := sortingAlgorithm.toString,
 							value := sortingAlgorithm.getName,
-							typ := "radio"
+							typ := "radio",
+							checkedAttr
 						),
 						label(
 							forId := sortingAlgorithm.toString,
