@@ -91,22 +91,24 @@ object SideMenu:
 			form(
 				SideMenuStyle.sortingAlgorithmFormStyle,
 				sortingAlgorithms.flatMap: sortingAlgorithm =>
-					val checkedAttr =
-						if(sortingAlgorithm == standartSortingAlgorithm) checked := true
-						else emptyNode
 					List(
 						input(
 							nameAttr := "sortingAlgorithmSelection",
 							idAttr := sortingAlgorithm.toString,
 							value := sortingAlgorithm.getName,
 							typ := "radio",
-							checkedAttr
+							checked <-- sortingAlgorithmRadioButtonsVar.signal
+								.map(_ == sortingAlgorithm),
+							onInput.mapTo(sortingAlgorithm) --> sortingAlgorithmRadioButtonsVar.writer
 						),
 						label(
 							forId := sortingAlgorithm.toString,
 							sortingAlgorithm.getName
 						)
 					)
+			),
+			div(
+				child <-- sortingAlgorithmRadioButtonsVar.signal.map(_.getName)
 			)
 		)
 
