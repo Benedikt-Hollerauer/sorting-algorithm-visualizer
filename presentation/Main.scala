@@ -1,10 +1,12 @@
+import SortingAlgorithm.{BubbleSort, InsertionSort}
+import com.raquo.airstream.core.WritableSignal
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortingAlgorithmUseCaseInput, VisualizeSortingInput}
-import core.model.{OrderModel, SortableModel, ValueWithIndexModel}
+import core.model.{OrderModel, SortableModel, SortingModel, ValueWithIndexModel, VisualizeModel}
 import core.typeClass.GetBarModel.given
 import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
-import core.useCase.{GenerateSortableUseCase, VisualizeSortingUseCase}
+import core.useCase.{GenerateSortableUseCase, SortByInsertionSortUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock
 import org.scalajs.dom
 import useCase.SortByBubbleSortUseCase
@@ -22,6 +24,7 @@ object Main:
 					Error.getHtml(generateSortableError.toString)
 				)
 			case Right(sortable) =>
+				val selectedSortingAlgorithm = SideMenu.sortingAlgorithmRadioButtonsVar.now()
 				render(
 					dom.document.body,
 					div(
@@ -48,22 +51,25 @@ object Main:
 									GenerateSortableInputMock.success
 								).toOption.get
 								Content.getHtml(
-									getVisualizeModel(sortable, OrderModel.Ascending)
+									getVisualizeModel(
+										selectedSortingAlgorithm,
+										SortingAlgorithmUseCaseInput(sortable, OrderModel.Ascending)
+									)
 								)
 							else Content.getHtml(
-								getVisualizeModel(sortable, OrderModel.Ascending)
+								getVisualizeModel(
+									selectedSortingAlgorithm,
+									SortingAlgorithmUseCaseInput(sortable, OrderModel.Ascending)
+								)
 							),
 						Legend.getHtml
 					)
 				)
 
-	private def getVisualizeModel(toBeSorted: SortableModel[ValueWithIndexModel], ordering: OrderModel) =
-		val sorted = SortByBubbleSortUseCase(
-			SortingAlgorithmUseCaseInput(
-				toBeSorted,
-				ordering
-			)
-		)
+	private def getVisualizeModel(selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
+		val sortedModel = selectedSortingAlgorithm match
+			case BubbleSort => SortByBubbleSortUseCase(input)
+			case InsertionSort => SortByInsertionSortUseCase(input)
 		VisualizeSortingUseCase(
-			VisualizeSortingInput(sorted)
+			VisualizeSortingInput(sortedModel)
 		)
