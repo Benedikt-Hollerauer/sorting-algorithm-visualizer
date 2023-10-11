@@ -9,9 +9,16 @@ import core.typeClass.{GetBarModel, GetBarVisualisation}
 
 object VisualizeSortingUseCase:
 
-	def apply(
+	def getVisualizeModelBubbleSort(
 		input: VisualizeSortingInput[SortingModel.BubbleSort]
 	): VisualizeModel =
+		VisualizeEntity().getBarVisualisation(
+			sortedModel = input.sortedModel
+		)
+
+	def getVisualizeModelInsertionSort(
+   		input: VisualizeSortingInput[SortingModel.InsertionSort]
+   	): VisualizeModel =
 		VisualizeEntity().getBarVisualisation(
 			sortedModel = input.sortedModel
 		)

@@ -2,7 +2,7 @@ import SortingAlgorithm.{BubbleSort, InsertionSort}
 import com.raquo.airstream.core.WritableSignal
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortingAlgorithmUseCaseInput, VisualizeSortingInput}
-import core.model.{OrderModel, SortableModel, SortingModel, ValueWithIndexModel, VisualizeModel}
+import core.model.{OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel, VisualizeModel}
 import core.typeClass.GetBarModel.given
 import core.typeClass.GetBarVisualisation.given
 import core.typeClass.{GetBarModel, GetBarVisualisation}
@@ -66,10 +66,11 @@ object Main:
 					)
 				)
 
-	private def getVisualizeModel(selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
-		val sortedModel = selectedSortingAlgorithm match
-			case BubbleSort => SortByBubbleSortUseCase(input)
-			case InsertionSort => SortByInsertionSortUseCase(input)
-		VisualizeSortingUseCase(
-			VisualizeSortingInput(sortedModel)
-		)
+	private def getVisualizeModel[T <: SortingModel](selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
+		selectedSortingAlgorithm match
+			case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
+				VisualizeSortingInput(SortByBubbleSortUseCase(input))
+			)
+			case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
+				VisualizeSortingInput(SortByInsertionSortUseCase(input))
+			)

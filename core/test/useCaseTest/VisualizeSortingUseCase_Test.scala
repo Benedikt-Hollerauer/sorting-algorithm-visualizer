@@ -16,7 +16,7 @@ object VisualizeSortingUseCase_Test:
 
 		def `VisualizeModel`: Unit =
 			val res = Right(
-				VisualizeSortingUseCase(
+				VisualizeSortingUseCase.getVisualizeModelBubbleSort(
 					input = VisualizeSortingInputMock.input
 				)
 			)
