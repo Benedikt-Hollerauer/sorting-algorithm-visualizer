@@ -30,6 +30,7 @@ object Main:
 					div(
 						height.vh := 100,
 						width.vw := 100,
+						selectedSortingAlgorithm.getName,
 						NavigationBar.getHtml(
 							logo = VisualModel("assets/sorting-visualizer-logo.svg", "Site Logo"),
 							socialIcons = List(
@@ -66,7 +67,7 @@ object Main:
 					)
 				)
 
-	private def getVisualizeModel[T <: SortingModel](selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
+	private def getVisualizeModel(selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
 		selectedSortingAlgorithm match
 			case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
 				VisualizeSortingInput(SortByBubbleSortUseCase(input))
