@@ -15,11 +15,11 @@ object Content:
 
 	val visualisationStream = EventStream.periodic(1000)
 
-	def getHtml(sorted: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
+	def getHtml(visualizeModel: VisualizeModel): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			ContentStyle.pageContentStyle,
 			child <-- SideMenu.sliderSpeedSignal.map: intervalMs =>
-				getBarArray(sorted, intervalMs)
+				getBarArray(visualizeModel, intervalMs)
 		)
 
 	private def getBarArray(visualizeModel: VisualizeModel, intervalMs: Int): ReactiveHtmlElement[HTMLDivElement] =
