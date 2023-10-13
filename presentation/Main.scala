@@ -13,7 +13,7 @@ import useCase.SortByBubbleSortUseCase
 
 object Main:
 
-	private val appOnSuccess =
+	private def appOnSuccess(sortable: SortableModel[ValueWithIndexModel]) =
 		val selectedSortingAlgorithm = SideMenu.sortingAlgorithmRadioButtonsVar.now()
 		div(
 			height.vh := 100,
@@ -30,23 +30,24 @@ object Main:
 				newToBeSortedIcon = VisualModel("assets/create-new-to-be-sorted.svg", "Create New ToBeSorted")
 				),
 			child <-- SideMenu.newToBeSortedButtonSignal.flatMap: clicked =>
-				def test(sortable: SortableModel[ValueWithIndexModel]) = SideMenu.sortingAlgorithmRadioButtonsVar.signal.map: selectedSortingAlgorithm =>
-					getVisualizeModel(
-						selectedSortingAlgorithm,
-						SortingAlgorithmUseCaseInput(sortable, OrderModel.Ascending)
-						)
-
-				if (clicked)
+				if(clicked)
 					val sortable = GenerateSortableUseCase(
 						GenerateSortableInputMock.success
-						).toOption.get
-					test(
-						sortable
-						).map(Content.getHtml)
-				else
-					test(
-						sortable
-						).map(Content.getHtml),
+					).toOption.get
+					getVisualizeModel(
+						SideMenu.sortingAlgorithmRadioButtonsVar.signal,
+						SortingAlgorithmUseCaseInput(
+							sortable,
+							OrderModel.Ascending
+						)
+					).map(Content.getHtml)
+				else getVisualizeModel(
+					SideMenu.sortingAlgorithmRadioButtonsVar.signal,
+					SortingAlgorithmUseCaseInput(
+						sortable,
+						OrderModel.Ascending
+					)
+				).map(Content.getHtml),
 			Legend.getHtml
 		)
 
@@ -63,15 +64,19 @@ object Main:
 			case Right(sortable) =>
 				renderOnDomContentLoaded(
 					dom.document.body,
-					appOnSuccess
+					appOnSuccess(sortable)
 				)
 
 
-	private def getVisualizeModel(selectedSortingAlgorithm: SortingAlgorithm, input: SortingAlgorithmUseCaseInput): VisualizeModel =
-		selectedSortingAlgorithm match
-			case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
-				VisualizeSortingInput(SortByBubbleSortUseCase(input))
-			)
-			case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
-				VisualizeSortingInput(SortByInsertionSortUseCase(input))
-			)
+	private def getVisualizeModel(
+		selectedSortingAlgorithmSignal: Signal[SortingAlgorithm],
+		input: SortingAlgorithmUseCaseInput
+	): Signal[VisualizeModel] =
+		selectedSortingAlgorithmSignal.map: selectedSortingAlgorithm =>
+			selectedSortingAlgorithm match
+				case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
+					VisualizeSortingInput(SortByBubbleSortUseCase(input))
+				)
+				case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
+					VisualizeSortingInput(SortByInsertionSortUseCase(input))
+				)
