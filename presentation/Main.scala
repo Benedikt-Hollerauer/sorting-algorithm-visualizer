@@ -62,11 +62,10 @@ object Main:
 					Error.getHtml(generateSortableError.toString)
 				)
 			case Right(sortable) =>
-				renderOnDomContentLoaded(
+				render(
 					dom.document.body,
 					appOnSuccess(sortable)
 				)
-
 
 	private def getVisualizeModel(
 		selectedSortingAlgorithmSignal: Signal[SortingAlgorithm],
