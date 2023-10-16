@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = sortAscending_should_return.`SortedModel - ascending`
+	def it = VisualizeEntity_InsertionSort_Test.getBarVisualisation_should_return.`VisualizeModel`
 
 	object sortAscending_should_return:
 

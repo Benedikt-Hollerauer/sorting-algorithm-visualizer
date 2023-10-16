@@ -38,4 +38,13 @@ object GetBarVisualisation:
 			change: SortingModel.InsertionSort,
 			swapSortableValues: (SortableModel[ValueWithIndexModel], (ValueWithIndexModel, ValueWithIndexModel)) => SortableModel[ValueWithIndexModel],
 			getBarModel: (ValueWithIndexModel, SortingModel.InsertionSort) => BarModel
-		): (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]) = ???
+		): (SortableModel[ValueWithIndexModel], LazyList[SortableModel[BarModel]]) =
+			val newSortable = acc._1 // TODO this implementation is probaply not correct
+			(
+				newSortable,
+				acc._2 :+ SortableModel.fromUnsafe(
+					newSortable.list
+						.map: valueWithIndex =>
+							getBarModel(valueWithIndex, change)
+					)
+			)
