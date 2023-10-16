@@ -9,10 +9,13 @@ object Error:
 		)
 
 	private def getErrorMessageWrapper(errorMessage: String) =
-		div(
-			ErrorStyle.errorMessageWrapperDiv,
-			"An error occurred - ",
-			errorMessage
+		div(ErrorStyle.errorMessageWrapperDiv,
+			div(
+				ErrorStyle.cross,
+				onClick --> { _ => /* handle cross click event here */ },
+				"X"
+			),
+			"An error occurred - ", errorMessage
 		)
 
 object ErrorStyle:
@@ -42,4 +45,12 @@ object ErrorStyle:
 		borderRadius := "10px",
 		fontSize := "2em",
 		textAlign.center
+	)
+
+	val cross = Seq(
+		position.absolute,
+		top := "10px",
+		right := "10px",
+		cursor.pointer,
+		color.red
 	)

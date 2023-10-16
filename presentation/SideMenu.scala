@@ -16,7 +16,7 @@ object SideMenu:
 	private val sliderSpeedBus: EventBus[Int] = new EventBus[Int]
 	val sliderSpeedSignal: Signal[Int] = sliderSpeedBus.events.startWith(50)
 
-	val sortingAlgorithmRadioButtonsVar: Var[SortingAlgorithm] = Var(SortingAlgorithm.InsertionSort)
+	val sortingAlgorithmRadioButtonsVar: Var[SortingAlgorithm] = Var(SortingAlgorithm.BubbleSort)
 
 	def getHtml(
 		startIcon: VisualModel,
