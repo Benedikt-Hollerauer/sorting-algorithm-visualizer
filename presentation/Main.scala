@@ -1,34 +1,34 @@
 import SortingAlgorithm.{BubbleSort, InsertionSort}
-import com.raquo.airstream.core.WritableSignal
 import com.raquo.laminar.api.L.{*, given}
 import core.input.{SortingAlgorithmUseCaseInput, VisualizeSortingInput}
-import core.model.{OrderModel, SortableModel, SortedModel, SortingModel, ValueWithIndexModel, VisualizeModel}
-import core.typeClass.GetBarModel.given
-import core.typeClass.GetBarVisualisation.given
+import core.model.{OrderModel, SortableModel, ValueWithIndexModel, VisualizeModel}
 import core.typeClass.{GetBarModel, GetBarVisualisation}
 import core.useCase.{GenerateSortableUseCase, SortByInsertionSortUseCase, VisualizeSortingUseCase}
 import mock.inputMock.GenerateSortableInputMock
 import org.scalajs.dom
 import useCase.SortByBubbleSortUseCase
 
+import scala.util.{Failure, Success, Try}
+
 object Main:
 
 	private def appOnSuccess(sortable: SortableModel[ValueWithIndexModel]) =
-		val selectedSortingAlgorithm = SideMenu.sortingAlgorithmRadioButtonsVar.now()
 		div(
 			height.vh := 100,
 			width.vw := 100,
-			selectedSortingAlgorithm.getName,
+			h1(
+				child <-- SideMenu.sortingAlgorithmRadioButtonsVar.signal.map(_.getName)
+			),
 			NavigationBar.getHtml(
 				logo = VisualModel("assets/sorting-visualizer-logo.svg", "Site Logo"), socialIcons = List(VisualModel("assets/github-icon.svg", "GitHub", Some("https://github.com/Benedikt-Hollerauer")), VisualModel("assets/linkedin-icon.svg", "LinkedIn", Some("https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/")), VisualModel("assets/website-icon.svg", "Website", Some("https://benedikt-hollerauer.com/"))),
 				retractedIcon = VisualModel("assets/retracted-side-menu.svg", "Retracted Side Menu"),
 				extendIcon = VisualModel("assets/extend-side-menu.svg", "Extended Side Menu")
-				),
+			),
 			SideMenu.getHtml(
 				startIcon = VisualModel("assets/start-visualisation.svg", "Start Visualisation"),
 				stopIcon = VisualModel("assets/stop-visualisation.svg", "Stop Visualisation"),
 				newToBeSortedIcon = VisualModel("assets/create-new-to-be-sorted.svg", "Create New ToBeSorted")
-				),
+			),
 			child <-- SideMenu.newToBeSortedButtonSignal.flatMap: clicked =>
 				if(clicked)
 					val sortable = GenerateSortableUseCase(
@@ -40,14 +40,21 @@ object Main:
 							sortable,
 							OrderModel.Ascending
 						)
-					).map(Content.getHtml)
+					).map:
+						_ match
+							case Success(value) => Content.getHtml(value)
+							case Failure(exception) => Error.getHtml(exception.getMessage)
 				else getVisualizeModel(
 					SideMenu.sortingAlgorithmRadioButtonsVar.signal,
 					SortingAlgorithmUseCaseInput(
 						sortable,
 						OrderModel.Ascending
 					)
-				).map(Content.getHtml),
+				).map:
+					_ match
+						case Success(value) => Content.getHtml(value)
+						case Failure(exception) => Error.getHtml(exception.getMessage)
+					,
 			Legend.getHtml
 		)
 
@@ -70,12 +77,14 @@ object Main:
 	private def getVisualizeModel(
 		selectedSortingAlgorithmSignal: Signal[SortingAlgorithm],
 		input: SortingAlgorithmUseCaseInput
-	): Signal[VisualizeModel] =
+	): Signal[Try[VisualizeModel]] =
 		selectedSortingAlgorithmSignal.map: selectedSortingAlgorithm =>
-			selectedSortingAlgorithm match
-				case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
-					VisualizeSortingInput(SortByBubbleSortUseCase(input))
-				)
-				case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
-					VisualizeSortingInput(SortByInsertionSortUseCase(input))
-				)
+			Try(
+				selectedSortingAlgorithm match
+					case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
+						VisualizeSortingInput(SortByBubbleSortUseCase(input))
+						)
+					case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
+						VisualizeSortingInput(SortByInsertionSortUseCase(input))
+						)
+			)

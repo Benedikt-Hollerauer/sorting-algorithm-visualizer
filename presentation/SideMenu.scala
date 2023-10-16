@@ -3,10 +3,7 @@ import SortingAlgorithm.BubbleSort
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import org.scalajs.dom.KeyFormat.raw
 import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
-
-import javax.management.Query.attr
 
 object SideMenu:
 

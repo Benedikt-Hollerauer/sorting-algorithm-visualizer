@@ -1,15 +1,9 @@
 import com.raquo.airstream.timing
-import com.raquo.airstream.timing.PeriodicStream
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.modifiers.KeySetter
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import core.entity.VisualizeEntity
-import core.input.VisualizeSortingInput
 import core.model.*
-import core.useCase.VisualizeSortingUseCase
-import org.scalajs.dom.{HTMLDivElement, console}
-
-import scala.scalajs.js.timers.{setInterval, setTimeout}
+import org.scalajs.dom.HTMLDivElement
 
 object Content:
 
