@@ -17,11 +17,11 @@ object BubbleSortEntity_Test:
 			)
 			TestUtil.testCommonBubbleSortProperties(
 				res = res,
-				expectedLength = 45,
-				headFocusedValues = (636, 743),
+				expectedLength = 3,
+				headFocusedValues = (ToBeSortedMock.middle, ToBeSortedMock.biggest),
 				headFocusedIndicesChanged = false,
-				lastFocusedValues = (5, 196),
-				lastFocusedIndicesChanged = false,
+				lastFocusedValues = (ToBeSortedMock.smallest, ToBeSortedMock.middle),
+				lastFocusedIndicesChanged = true,
 				sorted = SortableModelMock.sortedAscending
 			)
 
@@ -33,10 +33,10 @@ object BubbleSortEntity_Test:
 			)
 			TestUtil.testCommonBubbleSortProperties(
 				res = res,
-				expectedLength = 45,
-				headFocusedValues = (743, 636),
+				expectedLength = 3,
+				headFocusedValues = (ToBeSortedMock.biggest, ToBeSortedMock.middle),
 				headFocusedIndicesChanged = true,
-				lastFocusedValues = (743, 662),
+				lastFocusedValues = (ToBeSortedMock.biggest, ToBeSortedMock.middle),
 				lastFocusedIndicesChanged = false,
 				sorted = SortableModelMock.sortedDescending
 			)

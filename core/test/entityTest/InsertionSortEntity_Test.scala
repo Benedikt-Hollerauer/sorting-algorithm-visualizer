@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = BubbleSortEntity_Test.sortOnce_should_return.`List[SortingModel.BubbleSort] - descending`
+	def it = BubbleSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
 
 	object sortAscending_should_return:
 

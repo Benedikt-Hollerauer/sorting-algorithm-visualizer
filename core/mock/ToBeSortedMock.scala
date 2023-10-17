@@ -9,11 +9,13 @@ case class ToBeSortedMock private(
 
 object ToBeSortedMock:
 
-    val unsorted = List(2, 3, 1)
+    val unsorted: List[Int] = List(2, 3, 1)
 
-    val biggest = unsorted.max
+    val biggest: Int = unsorted.max
 
-    val smallest = unsorted.min
+    val middle: Int = 2
+
+    val smallest: Int = unsorted.min
 
     val ascendingOrder = ToBeSortedMock(
         sortedOnce = List(2, 1, 3),
