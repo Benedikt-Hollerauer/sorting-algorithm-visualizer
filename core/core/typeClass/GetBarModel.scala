@@ -32,8 +32,8 @@ object GetBarModel:
 			change: SortingModel.InsertionSort
 		): BarModel =
 			val isCorrectValueWithIndex = valueWithIndex == change.focusedValues._1 | valueWithIndex == change.focusedValues._2
-			if(isCorrectValueWithIndex)
+			if(change.currentPivot == valueWithIndex)
+				BarModel(valueWithIndex.value, BarStateModel.CurrentPivot) // TODO: there has to be a custom current pivon barstatemodel
+			else if(isCorrectValueWithIndex)
 				BarModel(valueWithIndex.value, BarStateModel.Focused)
-			else if(change.currentPivot == valueWithIndex)
-				BarModel(valueWithIndex.value, BarStateModel.Swapped) // TODO: there has to be a custom current pivon barstatemodel
 			else BarModel(valueWithIndex.value, BarStateModel.Normal)

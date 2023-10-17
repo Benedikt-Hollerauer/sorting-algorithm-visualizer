@@ -7,3 +7,4 @@ enum BarStateModel:
 	case Swapped
 	case AlreadySorted
 	case FinishedSorting
+	case CurrentPivot

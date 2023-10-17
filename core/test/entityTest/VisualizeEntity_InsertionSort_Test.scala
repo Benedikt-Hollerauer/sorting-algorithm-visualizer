@@ -1,7 +1,7 @@
 package test.entityTest
 
 import core.entity.VisualizeEntity
-import core.model.BarStateModel
+import core.model.{BarStateModel, IndexModel, SortingModel, ValueWithIndexModel}
 import core.typeClass.GetBarModel.{*, given}
 import core.typeClass.GetBarVisualisation.{*, given}
 import core.typeClass.{GetBarModel, GetBarVisualisation}
@@ -53,3 +53,16 @@ object VisualizeEntity_InsertionSort_Test:
 				SortedModelMock.changesInsertionSort.last
 			)
 			assert(res.barState == BarStateModel.AlreadySorted)
+
+		def `BarModel - BarStateModel.CurrentPivot`: Unit =
+			val res = VisualizeEntity().getBarModel(
+				ValueWithIndexModel(3, IndexModel.from(1).toOption.get),
+				SortingModel.InsertionSort(
+					focusedValues = (
+						ValueWithIndexModel(5, IndexModel.from(0).toOption.get),
+						ValueWithIndexModel(3, IndexModel.from(1).toOption.get)
+					),
+					currentPivot = ValueWithIndexModel(3, IndexModel.from(1).toOption.get)
+				)
+			)
+			assert(res.barState == BarStateModel.CurrentPivot)
