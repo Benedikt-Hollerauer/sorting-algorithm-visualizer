@@ -28,8 +28,14 @@ object VisualizeEntity_InsertionSort_Test:
 
 		def `BarModel - BarStateModel.Normal`: Unit =
 			val res = VisualizeEntity().getBarModel(
-				valuesWithIndices.head,
-				SortedModelMock.changesInsertionSort(1)
+				ValueWithIndexModel(1, IndexModel.from(3).toOption.get),
+				SortingModel.InsertionSort(
+					focusedValues = (
+						ValueWithIndexModel(5, IndexModel.from(0).toOption.get),
+						ValueWithIndexModel(3, IndexModel.from(1).toOption.get)
+					),
+					currentPivot = ValueWithIndexModel(3, IndexModel.from(1).toOption.get)
+				)
 			)
 			assert(res.barState == BarStateModel.Normal)
 
