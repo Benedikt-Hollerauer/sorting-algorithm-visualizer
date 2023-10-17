@@ -43,7 +43,7 @@ object BubbleSortEntity_Test:
 
 	object sortOnce_should_return:
 
-		def `List[SortingModel] - ascending`: Unit =
+		def `List[SortingModel.BubbleSort] - ascending`: Unit =
 			val alreadySorted = List(ToBeSortedMock.biggest).toValuesWithIndices
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
@@ -51,14 +51,14 @@ object BubbleSortEntity_Test:
 				ordering = OrderModel.Ascending
 			)
 			TestUtil.testCommonPropertiesSortOnceBubbleSort(
-				res,
-				(false, true),
-				(636, ToBeSortedMock.biggest),
-				alreadySorted,
-				ToBeSortedMock.ascendingOrder.sortedOnce
+				res = res,
+				focusedIndicesChangedHeadAndTail = (false, true),
+				focusIndicesHeadAndTail = (2, ToBeSortedMock.biggest),
+				alreadySorted = alreadySorted,
+				sortedOnce = ToBeSortedMock.ascendingOrder.sortedOnce
 			)
 
-		def `List[SortingModel] - descending`: Unit =
+		def `List[SortingModel.BubbleSort] - descending`: Unit =
 			val alreadySorted = List(ToBeSortedMock.smallest).toValuesWithIndices
 			val res = BubbleSortEntity.sortOnce(
 				toBeCompared = ToBeSortedMock.unsorted.toValuesWithIndices,
@@ -66,11 +66,11 @@ object BubbleSortEntity_Test:
 				ordering = OrderModel.Descending
 			)
 			TestUtil.testCommonPropertiesSortOnceBubbleSort(
-				res,
-				(true, true),
-				(743, ToBeSortedMock.smallest),
-				alreadySorted,
-				ToBeSortedMock.descendingOrder.sortedOnce
+				res = res,
+				focusedIndicesChangedHeadAndTail = (true, false),
+				focusIndicesHeadAndTail = (ToBeSortedMock.biggest, ToBeSortedMock.smallest),
+				alreadySorted = alreadySorted,
+				sortedOnce = ToBeSortedMock.descendingOrder.sortedOnce
 			)
 
 		def `None`: Unit =

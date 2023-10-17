@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = VisualizeEntity_InsertionSort_Test.getBarModel_should_return.`BarModel - BarStateModel.Normal`
+	def it = BubbleSortEntity_Test.sortOnce_should_return.`List[SortingModel.BubbleSort] - descending`
 
 	object sortAscending_should_return:
 
@@ -20,7 +20,6 @@ object InsertionSortEntity_Test:
 			val res = InsertionSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			res.changes.foreach(println)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
 				expectedLength = 45,
