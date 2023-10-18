@@ -53,11 +53,12 @@ object ContentStyle:
 		height.px := bar.value,
 		backgroundColor := (
 			bar.barState match
-				case BarStateModel.Normal => "#390099"
+				case BarStateModel.Normal => "#390099" // TODO other colors here maybe
 				case BarStateModel.Focused => "#c1121f"
 				case BarStateModel.Swapped => "#008000"
 				case BarStateModel.AlreadySorted => "#4cc9f0"
 				case BarStateModel.FinishedSorting => "#f72585"
+				case BarStateModel.CurrentPivot => "#008000"
 		),
 		margin.px := 3,
 		borderRadius.px := 8

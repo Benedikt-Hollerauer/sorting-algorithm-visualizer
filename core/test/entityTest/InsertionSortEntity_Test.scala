@@ -22,9 +22,9 @@ object InsertionSortEntity_Test:
 			)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
-				expectedLength = 2,
-				headFocusedValues = (ToBeSortedMock.biggest, ToBeSortedMock.smallest),
-				lastFocusedValues = (ToBeSortedMock.smallest, ToBeSortedMock.middle),
+				expectedLength = 3,
+				headFocusedValues = (ToBeSortedMock.middle, ToBeSortedMock.biggest),
+				lastFocusedValues = (ToBeSortedMock.middle, ToBeSortedMock.smallest),
 				sorted = SortableModelMock.sortedAscending
 			)
 
