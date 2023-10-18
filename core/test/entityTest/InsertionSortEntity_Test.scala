@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = BubbleSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
+	def it = InsertionSortEntity_Test.sortSubListOnce_should_return.`List[SortingModel.InsertionSort] - ascending`
 
 	object sortAscending_should_return:
 
@@ -22,9 +22,9 @@ object InsertionSortEntity_Test:
 			)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
-				expectedLength = 45,
-				headFocusedValues = (636, 743),
-				lastFocusedValues = (5, ToBeSortedMock.biggest),
+				expectedLength = 2,
+				headFocusedValues = (ToBeSortedMock.biggest, ToBeSortedMock.smallest),
+				lastFocusedValues = (ToBeSortedMock.smallest, ToBeSortedMock.middle),
 				sorted = SortableModelMock.sortedAscending
 			)
 
@@ -36,9 +36,9 @@ object InsertionSortEntity_Test:
 			)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
-				expectedLength = 45,
-				headFocusedValues = (636, 743),
-				lastFocusedValues = (743, ToBeSortedMock.smallest),
+				expectedLength = 2,
+				headFocusedValues = (ToBeSortedMock.middle, ToBeSortedMock.biggest),
+				lastFocusedValues = (ToBeSortedMock.middle, ToBeSortedMock.smallest),
 				sorted = SortableModelMock.sortedDescending
 			)
 

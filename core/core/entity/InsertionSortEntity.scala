@@ -28,8 +28,8 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 			)
 		else
 			val newBaseForSortingOnce =
-				if (firstIteration) sortable.list.take(subListLength)
-				else (sortedAcc.map(_.focusedValues._1)
+				if(firstIteration) sortable.list.take(subListLength)
+				else(sortedAcc.map(_.focusedValues._1)
 					:+ sortedAcc.last.focusedValues._2)
 					++ sortable.list
 					.takeRight(sortable.list.length - subListLength)
@@ -81,7 +81,6 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 					focusedValuesAcc = focusedValuesAcc :+ (focusedValuesAcc.last._1, f)
 				)
 				case _ => focusedValuesAcc
-
 		getFocusedValues(
 			subList = subList.list.reverse,
 			ordering = ordering

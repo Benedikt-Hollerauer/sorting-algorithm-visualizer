@@ -12,7 +12,7 @@ import scala.util.{Failure, Success, Try}
 
 object Main:
 
-	private def appOnSuccess(sortable: SortableModel[ValueWithIndexModel]) =
+	private def appOnSuccess(sortable: SortableModel[ValueWithIndexModel], ordering: OrderModel) =
 		div(
 			height.vh := 100,
 			width.vw := 100,
@@ -38,7 +38,7 @@ object Main:
 						SideMenu.sortingAlgorithmRadioButtonsVar.signal,
 						SortingAlgorithmUseCaseInput(
 							sortable,
-							OrderModel.Ascending
+							ordering
 						)
 					).map:
 						_ match
@@ -48,7 +48,7 @@ object Main:
 					SideMenu.sortingAlgorithmRadioButtonsVar.signal,
 					SortingAlgorithmUseCaseInput(
 						sortable,
-						OrderModel.Ascending
+						ordering
 					)
 				).map:
 					_ match
@@ -71,7 +71,10 @@ object Main:
 			case Right(sortable) =>
 				render(
 					dom.document.body,
-					appOnSuccess(sortable)
+					appOnSuccess(
+						sortable = sortable,
+						ordering = OrderModel.Descending
+					)
 				)
 
 	private def getVisualizeModel(
@@ -82,9 +85,13 @@ object Main:
 			Try(
 				selectedSortingAlgorithm match
 					case BubbleSort => VisualizeSortingUseCase.getVisualizeModelBubbleSort(
-						VisualizeSortingInput(SortByBubbleSortUseCase(input))
+						VisualizeSortingInput(
+							SortByBubbleSortUseCase(input)
 						)
+					)
 					case InsertionSort => VisualizeSortingUseCase.getVisualizeModelInsertionSort(
-						VisualizeSortingInput(SortByInsertionSortUseCase(input))
+						VisualizeSortingInput(
+							SortByInsertionSortUseCase(input)
 						)
+					)
 			)
