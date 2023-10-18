@@ -9,16 +9,16 @@ import scala.util.Try
 
 object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 
-	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
-		sort(sortable.list, sortable, OrderModel.Ascending)
+	override def sortAscending(toBeSorted: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
+		sort(toBeSorted.list, toBeSorted, OrderModel.Ascending)
 
-	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
-		sort(sortable.list, sortable, OrderModel.Descending)
+	override def sortDescending(toBeSorted: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.BubbleSort] =
+		sort(toBeSorted.list, toBeSorted, OrderModel.Descending)
 
 	@tailrec
 	private def sort(
 		valuesWithIndices: List[ValueWithIndexModel],
-		sortable: SortableModel[ValueWithIndexModel],
+		toBeSorted: SortableModel[ValueWithIndexModel],
 		ordering: OrderModel,
 		changes: LazyList[SortingModel.BubbleSort] = LazyList.empty[SortingModel.BubbleSort],
 		alreadySorted: List[ValueWithIndexModel] = List.empty[ValueWithIndexModel],
@@ -26,10 +26,10 @@ object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 	): SortedModel[SortingModel.BubbleSort]=
 		valuesWithIndices match
 			case Nil => SortedModel(
-				toBeSorted = sortable,
+				toBeSorted = toBeSorted,
 				changes = changes,
-				sorted = sortable.getSorted(ordering)
-			)
+				sorted = toBeSorted.getSorted(ordering)
+				)
 			case valuesWithIndices =>
 				val sortedOnce = sortOnce(valuesWithIndices, alreadySorted, ordering)
 				val newAcc = sortedOnce match
@@ -51,12 +51,12 @@ object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 				)
 				sort(
 					newValuesWithIndices,
-					sortable,
+					toBeSorted,
 					ordering,
 					newAcc,
 					newAlreadySorted,
 					false
-				)
+					)
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],

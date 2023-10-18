@@ -7,32 +7,33 @@ import scala.annotation.tailrec
 
 object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.InsertionSort]:
 
-	override def sortAscending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
-		sort(sortable, OrderModel.Ascending)
+	override def sortAscending(toBeSorted: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
+		sort(toBeSorted, OrderModel.Ascending)
 
-	override def sortDescending(sortable: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
-		sort(sortable, OrderModel.Descending)
+	override def sortDescending(toBeSorted: SortableModel[ValueWithIndexModel]): SortedModel[SortingModel.InsertionSort] =
+		sort(toBeSorted, OrderModel.Descending)
 
 	private def sort(
-		sortable: SortableModel[ValueWithIndexModel],
+		toBeSorted: SortableModel[ValueWithIndexModel],
 		ordering: OrderModel,
 		subListLength: Int = 2,
 		sortedAcc: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort],
 		firstIteration: Boolean = true
 	): SortedModel[SortingModel.InsertionSort] =
-		if(sortable.list.length == subListLength)
+		if(toBeSorted.list.length == subListLength)
 			SortedModel(
-				toBeSorted = sortable,
+				toBeSorted = toBeSorted,
 				changes = sortedAcc,
-				sorted = sortable.getSorted(ordering)
-			)
+				sorted = toBeSorted.getSorted(ordering)
+				)
 		else
 			val newBaseForSortingOnce =
-				if(firstIteration) sortable.list.take(subListLength)
-				else(sortedAcc.map(_.focusedValues._1)
-					:+ sortedAcc.last.focusedValues._2)
-					++ sortable.list
-					.takeRight(sortable.list.length - subListLength)
+				if(firstIteration) toBeSorted.list.take(subListLength)
+				else (
+					sortedAcc.map(_.focusedValues._1)
+						:+ sortedAcc.last.focusedValues._2
+				) ++ toBeSorted.list
+					.takeRight(toBeSorted.list.length - subListLength)
 			val newSubList = newBaseForSortingOnce.take(subListLength)
 			val sortedSubListOnce = sortSubListOnce(
 				subList = SortableModel.fromUnsafe(newSubList.toList), // TODO here needs to be some error handling probably
@@ -40,12 +41,12 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 				ordering = ordering
 			)
 			sort(
-				sortable = sortable,
+				toBeSorted = toBeSorted,
 				ordering = ordering,
 				subListLength = subListLength + 1,
 				sortedAcc = sortedAcc ++ sortedSubListOnce,
 				firstIteration = false
-			)
+				)
 
 	def sortSubListOnce(
 		subList: SortableModel[ValueWithIndexModel],

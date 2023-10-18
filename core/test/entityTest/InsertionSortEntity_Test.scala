@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = InsertionSortEntity_Test.sortSubListOnce_should_return.`List[SortingModel.InsertionSort] - ascending`
+	def it = InsertionSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
 
 	object sortAscending_should_return:
 
