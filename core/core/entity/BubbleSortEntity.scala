@@ -56,7 +56,7 @@ object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 					newAcc,
 					newAlreadySorted,
 					false
-					)
+				)
 
 	def sortOnce(
 		toBeCompared: List[ValueWithIndexModel],

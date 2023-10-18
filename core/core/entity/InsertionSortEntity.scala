@@ -4,6 +4,7 @@ import core.Contract.SortingAlgorithmEntity
 import core.model.*
 
 import scala.annotation.tailrec
+import scala.collection.immutable.List
 
 object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.InsertionSort]:
 
@@ -15,38 +16,47 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 
 	private def sort(
 		toBeSorted: SortableModel[ValueWithIndexModel],
-		ordering: OrderModel,
-		subListLength: Int = 2,
-		sortedAcc: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort],
-		firstIteration: Boolean = true
+		ordering: OrderModel
 	): SortedModel[SortingModel.InsertionSort] =
-		if(toBeSorted.list.length == subListLength)
-			SortedModel(
-				toBeSorted = toBeSorted,
-				changes = sortedAcc,
-				sorted = toBeSorted.getSorted(ordering)
+		case class Acc(
+			changesAcc: List[SortingModel.InsertionSort],
+			newToBeSortedOnce: List[ValueWithIndexModel]
+		)
+		val sortedAcc = toBeSorted
+			.list
+			.drop(2)
+			.foldLeft(
+				Acc(
+					changesAcc = List.empty[SortingModel.InsertionSort],
+					newToBeSortedOnce = toBeSorted.list.take(2)
 				)
-		else
-			val newBaseForSortingOnce =
-				if(firstIteration) toBeSorted.list.take(subListLength)
-				else (
-					sortedAcc.map(_.focusedValues._1)
-						:+ sortedAcc.last.focusedValues._2
-				) ++ toBeSorted.list
-					.takeRight(toBeSorted.list.length - subListLength)
-			val newSubList = newBaseForSortingOnce.take(subListLength)
-			val sortedSubListOnce = sortSubListOnce(
-				subList = SortableModel.fromUnsafe(newSubList.toList), // TODO here needs to be some error handling probably
-				currentPivot = newSubList.takeRight(2).head,
-				ordering = ordering
-			)
-			sort(
-				toBeSorted = toBeSorted,
-				ordering = ordering,
-				subListLength = subListLength + 1,
-				sortedAcc = sortedAcc ++ sortedSubListOnce,
-				firstIteration = false
-				)
+			):
+				case (
+					Acc(changesAcc, newToBeSortedOnce),
+					next
+				) =>
+					val sortedSubListOnce = sortSubListOnce(
+						subList = SortableModel.fromUnsafe(newToBeSortedOnce),
+						currentPivot = newToBeSortedOnce.last,
+						ordering = ordering
+					)
+					Acc(
+						changesAcc = changesAcc ++ sortedSubListOnce,
+						newToBeSortedOnce = (
+							sortedSubListOnce.map(_.focusedValues._1)
+								:+ sortedSubListOnce.last
+									.focusedValues
+									._2
+						) :+ next
+					)
+
+		SortedModel(
+			toBeSorted = toBeSorted,
+			changes = LazyList.from(
+				sortedAcc.changesAcc
+			),
+			sorted = toBeSorted.getSorted(ordering)
+		)
 
 	def sortSubListOnce(
 		subList: SortableModel[ValueWithIndexModel],
