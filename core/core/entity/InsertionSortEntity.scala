@@ -40,6 +40,15 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 						currentPivot = newToBeSortedOnce.last,
 						ordering = ordering
 					)
+					println(sortedSubListOnce)
+					println(
+						(
+							sortedSubListOnce.map(_.focusedValues._1)
+								:+ sortedSubListOnce.last
+								.focusedValues
+								._2
+							) :+ next
+					)
 					Acc(
 						changesAcc = changesAcc ++ sortedSubListOnce,
 						newToBeSortedOnce = (
@@ -49,7 +58,6 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 									._2
 						) :+ next
 					)
-
 		SortedModel(
 			toBeSorted = toBeSorted,
 			changes = LazyList.from(
