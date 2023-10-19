@@ -5,14 +5,14 @@ import core.entity.InsertionSortEntity
 import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
-import test.TestUtil
+import test.{TestUtil, Util_Test}
 
 import scala.main
 
 object InsertionSortEntity_Test:
 
 	@main
-	def it = InsertionSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
+	def it = Util_Test.toValuesWithIndices_From_SortingModel_should_return.`List[ValueWithIndexModel] - SortingModel.InsertionSort`
 
 	object sortAscending_should_return:
 

@@ -1,6 +1,7 @@
 package core.entity
 
 import core.Contract.SortingAlgorithmEntity
+import core.Util
 import core.model.*
 import core.model.OrderModel.{Ascending, Descending}
 
@@ -39,7 +40,7 @@ object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 					case Some(it) =>
 						if(it.isEmpty) Nil
 						else
-							val newIt = it.map(_.focusedValues._1) :+ it.last.focusedValues._2
+							val newIt = Util.toValuesWithIndicesFromSortingModel(it)
 							ordering match
 								case OrderModel.Ascending => newIt.filterNot(_ == valuesWithIndices.max)
 								case OrderModel.Descending => newIt.filterNot(_ == valuesWithIndices.min)

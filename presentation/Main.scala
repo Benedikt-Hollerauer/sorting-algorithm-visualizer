@@ -73,7 +73,7 @@ object Main:
 					dom.document.body,
 					appOnSuccess(
 						sortable = sortable,
-						ordering = OrderModel.Descending
+						ordering = OrderModel.Ascending
 					)
 				)
 

@@ -1,6 +1,9 @@
 package core.model
 
-sealed class SortingModel private()
+sealed trait SortingModel private(
+	focusedValues: (ValueWithIndexModel, ValueWithIndexModel),
+):
+	def getFocusedValues: (ValueWithIndexModel, ValueWithIndexModel)
 
 object SortingModel:
 
@@ -8,9 +11,11 @@ object SortingModel:
 		focusedValues: (ValueWithIndexModel, ValueWithIndexModel),
 		alreadySorted: List[ValueWithIndexModel],
 		focusedIndicesChanged: Boolean
-	) extends SortingModel
+	) extends SortingModel(focusedValues):
+		override def getFocusedValues: (ValueWithIndexModel, ValueWithIndexModel) = focusedValues
 	
 	case class InsertionSort(
 		focusedValues: (ValueWithIndexModel, ValueWithIndexModel),
 		currentPivot: ValueWithIndexModel
-	) extends SortingModel
+	) extends SortingModel(focusedValues):
+		override def getFocusedValues: (ValueWithIndexModel, ValueWithIndexModel) = focusedValues

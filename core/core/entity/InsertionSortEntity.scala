@@ -1,6 +1,7 @@
 package core.entity
 
 import core.Contract.SortingAlgorithmEntity
+import core.Util
 import core.model.*
 
 import scala.annotation.tailrec
@@ -42,21 +43,11 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 					)
 					println(sortedSubListOnce)
 					println(
-						(
-							sortedSubListOnce.map(_.focusedValues._1)
-								:+ sortedSubListOnce.last
-								.focusedValues
-								._2
-							) :+ next
+						Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce)
 					)
 					Acc(
 						changesAcc = changesAcc ++ sortedSubListOnce,
-						newToBeSortedOnce = (
-							sortedSubListOnce.map(_.focusedValues._1)
-								:+ sortedSubListOnce.last
-									.focusedValues
-									._2
-						) :+ next
+						newToBeSortedOnce = Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce)
 					)
 		SortedModel(
 			toBeSorted = toBeSorted,
