@@ -39,8 +39,9 @@ object BubbleSortEntity extends SortingAlgorithmEntity[SortingModel.BubbleSort]:
 				val newValuesWithIndices = sortedOnce match
 					case Some(it) =>
 						if(it.isEmpty) Nil
+						else if(Util.toValuesWithIndicesFromSortingModel(it).isEmpty) Nil // TODO proper error handeling here maybe
 						else
-							val newIt = Util.toValuesWithIndicesFromSortingModel(it)
+							val newIt = Util.toValuesWithIndicesFromSortingModel(it).get
 							ordering match
 								case OrderModel.Ascending => newIt.filterNot(_ == valuesWithIndices.max)
 								case OrderModel.Descending => newIt.filterNot(_ == valuesWithIndices.min)

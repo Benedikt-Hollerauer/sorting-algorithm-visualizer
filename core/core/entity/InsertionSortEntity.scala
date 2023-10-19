@@ -47,7 +47,7 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 					)
 					Acc(
 						changesAcc = changesAcc ++ sortedSubListOnce,
-						newToBeSortedOnce = Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce)
+						newToBeSortedOnce = Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce).get //TODO proper error handeling
 					)
 		SortedModel(
 			toBeSorted = toBeSorted,

@@ -29,18 +29,23 @@ object Util_Test:
 
 		private val shouldBe: List[Int] = List(2, 1, 2)
 
-		def `List[ValueWithIndexModel] - SortingModel.BubbleSort`: Unit =
+		def `Some(List[ValueWithIndexModel]) - SortingModel.BubbleSort`: Unit =
 			val sortingModels = List(
 				SortingModel.BubbleSort((valuesWithIndices.head, valuesWithIndices.last), List(valuesWithIndices.head), true),
 				SortingModel.BubbleSort((valuesWithIndices.last, valuesWithIndices.head), List(valuesWithIndices.head), true)
 			)
 			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
-			assert(res.map(_.value) == shouldBe)
+			assert(res.get.map(_.value) == shouldBe)
 
-		def `List[ValueWithIndexModel] - SortingModel.InsertionSort`: Unit =
+		def `Some(List[ValueWithIndexModel]) - SortingModel.InsertionSort`: Unit =
 			val sortingModels = List(
 				SortingModel.InsertionSort((valuesWithIndices.head, valuesWithIndices.last), valuesWithIndices.head),
 				SortingModel.InsertionSort((valuesWithIndices.last, valuesWithIndices.head), valuesWithIndices.head)
 			)
 			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
-			assert(res.map(_.value) == shouldBe)
+			assert(res.get.map(_.value) == shouldBe)
+
+		def `None`: Unit =
+			val sortingModels = List.empty[SortingModel.BubbleSort]
+			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
+			assert(res.isEmpty)
