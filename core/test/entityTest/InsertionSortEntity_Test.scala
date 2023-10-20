@@ -12,7 +12,7 @@ import scala.main
 object InsertionSortEntity_Test:
 
 	@main
-	def it = Util_Test.toValuesWithIndices_From_SortingModel_should_return.`List[ValueWithIndexModel] - SortingModel.InsertionSort`
+	def it = InsertionSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
 
 	object sortAscending_should_return:
 
@@ -20,6 +20,7 @@ object InsertionSortEntity_Test:
 			val res = InsertionSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
+			res.changes.foreach(println)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
 				expectedLength = 3,

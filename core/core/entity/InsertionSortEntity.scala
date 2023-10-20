@@ -41,13 +41,9 @@ object InsertionSortEntity extends SortingAlgorithmEntity[SortingModel.Insertion
 						currentPivot = newToBeSortedOnce.last,
 						ordering = ordering
 					)
-					println(sortedSubListOnce)
-					println(
-						Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce)
-					)
 					Acc(
 						changesAcc = changesAcc ++ sortedSubListOnce,
-						newToBeSortedOnce = Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce).get //TODO proper error handeling
+						newToBeSortedOnce = Util.toValuesWithIndicesFromSortingModel(sortedSubListOnce).get
 					)
 		SortedModel(
 			toBeSorted = toBeSorted,

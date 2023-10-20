@@ -2,6 +2,7 @@ import NavigationBarStyle.navigationBarHeight
 import SortingAlgorithm.BubbleSort
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.keys
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
 
@@ -90,6 +91,7 @@ object SideMenu:
 				sortingAlgorithms.flatMap: sortingAlgorithm =>
 					List(
 						input(
+							SideMenuStyle.radioButtonStyle,
 							nameAttr := "sortingAlgorithmSelection",
 							idAttr := sortingAlgorithm.toString,
 							value := sortingAlgorithm.getName,
@@ -112,6 +114,11 @@ object SideMenu:
 object SideMenuStyle:
 
 	private val subMenuWidth = width.percent := 25
+
+	val radioButtonStyle = Seq(
+		borderRadius.percent := 0,
+		height.px := 20
+	)
 
 	val slidingMenuStyle = Seq(
 		transform <-- NavigationBar.extendCollapseSideMenuSignal
