@@ -3,6 +3,7 @@ package test
 import core.model.*
 import mock.ToBeSortedMock
 import mock.modelMock.SortableModelMock
+import core.Util
 
 object TestUtil:
 
@@ -92,7 +93,8 @@ object TestUtil:
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: Option[(Int, Int)],
-		currentPivotValue: Int
+		currentPivotValue: Int,
+		shouldBeSortedSubListOnce: List[Int]
 	): Unit =
 		assert(res.head.focusedValues._1.value == headFocusedValues._1)
 		assert(res.head.focusedValues._2.value == headFocusedValues._2)
@@ -103,6 +105,9 @@ object TestUtil:
 		assert(
 			res.exists:
 				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == currentPivotValue
+		)
+		assert(
+			Util.toValuesWithIndicesFromSortingModel(res).get == shouldBeSortedSubListOnce
 		)
 		
 	def testCommonVisualizeEntityProperties(

@@ -11,16 +11,12 @@ import scala.main
 
 object InsertionSortEntity_Test:
 
-	@main
-	def it = InsertionSortEntity_Test.sortAscending_should_return.`SortedModel - ascending`
-
 	object sortAscending_should_return:
 
 		def `SortedModel - ascending`: Unit =
 			val res = InsertionSortEntity.sortAscending(
 				SortableModelMock.unsorted
 			)
-			res.changes.foreach(println)
 			TestUtil.testCommonInsertionSortProperties(
 				res = res,
 				expectedLength = 3,
@@ -57,7 +53,8 @@ object InsertionSortEntity_Test:
 				expectedLength = 3,
 				headFocusedValues = (2, 6),
 				lastFocusedValues = Some((2, 1)),
-				currentPivotValue = 6
+				currentPivotValue = 6,
+				shouldBeSortedSubListOnce = subList.sorted
 			)
 
 		def `List[SortingModel.InsertionSort] - descending`: Unit =
@@ -72,7 +69,8 @@ object InsertionSortEntity_Test:
 				expectedLength = 2,
 				headFocusedValues = (2, 1),
 				lastFocusedValues = Some((2, 3)),
-				currentPivotValue = 1
+				currentPivotValue = 1,
+				shouldBeSortedSubListOnce = subList.sorted(Ordering[Int].reverse)
 			)
 
 		def `List[SortingModel.InsertionSort] - two elements ascending`: Unit =
@@ -87,7 +85,8 @@ object InsertionSortEntity_Test:
 				expectedLength = 1,
 				headFocusedValues = (1, 3),
 				lastFocusedValues = None,
-				currentPivotValue = 3
+				currentPivotValue = 3,
+				shouldBeSortedSubListOnce = subList.sorted
 			)
 
 		def `List[SortingModel.InsertionSort] - two elements descending`: Unit =
@@ -102,5 +101,6 @@ object InsertionSortEntity_Test:
 				expectedLength = 1,
 				headFocusedValues = (1, 3),
 				lastFocusedValues = None,
-				currentPivotValue = 3
+				currentPivotValue = 3,
+				shouldBeSortedSubListOnce = subList.sorted(Ordering[Int].reverse)
 			)
