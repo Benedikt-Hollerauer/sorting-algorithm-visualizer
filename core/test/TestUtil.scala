@@ -107,7 +107,7 @@ object TestUtil:
 				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == currentPivotValue
 		)
 		assert(
-			Util.toValuesWithIndicesFromSortingModel(res).get == shouldBeSortedSubListOnce
+			Util.toValuesWithIndicesFromSortingModel(res).get.map(_.value) == shouldBeSortedSubListOnce
 		)
 		
 	def testCommonVisualizeEntityProperties(
