@@ -27,20 +27,21 @@ object Util_Test:
 
 	object toValuesWithIndices_From_SortingModel_should_return:
 
-		private val shouldBe: List[Int] = List(2, 1, 2)
+		private val shouldBe: List[Int] =
+			ToBeSortedMock.unsorted
 
 		def `Some(List[ValueWithIndexModel]) - SortingModel.BubbleSort`: Unit =
 			val sortingModels = List(
-				SortingModel.BubbleSort((valuesWithIndices.head, valuesWithIndices.last), List(valuesWithIndices.head), true),
-				SortingModel.BubbleSort((valuesWithIndices.last, valuesWithIndices.head), List(valuesWithIndices.head), true)
+				SortingModel.BubbleSort((valuesWithIndices.head, valuesWithIndices(1)), List(valuesWithIndices.head), true),
+				SortingModel.BubbleSort((valuesWithIndices(1), valuesWithIndices.last), List(valuesWithIndices.head), true),
 			)
 			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
 			assert(res.get.map(_.value) == shouldBe)
 
 		def `Some(List[ValueWithIndexModel]) - SortingModel.InsertionSort`: Unit =
 			val sortingModels = List(
-				SortingModel.InsertionSort((valuesWithIndices.head, valuesWithIndices.last), valuesWithIndices.head),
-				SortingModel.InsertionSort((valuesWithIndices.last, valuesWithIndices.head), valuesWithIndices.head)
+				SortingModel.InsertionSort((valuesWithIndices.last, valuesWithIndices(1)), valuesWithIndices.head),
+				SortingModel.InsertionSort((valuesWithIndices(2), valuesWithIndices.head), valuesWithIndices.head)
 			)
 			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
 			assert(res.get.map(_.value) == shouldBe)
