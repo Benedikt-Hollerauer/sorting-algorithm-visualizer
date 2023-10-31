@@ -43,13 +43,6 @@ object InsertionSortEntity_Test:
 
 		def `List[SortingModel.InsertionSort] - ascending`: Unit =
 			val subList = List(1, 3, 6, 2)
-			// focused values probably
-			(1, 3)
-			(3, 6)
-			(1, 3)
-			(6, 2)
-			(3, 2)
-			(1, 2)
 			val res = InsertionSortEntity.sortSubListOnce(
 				subList = SortableModel.fromUnsafe(subList.toValuesWithIndices),
 				currentPivot = ValueWithIndexModel(6, IndexModel.fromUnsafe(2)),

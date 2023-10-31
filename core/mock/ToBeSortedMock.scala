@@ -10,6 +10,9 @@ case class ToBeSortedMock private(
 object ToBeSortedMock:
 
     val unsorted: List[Int] = List(2, 3, 1)
+    (2, 3)
+    (3, 1)
+    (2, 1)
 
     val biggest: Int = unsorted.max
 

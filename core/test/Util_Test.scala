@@ -40,8 +40,9 @@ object Util_Test:
 
 		def `Some(List[ValueWithIndexModel]) - SortingModel.InsertionSort`: Unit =
 			val sortingModels = List(
-				SortingModel.InsertionSort((valuesWithIndices.last, valuesWithIndices(1)), valuesWithIndices.head),
-				SortingModel.InsertionSort((valuesWithIndices(2), valuesWithIndices.head), valuesWithIndices.head)
+				SortingModel.InsertionSort((valuesWithIndices.head, valuesWithIndices(1)), valuesWithIndices.head),
+				SortingModel.InsertionSort((valuesWithIndices(1), valuesWithIndices.last), valuesWithIndices.head),
+				SortingModel.InsertionSort((valuesWithIndices.head, valuesWithIndices.last), valuesWithIndices.head)
 			)
 			val res = Util.toValuesWithIndicesFromSortingModel(sortingModels)
 			assert(res.get.map(_.value) == shouldBe)
