@@ -1,6 +1,6 @@
 # Sorting Algorithm Visualizer
 
-Sorting Algorithm Visualizer is a project aimed at visually demonstrating various sorting algorithms. It is written in Scala and compiled using Scala.js, following the principles of Test-Driven Development (TDD) and Clean Architecture.
+The Sorting Algorithm Visualizer project showcases multiple sorting algorithms exclusively employing higher-order functions, adhering to pure functional programming principles, and is implemented in Scala with compilation via Scala.js. This project is constructed following the tenets of Test-Driven Development (TDD) and Clean Architecture to visually illustrate the algorithms' functioning.
 
 ## Subprojects
 
