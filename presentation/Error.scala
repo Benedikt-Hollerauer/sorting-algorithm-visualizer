@@ -1,4 +1,5 @@
 import com.raquo.laminar.api.L.{*, given}
+import org.scalajs.dom
 
 object Error:
 
@@ -12,7 +13,9 @@ object Error:
 		div(ErrorStyle.errorMessageWrapperDiv,
 			div(
 				ErrorStyle.cross,
-				onClick --> { _ => /* handle cross click event here */ },
+				onClick --> (_ =>
+					dom.window.location.href = AppConfig.appUrl
+				),
 				"X"
 			),
 			"An error occurred - ", errorMessage
