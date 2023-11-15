@@ -16,9 +16,6 @@ object Main:
 		div(
 			height.vh := 100,
 			width.vw := 100,
-			h1(
-				child <-- SideMenu.sortingAlgorithmRadioButtonsVar.signal.map(_.getName)
-			),
 			NavigationBar.getHtml(
 				logo = VisualModel("assets/sorting-visualizer-logo.svg", "Site Logo"), socialIcons = List(VisualModel("assets/github-icon.svg", "GitHub", Some("https://github.com/Benedikt-Hollerauer")), VisualModel("assets/linkedin-icon.svg", "LinkedIn", Some("https://www.linkedin.com/in/benedikt-hollerauer-b198b6259/")), VisualModel("assets/website-icon.svg", "Website", Some("https://benedikt-hollerauer.com/"))),
 				retractedIcon = VisualModel("assets/retracted-side-menu.svg", "Retracted Side Menu"),
