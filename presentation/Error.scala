@@ -18,7 +18,8 @@ object Error:
 				),
 				"X"
 			),
-			"An error occurred - ", errorMessage
+			//"An error occurred - ", errorMessage
+			"\uD83D\uDCBB Additional algorithms are currently under development \uD83D\uDCBB"
 		)
 
 object ErrorStyle:
@@ -30,7 +31,6 @@ object ErrorStyle:
 		width := "100vw",
 		height := "100vh",
 		backgroundColor.black,
-		opacity := "0.75",
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
