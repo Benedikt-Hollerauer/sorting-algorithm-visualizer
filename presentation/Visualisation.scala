@@ -40,17 +40,23 @@ object Content:
 	)
 
 	private def getBars(toBeBars: SortableModel[BarModel]): List[ReactiveHtmlElement[HTMLDivElement]] =
-		toBeBars.list
+		val bars = toBeBars.list
+		val count = math.max(1, bars.size)
+		val maxValue = math.max(1, bars.map(_.value).maxOption.getOrElse(1))
+		val widthPercent = 100.0 / count
+		bars
 			.map: bar =>
+				val heightPercent = (bar.value.toDouble / maxValue.toDouble) * 100.0
 				div(
-					ContentStyle.singleBar(bar)
+					ContentStyle.singleBar(bar, widthPercent, heightPercent)
 				)
 
 object ContentStyle:
 
-	def singleBar(bar: BarModel) = Seq(
-		width.px := 20,
-		height.px := bar.value,
+	def singleBar(bar: BarModel, widthPercent: Double, heightPercent: Double) = Seq(
+		width.percent := widthPercent,
+		height.percent := heightPercent,
+		boxSizing.borderBox,
 		backgroundColor := (
 			bar.barState match
 				case BarStateModel.Normal => "#390099" // TODO other colors here maybe
@@ -60,7 +66,6 @@ object ContentStyle:
 				case BarStateModel.FinishedSorting => "#f72585"
 				case BarStateModel.CurrentPivot => "#008000"
 		),
-		margin.px := 3,
 		borderRadius.px := 8
 	)
 
@@ -72,11 +77,16 @@ object ContentStyle:
 		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight.value} - ${LegendStyle.legendHeight.value})",
 		display.flex,
 		justifyContent.center,
-		alignItems.flexEnd
+		alignItems.flexEnd,
+		overflow.hidden
 	)
 
 	val barArrayStyle = Seq(
 		display.flex,
-		flexWrap.wrap,
-		alignItems.flexEnd
+		flexWrap.nowrap,
+		justifyContent.spaceBetween,
+		alignItems.flexEnd,
+		width.percent := 100,
+		height.percent := 100,
+		overflow.hidden
 	)
