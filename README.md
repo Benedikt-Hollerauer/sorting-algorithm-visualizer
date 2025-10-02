@@ -24,3 +24,29 @@ The `testImpl` subproject consists of the implementation of tests for the core l
 - Real-time visualization updates during sorting process (in progress)
 - Adjustable speed control for sorting animations (in progress)
 - Multiple sorting algorithm options to choose from (in progress)
+
+## Run with Docker
+
+You don't need a local Scala or sbt installation. The Docker image builds the Scala.js bundle and serves the site with Nginx.
+
+### Build the image
+
+```bash
+docker build -t sorting-visualizer .
+```
+
+### Run the container
+
+```bash
+docker run -p 8080:80 sorting-visualizer
+```
+
+Then open `http://localhost:8080` in your browser.
+
+### Development tips
+
+- On code changes, rebuild the image to refresh the bundle:
+  ```bash
+  docker build -t sorting-visualizer . && docker run --rm -p 8080:80 sorting-visualizer
+  ```
+- The site expects the Scala.js output at `presentation/presentation-fastopt/main.js`, which the Docker build generates via `presentation/fastLinkJS`.

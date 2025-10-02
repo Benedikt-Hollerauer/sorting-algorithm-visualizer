@@ -1,0 +1,29 @@
+# git
+.git
+.gitignore
+
+# sbt and build caches
+project/project/
+project/target/
+target/
+**/.bloop
+**/.bsp
+**/.metals
+**/.scala_dependencies
+**/.cache
+**/.history
+
+# IDE
+.idea
+*.iml
+.vscode
+
+# OS
+.DS_Store
+
+# Scala.js output
+presentation/presentation-fastopt
+
+# Misc
+build/
+dist/
