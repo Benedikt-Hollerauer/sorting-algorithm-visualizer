@@ -72,12 +72,13 @@ object ContentStyle:
 	val pageContentStyle = Seq(
 		position.relative,
 		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
-			if(_) 75
-			else 100,
+			if(_) 75 else 100,
 		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight.value} - ${LegendStyle.legendHeight.value})",
 		display.flex,
 		justifyContent.center,
 		alignItems.flexEnd,
+		//paddingLeft.px := 8,
+		//paddingRight.px := 8,
 		overflow.hidden
 	)
 
@@ -89,5 +90,10 @@ object ContentStyle:
 		width.percent := 95,
 		height.percent := 95,
 		columnGap.px := 4,
+		backgroundColor := "var(--surface)",
+		border := "1px solid var(--border)",
+		borderRadius.px := 12,
+		boxShadow := "var(--shadow)",
+		padding.px := 16,
 		overflow.hidden
 	)

@@ -30,7 +30,7 @@ object ErrorStyle:
 		left := "0",
 		width := "100vw",
 		height := "100vh",
-		backgroundColor.black,
+		backgroundColor := "rgba(2, 6, 23, 0.6)",
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
@@ -40,14 +40,16 @@ object ErrorStyle:
 	val errorMessageWrapperDiv = Seq(
 		width := "80%",
 		height := "80%",
-		backgroundColor.white,
+		backgroundColor := "var(--surface)",
 		position.relative,
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
-		borderRadius := "10px",
+		border := "1px solid var(--border)",
+		borderRadius := "12px",
 		fontSize := "2em",
-		textAlign.center
+		textAlign.center,
+		boxShadow := "var(--shadow)"
 	)
 
 	val cross = Seq(
@@ -55,5 +57,5 @@ object ErrorStyle:
 		top := "10px",
 		right := "10px",
 		cursor.pointer,
-		color.red
+		color := "var(--accent)"
 	)

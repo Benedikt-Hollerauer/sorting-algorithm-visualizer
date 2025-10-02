@@ -31,7 +31,7 @@ object Legend:
 
 object LegendStyle:
 
-	val legendHeight = height.percent := 12
+	val legendHeight = height.percent := 10
 
 	def getColorCircleStyle(color: String) = Seq(
 		borderRadius.percent := 50,
@@ -44,12 +44,12 @@ object LegendStyle:
 
 	val legendStyle = Seq(
 		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
-			if(_) 75
-			else 100,
-		legendHeight,
+			if(_) 75 else 100,
+		//legendHeight,
 		display.flex,
 		justifyContent.center,
-		alignItems.center
+		alignItems.center,
+		columnGap.px := 12
 	)
 
 	val liStyle = Seq(
@@ -59,5 +59,11 @@ object LegendStyle:
 
 	val ulStyle = Seq(
 		listStyleType.none,
-		fontSize.px := 20
+		fontSize.px := 16,
+		color := "var(--muted)",
+		backgroundColor := "var(--surface)",
+		border := "1px solid var(--border)",
+		borderRadius.px := 12,
+		padding.px := 8,
+		boxShadow := "var(--shadow)"
 	)

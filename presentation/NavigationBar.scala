@@ -67,42 +67,53 @@ object NavigationBarStyle:
 	val navigationBarHeight = height.percent := 7
 
 	val navigationBarStyle = Seq(
+		className := "nav-bar",
 		navigationBarHeight,
-		width.percent := 100,
-		backgroundColor := "white",
+		//width.percent := 100,
+		backgroundColor := "var(--surface)",
 		display.flex,
 		alignItems.center,
 		justifyContent.spaceBetween,
-		boxShadow := "0 2px 5px rgba(0, 0, 0, 0.1)",
-		outline := "thin solid black"
+		boxShadow := "var(--shadow)",
+		borderBottom := "1px solid var(--border)",
+		position := "sticky",
+		top.px := 0,
+		zIndex := "10",
+		paddingLeft.px := 12,
+		paddingRight.px := 12
 	)
 
 	val logoStyle = Seq(
-		height.px := 40,
-		marginRight.px := 20
+		height.px := 36,
+		marginRight.px := 12
 	)
 
 	val socialIconsStyle = Seq(
 		listStyleType.none,
 		display.flex,
-		alignItems.flexStart,
+		alignItems.center,
 		paddingLeft.px := 0,
-		margin.px := 0
+		margin.px := 0,
+		columnGap.px := 8
 	)
 
 	val extendCollapseSideMenuIconStyle = Seq(
 		display.flex,
 		alignItems.center,
-		cursor.pointer
+		cursor.pointer,
+		padding.px := 6,
+		border := "1px solid var(--border)",
+		borderRadius.px := 10,
+		backgroundColor := "var(--surface)",
+		boxShadow := "var(--shadow)"
 	)
 
 	val socialIconStyle = Seq(
 		display.flex,
-		alignItems.center,
-		marginRight.px := 10
+		alignItems.center
 	)
 
 	val iconImageStyle = Seq(
-		height := "30px",
-		width := "30px"
+		height := "24px",
+		width := "24px"
 	)

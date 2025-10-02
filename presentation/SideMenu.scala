@@ -26,12 +26,32 @@ object SideMenu:
 	): ReactiveHtmlElement[HTMLDivElement] =
 		div(
 			SideMenuStyle.slidingMenuStyle,
-			getStartStopButton(startIcon, stopIcon),
-			getCreateNewToBeSortedButton(newToBeSortedIcon),
-			getSortingSpeedSlider,
-			getSortingAlgorithmSelectionRadioButtons(
-				SortingAlgorithm.values.toList,
-				SortingAlgorithm.BubbleSort
+			ul(
+				SideMenuStyle.menuListStyle,
+				li(
+					SideMenuStyle.menuSectionStyle,
+					div(SideMenuStyle.menuSectionTitle, "Controls"),
+					div(SideMenuStyle.menuItemDesc, "Start, stop or create a new array to sort."),
+					div(SideMenuStyle.menuItemsRow,
+						getStartStopButton(startIcon, stopIcon),
+						getCreateNewToBeSortedButton(newToBeSortedIcon)
+					)
+				),
+				li(
+					SideMenuStyle.menuSectionStyle,
+					div(SideMenuStyle.menuSectionTitle, "Speed"),
+					div(SideMenuStyle.menuItemDesc, "Adjust how fast the visualisation updates."),
+					getSortingSpeedSlider
+				),
+				li(
+					SideMenuStyle.menuSectionStyle,
+					div(SideMenuStyle.menuSectionTitle, "Algorithm"),
+					div(SideMenuStyle.menuItemDesc, "Choose the sorting algorithm and see it in action."),
+					getSortingAlgorithmSelectionRadioButtons(
+						SortingAlgorithm.values.toList,
+						SortingAlgorithm.BubbleSort
+					)
+				)
 			)
 		)
 
@@ -113,7 +133,9 @@ object SideMenu:
 
 object SideMenuStyle:
 
-	private val subMenuWidth = width.percent := 25
+	private val subMenuWidth = maxWidth.percent := 25
+	
+	val gap: StyleProp[String] = new StyleProp[String]("gap")
 
 	val radioButtonStyle = Seq(
 		borderRadius.percent := 0,
@@ -121,61 +143,98 @@ object SideMenuStyle:
 	)
 
 	val slidingMenuStyle = Seq(
+		className := "side-menu",
 		transform <-- NavigationBar.extendCollapseSideMenuSignal
 			.map: visible =>
-				if (visible) "translateX(0)"
-				else "translateX(100%)",
+				if (visible) "translateX(0)" else "translateX(100%)",
 		position.fixed,
 		top := navigationBarHeight.value,
 		right.px := 0,
 		height.percent := 100,
 		subMenuWidth,
-		backgroundColor := "#ffffff",
-		borderLeft := "thin solid black",
+		backgroundColor := "var(--surface)",
+		borderLeft := "1px solid var(--border)",
+		boxShadow := "var(--shadow)",
 		display.flex,
 		flexDirection.column,
-		alignItems.center
+		alignItems.stretch,
+		padding.px := 16,
+		columnGap.px := 16
 	)
 
-	val menuItemsStyle = Seq(
+	val menuListStyle = Seq(
 		listStyleType.none,
 		padding.px := 0,
 		margin.px := 0,
-		marginTop.px := 10
+		display.flex,
+		flexDirection.column,
+		gap := "10px"
+	)
+
+	val menuSectionStyle = Seq(
+		backgroundColor := "var(--surface)",
+		border := "1px solid var(--border)",
+		borderRadius.px := 12,
+		//padding.px := 12,
+		display.flex,
+		flexDirection.column,
+		columnGap.px := 8
+	)
+
+	val menuSectionTitle = Seq(
+		fontWeight := "semibold",
+		color := "var(--text)"
+	)
+
+	val menuItemDesc = Seq(
+		color := "var(--muted)",
+		fontSize := "small"
+	)
+
+	val menuItemsRow = Seq(
+		display.flex,
+		columnGap.px := 8
 	)
 
 	val sortingAlgorithmMenuItemStyle = Seq(
 		padding := "8px 12px",
 		borderRadius.px := 4,
 		backgroundColor := "#ffffff", color := "#333333",
-		fontWeight.bold,
+		fontWeight := "bold",
 		marginRight.px := 10,
 		cursor.pointer
 	)
 
 	val startStopButtonStyle = Seq(
-		width.percent := 90
+		width.percent := 100
 	)
 
 	val newToBeSortedButtonStyle = Seq(
-		width.percent := 90
+		width.percent := 100
 	)
 
 	val sortingSpeedSliderStyle = Seq(
 		typ := "range",
 		stepAttr := "5",
-		width.percent := 90,
+		width.percent := 100,
 		cursor.pointer
 	)
 
 	val sortingAlgorithmRadioButtonsStyle = Seq(
-		width.percent := 90
+		width.percent := 100,
+		display.flex,
+		flexDirection.column,
+		columnGap.px := 6
 	)
 
 	val sortingAlgorithmLabelStyle = Seq(
-		fontSize.larger
+		fontSize.larger,
+		fontWeight := "semibold"
 	)
 
 	val sortingAlgorithmFormStyle = Seq(
-		height.percent := 100
+		height.percent := 100,
+		display.flex,
+		flexDirection.column,
+		columnGap.px := 4
 	)
