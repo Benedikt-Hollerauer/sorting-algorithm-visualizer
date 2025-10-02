@@ -86,7 +86,8 @@ object ContentStyle:
 		flexWrap.nowrap,
 		justifyContent.spaceBetween,
 		alignItems.flexEnd,
-		width.percent := 100,
-		height.percent := 100,
+		width.percent := 95,
+		height.percent := 95,
+		columnGap.px := 4,
 		overflow.hidden
 	)

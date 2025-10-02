@@ -1,3 +1,3 @@
 object AppConfig:
 
-    val appUrl = "http://localhost:63342/sortingAlgorithmVisualizer"
+    val appUrl = "https://benedikt-hollerauer.com/sorting-algorithm-visualizer"
