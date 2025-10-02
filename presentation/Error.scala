@@ -40,12 +40,11 @@ object ErrorStyle:
 	val errorMessageWrapperDiv = Seq(
 		width := "80%",
 		height := "80%",
-		backgroundColor := "var(--surface)",
+		backgroundColor := "#ffffff",
 		position.relative,
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
-		border := "1px solid var(--border)",
 		borderRadius := "12px",
 		fontSize := "2em",
 		textAlign.center,

@@ -61,8 +61,7 @@ object LegendStyle:
 		listStyleType.none,
 		fontSize.px := 16,
 		color := "var(--muted)",
-		backgroundColor := "var(--surface)",
-		border := "1px solid var(--border)",
+		backgroundColor := "#ffffff",
 		borderRadius.px := 12,
 		padding.px := 8,
 		boxShadow := "var(--shadow)"

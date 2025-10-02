@@ -152,8 +152,7 @@ object SideMenuStyle:
 		right.px := 0,
 		height.percent := 100,
 		subMenuWidth,
-		backgroundColor := "var(--surface)",
-		borderLeft := "1px solid var(--border)",
+		backgroundColor := "#ffffff",
 		boxShadow := "var(--shadow)",
 		display.flex,
 		flexDirection.column,
@@ -172,9 +171,9 @@ object SideMenuStyle:
 	)
 
 	val menuSectionStyle = Seq(
-		backgroundColor := "var(--surface)",
-		border := "1px solid var(--border)",
+		backgroundColor := "#ffffff",
 		borderRadius.px := 12,
+		boxShadow := "var(--shadow)",
 		//padding.px := 12,
 		display.flex,
 		flexDirection.column,

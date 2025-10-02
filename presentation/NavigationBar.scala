@@ -75,7 +75,6 @@ object NavigationBarStyle:
 		alignItems.center,
 		justifyContent.spaceBetween,
 		boxShadow := "var(--shadow)",
-		borderBottom := "1px solid var(--border)",
 		position := "sticky",
 		top.px := 0,
 		zIndex := "10",
@@ -102,9 +101,8 @@ object NavigationBarStyle:
 		alignItems.center,
 		cursor.pointer,
 		padding.px := 6,
-		border := "1px solid var(--border)",
 		borderRadius.px := 10,
-		backgroundColor := "var(--surface)",
+		backgroundColor := "#ffffff",
 		boxShadow := "var(--shadow)"
 	)
 
