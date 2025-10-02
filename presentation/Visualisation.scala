@@ -77,8 +77,7 @@ object ContentStyle:
 		display.flex,
 		justifyContent.center,
 		alignItems.flexEnd,
-		//paddingLeft.px := 8,
-		//paddingRight.px := 8,
+		// no outer padding; the bar card itself will handle padding
 		overflow.hidden
 	)
 
@@ -94,5 +93,6 @@ object ContentStyle:
 		borderRadius.px := 12,
 		boxShadow := "var(--shadow)",
 		padding.px := 16,
+		boxSizing.borderBox,
 		overflow.hidden
 	)

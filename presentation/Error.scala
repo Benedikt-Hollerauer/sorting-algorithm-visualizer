@@ -48,7 +48,7 @@ object ErrorStyle:
 		borderRadius := "12px",
 		fontSize := "2em",
 		textAlign.center,
-		boxShadow := "var(--shadow)"
+		// Remove shadow to keep only specified cards with shadow
 	)
 
 	val cross = Seq(

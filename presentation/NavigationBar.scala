@@ -78,8 +78,9 @@ object NavigationBarStyle:
 		position := "sticky",
 		top.px := 0,
 		zIndex := "10",
-		paddingLeft.px := 12,
-		paddingRight.px := 12
+		paddingLeft.px := 16,
+		paddingRight.px := 16,
+		boxSizing.borderBox
 	)
 
 	val logoStyle = Seq(

@@ -31,7 +31,7 @@ object SideMenu:
 				li(
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Controls"),
-					div(SideMenuStyle.menuItemDesc, "Start, stop or create a new array to sort."),
+					div(SideMenuStyle.menuItemDesc),
 					div(SideMenuStyle.menuItemsRow,
 						getStartStopButton(startIcon, stopIcon),
 						getCreateNewToBeSortedButton(newToBeSortedIcon)
@@ -40,13 +40,13 @@ object SideMenu:
 				li(
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Speed"),
-					div(SideMenuStyle.menuItemDesc, "Adjust how fast the visualisation updates."),
+					div(SideMenuStyle.menuItemDesc),
 					getSortingSpeedSlider
 				),
 				li(
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Algorithm"),
-					div(SideMenuStyle.menuItemDesc, "Choose the sorting algorithm and see it in action."),
+					div(SideMenuStyle.menuItemDesc),
 					getSortingAlgorithmSelectionRadioButtons(
 						SortingAlgorithm.values.toList,
 						SortingAlgorithm.BubbleSort
@@ -103,8 +103,7 @@ object SideMenu:
 		div(
 			SideMenuStyle.sortingAlgorithmRadioButtonsStyle,
 			label(
-				SideMenuStyle.sortingAlgorithmLabelStyle,
-				"Choose a Sorting Algorithm"
+				SideMenuStyle.sortingAlgorithmLabelStyle
 			),
 			form(
 				SideMenuStyle.sortingAlgorithmFormStyle,
@@ -173,7 +172,7 @@ object SideMenuStyle:
 	val menuSectionStyle = Seq(
 		backgroundColor := "#ffffff",
 		borderRadius.px := 12,
-		boxShadow := "var(--shadow)",
+		// No shadow here to keep shadow only on collapsed/whole sidebar card
 		//padding.px := 12,
 		display.flex,
 		flexDirection.column,

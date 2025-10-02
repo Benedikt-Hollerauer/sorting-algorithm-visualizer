@@ -45,7 +45,7 @@ object LegendStyle:
 	val legendStyle = Seq(
 		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
 			if(_) 75 else 100,
-		//legendHeight,
+		legendHeight,
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
@@ -63,6 +63,7 @@ object LegendStyle:
 		color := "var(--muted)",
 		backgroundColor := "#ffffff",
 		borderRadius.px := 12,
-		padding.px := 8,
+		padding.px := 16,
+		boxSizing.borderBox,
 		boxShadow := "var(--shadow)"
 	)
