@@ -1,0 +1,35 @@
+// File: .devcontainers/devcontainer.json
+{
+    "name": "sorting-algorithm-visualizer (Scala.js)",
+
+    // Use the Dockerfile in the repository root and select the "builder" stage
+    "build": {
+        "dockerfile": "../Dockerfile",
+        "context": "..",
+        "target": "builder"
+    },
+
+    // Mount workspace into the container
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+    // Run as root inside the container (builder image is based on eclipse-temurin)
+    "remoteUser": "root",
+
+    // Forward typical HTTP port (if you run a web server / static server inside the container)
+    "forwardPorts": [80],
+
+    // Run an initial compile of the Scala.js presentation artifact (optional — can be removed)
+    "postCreateCommand": "sbt -batch presentation/fastLinkJS",
+
+    // Useful extensions for Scala development and Docker support
+    "extensions": [
+        "scalameta.metals",
+        "ms-azuretools.vscode-docker"
+    ],
+
+    // Basic settings
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    }
+}
