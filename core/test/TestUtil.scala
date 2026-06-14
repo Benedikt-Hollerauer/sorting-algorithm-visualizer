@@ -49,9 +49,10 @@ object TestUtil:
 		headFocusedIndicesChanged: Boolean,
 		lastFocusedValues: (Int, Int),
 		lastFocusedIndicesChanged: Boolean,
-		sorted: SortableModel[ValueWithIndexModel]
+		sorted: SortableModel[ValueWithIndexModel],
+		toBeSorted: SortableModel[ValueWithIndexModel] = SortableModelMock.unsorted
 	): Unit =
-		assert(res.toBeSorted == SortableModelMock.unsorted)
+		assert(res.toBeSorted == toBeSorted)
 		assert(res.changes.length == expectedLength)
 		assert(res.sorted.list.map(_.value) == sorted.list.map(_.value))
 		res.changes.head match
@@ -72,22 +73,23 @@ object TestUtil:
 		expectedLength: Int,
 		headFocusedValues: (Int, Int),
 		lastFocusedValues: (Int, Int),
-		sorted: SortableModel[ValueWithIndexModel]
+		sorted: SortableModel[ValueWithIndexModel],
+		toBeSorted: SortableModel[ValueWithIndexModel] = SortableModelMock.unsorted
 	): Unit =
-		assert(res.toBeSorted == SortableModelMock.unsorted)
+		assert(res.toBeSorted == toBeSorted)
 		assert(res.changes.length == expectedLength)
 		assert(res.sorted.list.map(_.value) == sorted.list.map(_.value))
 		res.changes.head match
-			case SortingModel.InsertionSort(focusedValues, currentPivot) =>
+			case SortingModel.InsertionSort(focusedValues, currentPivot, _, _) =>
 				assert(focusedValues._1.value == headFocusedValues._1)
 				assert(focusedValues._2.value == headFocusedValues._2)
 			case null => assert(false)
 		res.changes.last match
-			case SortingModel.InsertionSort(focusedValues, currentPivot) =>
+			case SortingModel.InsertionSort(focusedValues, currentPivot, _, _) =>
 				assert(focusedValues._1.value == lastFocusedValues._1)
 				assert(focusedValues._2.value == lastFocusedValues._2)
 			case null => assert(false)
-			
+
 	def testCommonInsertionSortSortSublistOnceProperties(
 		res: List[SortingModel.InsertionSort],
 		expectedLength: Int,
@@ -104,31 +106,36 @@ object TestUtil:
 		assert(res.length == expectedLength)
 		assert(
 			res.exists:
-				case SortingModel.InsertionSort(_, currentPivot) => currentPivot.value == currentPivotValue
+				case SortingModel.InsertionSort(_, currentPivot, _, _) => currentPivot.value == currentPivotValue
 		)
 		assert(
 			Util.toValuesWithIndicesFromSortingModel(res).get.map(_.value) == shouldBeSortedSubListOnce
 		)
-		
+
 	def testCommonVisualizeEntityProperties(
 		res: VisualizeModel,
 		headFirstLastBarState: (BarStateModel, BarStateModel),
 		lastFirstLastBarState: (BarStateModel, BarStateModel)
-	): Unit = Seq(
-		res.changes.head.list.head.value == ToBeSortedMock.unsorted.head,
-		res.changes.head.list.last.value == ToBeSortedMock.unsorted.last,
-		res.changes.last.list.head.value == ToBeSortedMock.smallest,
-		res.changes.last.list.last.value == ToBeSortedMock.biggest,
-		res.changes.head.list.head.barState == headFirstLastBarState._1,
-		res.changes.head.list.last.barState == headFirstLastBarState._2,
-		res.changes.last.list.head.barState == lastFirstLastBarState._1,
-		res.changes.last.list.last.barState == lastFirstLastBarState._2,
-		res.changes.head.list.length == res.changes.head.list.length,
-		res.notStartedSorting.list.exists:
-			case BarModel(_, barState) => barState == BarStateModel.Normal
-		,
-		res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
-		res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
-		res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
-		res.finishedSorting.list.last.value == ToBeSortedMock.biggest
-	).foreach(assert(_))
+	): Unit =
+		val firstValue = res.notStartedSorting.list.head.value
+		val lastValue  = res.notStartedSorting.list.last.value
+		val smallestValue = res.finishedSorting.list.head.value
+		val biggestValue  = res.finishedSorting.list.last.value
+		Seq(
+			res.changes.head.list.head.value == firstValue,
+			res.changes.head.list.last.value == lastValue,
+			res.changes.last.list.head.value == smallestValue,
+			res.changes.last.list.last.value == biggestValue,
+			res.changes.head.list.head.barState == headFirstLastBarState._1,
+			res.changes.head.list.last.barState == headFirstLastBarState._2,
+			res.changes.last.list.head.barState == lastFirstLastBarState._1,
+			res.changes.last.list.last.barState == lastFirstLastBarState._2,
+			res.changes.head.list.length == res.changes.head.list.length,
+			res.notStartedSorting.list.exists:
+				case BarModel(_, barState) => barState == BarStateModel.Normal
+			,
+			res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
+			res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
+			res.finishedSorting.list.head.value == smallestValue,
+			res.finishedSorting.list.last.value == biggestValue
+		).foreach(assert(_))

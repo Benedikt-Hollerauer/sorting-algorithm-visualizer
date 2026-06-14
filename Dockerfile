@@ -4,7 +4,7 @@ FROM eclipse-temurin:17-jdk-jammy AS builder
 WORKDIR /app
 
 # Install sbt
-ARG SBT_VERSION=1.9.9
+ARG SBT_VERSION=1.12.12
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends curl gnupg ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
@@ -22,7 +22,7 @@ COPY presentation ./presentation
 COPY testImpl ./testImpl
 
 # Pre-fetch dependencies and compile
-RUN sbt -batch presentation/fastLinkJS
+RUN sbt -batch presentation/fullLinkJS
 
 # ---------- Runtime: serve static site via Nginx ----------
 FROM nginx:1.27-alpine AS runtime
@@ -30,7 +30,7 @@ FROM nginx:1.27-alpine AS runtime
 WORKDIR /usr/share/nginx/html
 
 # Copy generated JS bundle directory and static site
-COPY --from=builder /app/presentation/presentation-fastopt ./presentation/presentation-fastopt
+COPY --from=builder /app/presentation/presentation-opt ./presentation/presentation-opt
 COPY index.html ./index.html
 COPY presentation/assets ./assets
 

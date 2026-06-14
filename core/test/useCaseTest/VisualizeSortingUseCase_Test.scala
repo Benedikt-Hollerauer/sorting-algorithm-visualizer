@@ -5,7 +5,6 @@ import core.typeClass.GetBarModel.{*, given}
 import core.typeClass.GetBarVisualisation.{*, given}
 import core.typeClass.{GetBarModel, GetBarVisualisation}
 import core.useCase.VisualizeSortingUseCase
-import mock.ToBeSortedMock
 import mock.inputMock.VisualizeSortingInputMock
 import mock.modelMock.SortableModelMock
 import test.TestUtil.assertRight
@@ -22,11 +21,15 @@ object VisualizeSortingUseCase_Test:
 			)
 			assertRight(res)(
 				(res: VisualizeModel) =>
+					val firstValue   = res.notStartedSorting.list.head.value
+					val lastValue    = res.notStartedSorting.list.last.value
+					val smallestValue = res.finishedSorting.list.head.value
+					val biggestValue  = res.finishedSorting.list.last.value
 					Seq(
-						res.changes.head.list.head.value == ToBeSortedMock.unsorted.head, //TODO this is the same as in VisualizeEntity_Test
-						res.changes.head.list.last.value == ToBeSortedMock.unsorted.last,
-						res.changes.last.list.head.value == ToBeSortedMock.smallest,
-						res.changes.last.list.last.value == ToBeSortedMock.biggest,
+						res.changes.head.list.head.value == firstValue,
+						res.changes.head.list.last.value == lastValue,
+						res.changes.last.list.head.value == smallestValue,
+						res.changes.last.list.last.value == biggestValue,
 						res.changes.head.list.head.barState == BarStateModel.Focused,
 						res.changes.head.list.last.barState == BarStateModel.Normal,
 						res.changes.last.list.head.barState == BarStateModel.Focused,
@@ -37,7 +40,7 @@ object VisualizeSortingUseCase_Test:
 						,
 						res.finishedSorting.list.head.barState == BarStateModel.FinishedSorting,
 						res.finishedSorting.list.last.barState == BarStateModel.FinishedSorting,
-						res.finishedSorting.list.head.value == ToBeSortedMock.smallest,
-						res.finishedSorting.list.last.value == ToBeSortedMock.biggest
+						res.finishedSorting.list.head.value == smallestValue,
+						res.finishedSorting.list.last.value == biggestValue
 					)
 			)

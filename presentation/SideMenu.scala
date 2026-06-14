@@ -1,10 +1,8 @@
 import NavigationBarStyle.navigationBarHeight
 import SortingAlgorithm.BubbleSort
-import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.laminar.keys
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement, HTMLInputElement}
+import org.scalajs.dom.{HTMLButtonElement, HTMLDivElement}
 
 object SideMenu:
 
@@ -29,28 +27,25 @@ object SideMenu:
 			ul(
 				SideMenuStyle.menuListStyle,
 				li(
+					className := "menu-section",
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Controls"),
-					div(SideMenuStyle.menuItemDesc),
 					div(SideMenuStyle.menuItemsRow,
 						getStartStopButton(startIcon, stopIcon),
 						getCreateNewToBeSortedButton(newToBeSortedIcon)
 					)
 				),
 				li(
+					className := "menu-section",
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Speed"),
-					div(SideMenuStyle.menuItemDesc),
 					getSortingSpeedSlider
 				),
 				li(
+					className := "menu-section",
 					SideMenuStyle.menuSectionStyle,
 					div(SideMenuStyle.menuSectionTitle, "Algorithm"),
-					div(SideMenuStyle.menuItemDesc),
-					getSortingAlgorithmSelectionRadioButtons(
-						SortingAlgorithm.values.toList,
-						SortingAlgorithm.BubbleSort
-					)
+					getSortingAlgorithmSelectionButtons()
 				)
 			)
 		)
@@ -63,13 +58,15 @@ object SideMenu:
 			SideMenuStyle.startStopButtonStyle,
 			onClick --> (_ => startStopButtonVar.update(!_)),
 			img(
+				className := "icon-img",
 				src <-- startStopButtonSignal.map: started =>
 					if(started) stopIcon.src
 					else startIcon.src,
 				alt <-- startStopButtonSignal.map: started =>
 					if(started) startIcon.alt
 					else stopIcon.alt
-			)
+			),
+			child.text <-- startStopButtonSignal.map(s => if s then "Stop" else "Start")
 		)
 
 	private def getCreateNewToBeSortedButton(newToBeSortedIcon: VisualModel): ReactiveHtmlElement[HTMLButtonElement] =
@@ -78,9 +75,11 @@ object SideMenu:
 			onClick --> (_ => startStopButtonVar.update(_ => false)),
 			onClick --> (_ => newToBeSortedButtonVar.update(!_)),
 			img(
+				className := "icon-img",
 				src := newToBeSortedIcon.src,
 				alt := newToBeSortedIcon.alt
-			)
+			),
+			"New"
 		)
 
 	private def getSortingSpeedSlider: ReactiveHtmlElement[HTMLDivElement] =
@@ -96,50 +95,26 @@ object SideMenu:
 					)
 					thisNode
 			),
-			child.text <-- sliderSpeedSignal
+			span(className := "speed-badge", child.text <-- sliderSpeedSignal.map(v => s"${v}ms"))
 		)
 
-	private def getSortingAlgorithmSelectionRadioButtons(sortingAlgorithms: List[SortingAlgorithm], standartSortingAlgorithm: SortingAlgorithm) =
+	private def getSortingAlgorithmSelectionButtons() =
 		div(
-			SideMenuStyle.sortingAlgorithmRadioButtonsStyle,
-			label(
-				SideMenuStyle.sortingAlgorithmLabelStyle
-			),
-			form(
-				SideMenuStyle.sortingAlgorithmFormStyle,
-				sortingAlgorithms.flatMap: sortingAlgorithm =>
-					List(
-						input(
-							SideMenuStyle.radioButtonStyle,
-							nameAttr := "sortingAlgorithmSelection",
-							idAttr := sortingAlgorithm.toString,
-							value := sortingAlgorithm.getName,
-							typ := "radio",
-							checked <-- sortingAlgorithmRadioButtonsVar.signal
-								.map(_ == sortingAlgorithm),
-							onInput.mapTo(sortingAlgorithm) --> sortingAlgorithmRadioButtonsVar.writer
-						),
-						label(
-							forId := sortingAlgorithm.toString,
-							sortingAlgorithm.getName
-						)
-					)
-			),
-			div(
-				child <-- sortingAlgorithmRadioButtonsVar.signal.map(_.getName)
-			)
+			SideMenuStyle.sortingAlgorithmButtonsStyle,
+			SortingAlgorithm.values.toList.map: algo =>
+				button(
+					className <-- sortingAlgorithmRadioButtonsVar.signal.map: selected =>
+						if selected == algo then "algo-btn algo-btn-active" else "algo-btn",
+					onClick --> (_ => sortingAlgorithmRadioButtonsVar.set(algo)),
+					algo.getName
+				)
 		)
 
 object SideMenuStyle:
 
-	private val subMenuWidth = maxWidth.percent := 25
-	
-	val gap: StyleProp[String] = new StyleProp[String]("gap")
+	private val subMenuWidth = width.px := 280
 
-	val radioButtonStyle = Seq(
-		borderRadius.percent := 0,
-		height.px := 20
-	)
+	val gap: StyleProp[String] = new StyleProp[String]("gap")
 
 	val slidingMenuStyle = Seq(
 		className := "side-menu",
@@ -151,13 +126,12 @@ object SideMenuStyle:
 		right.px := 0,
 		height.percent := 100,
 		subMenuWidth,
-		backgroundColor := "#ffffff",
-		boxShadow := "var(--shadow)",
+		zIndex := "100",
+		backgroundColor := "var(--surface)",
 		display.flex,
 		flexDirection.column,
 		alignItems.stretch,
-		padding.px := 16,
-		columnGap.px := 16
+		padding.px := 20
 	)
 
 	val menuListStyle = Seq(
@@ -166,73 +140,48 @@ object SideMenuStyle:
 		margin.px := 0,
 		display.flex,
 		flexDirection.column,
-		gap := "10px"
+		gap := "0px"
 	)
 
 	val menuSectionStyle = Seq(
-		backgroundColor := "#ffffff",
-		borderRadius.px := 12,
-		// No shadow here to keep shadow only on collapsed/whole sidebar card
-		//padding.px := 12,
 		display.flex,
 		flexDirection.column,
-		columnGap.px := 8
+		gap := "10px",
+		paddingBottom.px := 20
 	)
 
 	val menuSectionTitle = Seq(
-		fontWeight := "semibold",
-		color := "var(--text)"
-	)
-
-	val menuItemDesc = Seq(
-		color := "var(--muted)",
-		fontSize := "small"
+		className := "section-title"
 	)
 
 	val menuItemsRow = Seq(
 		display.flex,
-		columnGap.px := 8
-	)
-
-	val sortingAlgorithmMenuItemStyle = Seq(
-		padding := "8px 12px",
-		borderRadius.px := 4,
-		backgroundColor := "#ffffff", color := "#333333",
-		fontWeight := "bold",
-		marginRight.px := 10,
-		cursor.pointer
+		flexDirection.column,
+		gap := "8px"
 	)
 
 	val startStopButtonStyle = Seq(
+		className := "btn-primary",
 		width.percent := 100
 	)
 
 	val newToBeSortedButtonStyle = Seq(
+		className := "btn-secondary",
 		width.percent := 100
 	)
 
 	val sortingSpeedSliderStyle = Seq(
 		typ := "range",
+		minAttr := "10",
+		maxAttr := "500",
 		stepAttr := "5",
 		width.percent := 100,
 		cursor.pointer
 	)
 
-	val sortingAlgorithmRadioButtonsStyle = Seq(
+	val sortingAlgorithmButtonsStyle = Seq(
 		width.percent := 100,
 		display.flex,
-		flexDirection.column,
-		columnGap.px := 6
-	)
-
-	val sortingAlgorithmLabelStyle = Seq(
-		fontSize.larger,
-		fontWeight := "semibold"
-	)
-
-	val sortingAlgorithmFormStyle = Seq(
-		height.percent := 100,
-		display.flex,
-		flexDirection.column,
-		columnGap.px := 4
+		flexDirection.row,
+		gap := "6px"
 	)

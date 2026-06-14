@@ -16,6 +16,8 @@ object SortingModel:
 	
 	case class InsertionSort(
 		focusedValues: (ValueWithIndexModel, ValueWithIndexModel),
-		currentPivot: ValueWithIndexModel
+		currentPivot: ValueWithIndexModel,
+		focusedIndicesChanged: Boolean = false,
+		alreadySorted: List[ValueWithIndexModel] = List.empty
 	) extends SortingModel(focusedValues):
 		override def getFocusedValues: (ValueWithIndexModel, ValueWithIndexModel) = focusedValues

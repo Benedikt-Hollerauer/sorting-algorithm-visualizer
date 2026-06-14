@@ -7,11 +7,12 @@ object Legend:
 			LegendStyle.legendStyle,
 			getLegendItems(
 				List(
-					("#390099", "Unsorted"),
-					("#c1121f", "Focused"),
-					("#008000", "Swapped"),
-					("#4cc9f0", "Already Sorted"),
-					("#f72585", "Finished Sorting")
+					("#c084fc", "Unsorted"),
+					("#ff3a3a", "Focused"),
+					("#00ff7f", "Swapped"),
+					("#ffe600", "Current Pivot"),
+					("#00d4ff", "Already Sorted"),
+					("#ff40cb", "Finished Sorting")
 				)
 			)
 		)
@@ -43,9 +44,12 @@ object LegendStyle:
 	)
 
 	val legendStyle = Seq(
-		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
-			if(_) 75 else 100,
+		className := "legend-bar",
+		width <-- NavigationBar.extendCollapseSideMenuVar.signal.map:
+			if(_) "calc(100% - 280px)" else "100%",
 		legendHeight,
+		backgroundColor := "var(--bg)",
+		borderTop := "1px solid var(--border)",
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
@@ -53,17 +57,23 @@ object LegendStyle:
 	)
 
 	val liStyle = Seq(
-		display.inlineBlock,
-		marginRight.px := 20
+		display.flex,
+		alignItems.center
 	)
+
+	private val gap: StyleProp[String] = new StyleProp[String]("gap")
 
 	val ulStyle = Seq(
 		listStyleType.none,
-		fontSize.px := 16,
+		fontSize.px := 13,
 		color := "var(--muted)",
-		backgroundColor := "#ffffff",
-		borderRadius.px := 12,
-		padding.px := 16,
+		backgroundColor := "var(--surface)",
+		borderRadius.px := 10,
+		border := "1px solid var(--border)",
+		padding := "8px 14px",
+		margin.px := 0,
 		boxSizing.borderBox,
-		boxShadow := "var(--shadow)"
+		display.flex,
+		flexWrap.wrap,
+		gap := "6px 16px"
 	)

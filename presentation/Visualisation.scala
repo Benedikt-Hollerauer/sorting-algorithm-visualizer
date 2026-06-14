@@ -59,25 +59,25 @@ object ContentStyle:
 		boxSizing.borderBox,
 		backgroundColor := (
 			bar.barState match
-				case BarStateModel.Normal => "#390099" // TODO other colors here maybe
-				case BarStateModel.Focused => "#c1121f"
-				case BarStateModel.Swapped => "#008000"
-				case BarStateModel.AlreadySorted => "#4cc9f0"
-				case BarStateModel.FinishedSorting => "#f72585"
-				case BarStateModel.CurrentPivot => "#008000"
+				case BarStateModel.Normal        => "#c084fc"
+				case BarStateModel.Focused       => "#ff3a3a"
+				case BarStateModel.Swapped       => "#00ff7f"
+				case BarStateModel.AlreadySorted => "#00d4ff"
+				case BarStateModel.FinishedSorting => "#ff40cb"
+				case BarStateModel.CurrentPivot  => "#ffe600"
 		),
-		borderRadius.px := 8
+		borderRadius.px := 5
 	)
 
 	val pageContentStyle = Seq(
+		className := "page-content",
 		position.relative,
-		width.percent <-- NavigationBar.extendCollapseSideMenuVar.signal.map: //TODO make public to fulfill dry principle
-			if(_) 75 else 100,
+		width <-- NavigationBar.extendCollapseSideMenuVar.signal.map:
+			if(_) "calc(100% - 280px)" else "100%",
 		height := s"calc(100% - ${NavigationBarStyle.navigationBarHeight.value} - ${LegendStyle.legendHeight.value})",
 		display.flex,
 		justifyContent.center,
 		alignItems.flexEnd,
-		// no outer padding; the bar card itself will handle padding
 		overflow.hidden
 	)
 
@@ -88,10 +88,10 @@ object ContentStyle:
 		alignItems.flexEnd,
 		width.percent := 95,
 		height.percent := 95,
-		columnGap.px := 4,
-		backgroundColor := "#ffffff",
+		columnGap.px := 3,
+		backgroundColor := "var(--surface-2)",
 		borderRadius.px := 12,
-		boxShadow := "var(--shadow)",
+		border := "1px solid var(--border)",
 		padding.px := 16,
 		boxSizing.borderBox,
 		overflow.hidden

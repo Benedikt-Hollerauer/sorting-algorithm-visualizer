@@ -9,13 +9,13 @@ object SortedModelMock:
 	val changesInsertionSort: LazyList[SortingModel.InsertionSort] = LazyList.empty[SortingModel.InsertionSort]
 
 	val sortedModelBubbleSort: SortedModel[SortingModel.BubbleSort] = SortedModel(
-		toBeSorted = SortableModelMock.unsorted,
+		toBeSorted = SortableModelMock.unsortedForUseCases,
 		changes = changesBubbleSort,
-		sorted = SortableModelMock.sortedAscending
+		sorted = SortableModelMock.sortedAscendingForUseCases
 	)
 
 	val sortedModelInsertionSort: SortedModel[SortingModel.InsertionSort] = SortedModel(
-		toBeSorted = SortableModelMock.unsorted,
+		toBeSorted = SortableModelMock.unsortedForUseCases,
 		changes = changesInsertionSort,
-		sorted = SortableModelMock.sortedAscending
+		sorted = SortableModelMock.sortedAscendingForUseCases
 	)

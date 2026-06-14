@@ -20,7 +20,8 @@ object SortByInsertionSortUseCase_Test:
 				expectedLength = 45,
 				headFocusedValues = (636, 743),
 				lastFocusedValues = (5, 196),
-				sorted = SortableModelMock.sortedAscending
+				sorted = SortableModelMock.sortedAscendingForUseCases,
+				toBeSorted = SortableModelMock.unsortedForUseCases
 			)
 
 		def `SortedModel - descending`: Unit =
@@ -32,5 +33,6 @@ object SortByInsertionSortUseCase_Test:
 				expectedLength = 45,
 				headFocusedValues = (636, 743),
 				lastFocusedValues = (743, 662),
-				sorted = SortableModelMock.sortedDescending
+				sorted = SortableModelMock.sortedDescendingForUseCases,
+				toBeSorted = SortableModelMock.unsortedForUseCases
 			)

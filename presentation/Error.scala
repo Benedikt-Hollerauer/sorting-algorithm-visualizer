@@ -1,25 +1,20 @@
 import com.raquo.laminar.api.L.{*, given}
-import org.scalajs.dom
 
 object Error:
 
-	def getHtml(errorMessage: String) =
+	def getHtml(errorMessage: String, onDismiss: () => Unit) =
 		div(
 			ErrorStyle.errorWrapperDiv,
-			getErrorMessageWrapper(errorMessage)
-		)
-
-	private def getErrorMessageWrapper(errorMessage: String) =
-		div(ErrorStyle.errorMessageWrapperDiv,
 			div(
-				ErrorStyle.cross,
-				onClick --> (_ =>
-					dom.window.location.href = AppConfig.appUrl
+				ErrorStyle.errorMessageWrapperDiv,
+				div(
+					className := "modal-close",
+					onClick --> (_ => onDismiss()),
+					"✕"
 				),
-				"X"
-			),
-			//"An error occurred - ", errorMessage
-			"\uD83D\uDCBB Additional algorithms are currently under development \uD83D\uDCBB"
+				div(ErrorStyle.errorTitle, "Coming Soon"),
+				div(ErrorStyle.errorSubtitle, "This algorithm is currently under development")
+			)
 		)
 
 object ErrorStyle:
@@ -30,7 +25,7 @@ object ErrorStyle:
 		left := "0",
 		width := "100vw",
 		height := "100vh",
-		backgroundColor := "rgba(2, 6, 23, 0.6)",
+		backgroundColor := "rgba(0, 0, 0, 0.72)",
 		display.flex,
 		justifyContent.center,
 		alignItems.center,
@@ -38,23 +33,27 @@ object ErrorStyle:
 	)
 
 	val errorMessageWrapperDiv = Seq(
-		width := "80%",
-		height := "80%",
-		backgroundColor := "#ffffff",
+		width := "360px",
+		backgroundColor := "var(--surface)",
+		border := "1px solid var(--border)",
 		position.relative,
 		display.flex,
+		flexDirection.column,
 		justifyContent.center,
 		alignItems.center,
-		borderRadius := "12px",
-		fontSize := "2em",
-		textAlign.center,
-		// Remove shadow to keep only specified cards with shadow
+		borderRadius := "16px",
+		padding := "48px 32px 40px",
+		textAlign := "center"
 	)
 
-	val cross = Seq(
-		position.absolute,
-		top := "10px",
-		right := "10px",
-		cursor.pointer,
-		color := "var(--accent)"
+	val errorTitle = Seq(
+		fontSize.px := 18,
+		fontWeight := "600",
+		color := "var(--text)",
+		marginBottom.px := 8
+	)
+
+	val errorSubtitle = Seq(
+		fontSize.px := 14,
+		color := "var(--muted)"
 	)

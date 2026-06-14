@@ -26,7 +26,7 @@ object Main:
 				stopIcon = VisualModel("assets/stop-visualisation.svg", "Stop Visualisation"),
 				newToBeSortedIcon = VisualModel("assets/create-new-to-be-sorted.svg", "Create New ToBeSorted")
 			),
-			child <-- SideMenu.newToBeSortedButtonSignal.flatMap: clicked =>
+			child <-- SideMenu.newToBeSortedButtonSignal.flatMapSwitch: clicked =>
 				if(clicked)
 					val sortable = GenerateSortableUseCase(
 						GenerateSortableInputMock.success
@@ -40,7 +40,10 @@ object Main:
 					).map:
 						_ match
 							case Success(value) => Content.getHtml(value)
-							case Failure(exception) => Error.getHtml(exception.getMessage)
+							case Failure(exception) => Error.getHtml(
+								exception.getMessage,
+								() => SideMenu.sortingAlgorithmRadioButtonsVar.set(BubbleSort)
+							)
 				else getVisualizeModel(
 					SideMenu.sortingAlgorithmRadioButtonsVar.signal,
 					SortingAlgorithmUseCaseInput(
@@ -50,7 +53,10 @@ object Main:
 				).map:
 					_ match
 						case Success(value) => Content.getHtml(value)
-						case Failure(exception) => Error.getHtml(exception.getMessage)
+						case Failure(exception) => Error.getHtml(
+							exception.getMessage,
+							() => SideMenu.sortingAlgorithmRadioButtonsVar.set(BubbleSort)
+						)
 					,
 			Legend.getHtml
 		)
@@ -63,7 +69,7 @@ object Main:
 			case Left(generateSortableError) =>
 				render(
 					dom.document.body,
-					Error.getHtml(generateSortableError.toString)
+					Error.getHtml(generateSortableError.toString, () => dom.window.location.reload())
 				)
 			case Right(sortable) =>
 				render(

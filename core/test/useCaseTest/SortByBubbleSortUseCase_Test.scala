@@ -21,7 +21,8 @@ object SortByBubbleSortUseCase_Test:
                 headFocusedIndicesChanged = false,
                 lastFocusedValues = (5, 196),
                 lastFocusedIndicesChanged = false,
-                sorted = SortableModelMock.sortedAscending
+                sorted = SortableModelMock.sortedAscendingForUseCases,
+                toBeSorted = SortableModelMock.unsortedForUseCases
             )
 
         def `SortedModel - descending`: Unit =
@@ -35,5 +36,6 @@ object SortByBubbleSortUseCase_Test:
                 headFocusedIndicesChanged = true,
                 lastFocusedValues = (743, 662),
                 lastFocusedIndicesChanged = false,
-                sorted = SortableModelMock.sortedDescending
+                sorted = SortableModelMock.sortedDescendingForUseCases,
+                toBeSorted = SortableModelMock.unsortedForUseCases
             )

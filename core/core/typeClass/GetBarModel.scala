@@ -17,7 +17,7 @@ object GetBarModel:
 			valueWithIndex: ValueWithIndexModel,
 			change: SortingModel.BubbleSort
 		): BarModel =
-			val isCorrectValueWithIndex = valueWithIndex == change.focusedValues._1 | valueWithIndex == change.focusedValues._2
+			val isCorrectValueWithIndex = valueWithIndex == change.focusedValues._1 || valueWithIndex == change.focusedValues._2
 			if(change.alreadySorted.contains(valueWithIndex))
 				BarModel(valueWithIndex.value, BarStateModel.AlreadySorted)
 			else if(isCorrectValueWithIndex && change.focusedIndicesChanged)
@@ -31,7 +31,7 @@ object GetBarModel:
 			valueWithIndex: ValueWithIndexModel,
 			change: SortingModel.InsertionSort
 		): BarModel =
-			val isCorrectValueWithIndex = valueWithIndex == change.focusedValues._1 | valueWithIndex == change.focusedValues._2
+			val isCorrectValueWithIndex = valueWithIndex == change.focusedValues._1 || valueWithIndex == change.focusedValues._2
 			if(change.currentPivot == valueWithIndex)
 				BarModel(valueWithIndex.value, BarStateModel.CurrentPivot) // TODO: there has to be a custom current pivon barstatemodel
 			else if(isCorrectValueWithIndex)

@@ -7,8 +7,8 @@ import mock.modelMock.SortableModelMock
 object SortingAlgorithmUseCaseInputMock:
 
 	val ascendingOrder = SortingAlgorithmUseCaseInput(
-		toBeSorted = SortableModelMock.unsorted,
-	ordering = OrderModel.Ascending
+		toBeSorted = SortableModelMock.unsortedForUseCases,
+		ordering = OrderModel.Ascending
 	)
 
 	val descendingOrder = ascendingOrder.copy(

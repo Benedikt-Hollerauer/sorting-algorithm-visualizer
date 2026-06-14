@@ -32,6 +32,7 @@ object NavigationBar:
 			li(
 				NavigationBarStyle.socialIconStyle,
 				a(
+					className := "social-link",
 					href := socialIcon.link.getOrElse("https://benedikt-hollerauer.com"),
 					target := "_blank",
 					img(
@@ -84,8 +85,8 @@ object NavigationBarStyle:
 	)
 
 	val logoStyle = Seq(
-		height.px := 36,
-		marginRight.px := 12
+		className := "icon-img",
+		height.px := 32
 	)
 
 	val socialIconsStyle = Seq(
@@ -98,13 +99,7 @@ object NavigationBarStyle:
 	)
 
 	val extendCollapseSideMenuIconStyle = Seq(
-		display.flex,
-		alignItems.center,
-		cursor.pointer,
-		padding.px := 6,
-		borderRadius.px := 10,
-		backgroundColor := "#ffffff",
-		boxShadow := "var(--shadow)"
+		className := "menu-toggle"
 	)
 
 	val socialIconStyle = Seq(
@@ -113,6 +108,7 @@ object NavigationBarStyle:
 	)
 
 	val iconImageStyle = Seq(
-		height := "24px",
-		width := "24px"
+		className := "icon-img",
+		height := "20px",
+		width := "20px"
 	)

@@ -13,7 +13,7 @@ object Util:
 			sortingModels.head match //TODO if every sorting model needs its own algorithm -> type classes
 				case SortingModel.BubbleSort((_, _), _, _) =>
 					sortingModels.map(_.getFocusedValues._1) :+ sortingModels.last.getFocusedValues._2
-				case SortingModel.InsertionSort((_, _), _) =>
+				case SortingModel.InsertionSort((_, _), _, _, _) =>
 					(sortingModels.head.getFocusedValues._1 +: sortingModels.tail.map(_.getFocusedValues._2))
 						.reverse
 		).toOption
